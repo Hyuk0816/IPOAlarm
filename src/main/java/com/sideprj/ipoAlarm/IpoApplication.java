@@ -1,4 +1,4 @@
-package com.sideprj.ipo;
+package com.sideprj.ipoAlarm;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
