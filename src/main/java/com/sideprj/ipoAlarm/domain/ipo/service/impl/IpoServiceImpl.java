@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.List;
 
 @RequiredArgsConstructor
@@ -23,8 +24,8 @@ public class IpoServiceImpl implements IpoService {
 
     @Override
     @Transactional
-    public void save() throws FileNotFoundException {
-        String filePath = "localhost:8080/Downloads/ipo_data.csv";
+    public void save() throws IOException {
+        String filePath = "C:/Users/neurolines/Downloads/ipo_data.csv";
         List<Ipo> ipos = csvReader.readCSV(filePath);
         ipoRepository.saveAll(ipos);
     }

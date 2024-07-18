@@ -11,6 +11,7 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.Reader;
+import java.nio.charset.StandardCharsets;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -18,22 +19,28 @@ import java.util.*;
 public class CSVReader {
 
     @Transactional
-    public List<Ipo> readCSV(String filePath) throws FileNotFoundException {
+    public List<Ipo> readCSV(String filePath) throws IOException {
 
         Map<String, Ipo> ipoMap = new HashMap<>();
 
-        try(Reader reader = new FileReader(filePath);
-            CSVParser csvParser = new CSVParser(reader, CSVFormat.DEFAULT)) {
+        CSVFormat csvFormat = CSVFormat.EXCEL.builder()
+                .setHeader("name", "confirmPrice", "IPOPrice", "competitionRate", "securities", "start_date", "end_date")
+                .setSkipHeaderRecord(true)
+                .build();
+
+        try (Reader reader = new FileReader(filePath , StandardCharsets.UTF_8);
+             CSVParser csvParser = new CSVParser(reader, csvFormat)) {
+
             for (CSVRecord record : csvParser) {
                 String name = record.get("name");
                 Ipo ipo = ipoMap.getOrDefault(name, new Ipo());
-                SimpleDateFormat startDateFormatter = new SimpleDateFormat("yyyy/MM/dd");
-                SimpleDateFormat endDateFormatter = new SimpleDateFormat("MM/dd");
+                SimpleDateFormat startDateFormatter = new SimpleDateFormat("yyyy.MM.dd");
+                SimpleDateFormat endDateFormatter = new SimpleDateFormat("MM.dd");
 
-                ipo.builder()
+                ipo = ipo.builder()
                         .ipoName(name)
                         .confirmPrice(record.get("confirmPrice"))
-                        .ipoPrice(record.get("ipoPrice"))
+                        .ipoPrice(record.get("IPOPrice"))
                         .competitionRate(record.get("competitionRate"))
                         .securities(record.get("securities"))
                         .startDate(startDateFormatter.parse(record.get("start_date")))
@@ -42,12 +49,11 @@ public class CSVReader {
 
                 ipoMap.put(name, ipo);
             }
-        } catch (IOException e) {
-            throw new RuntimeException(e);
         } catch (ParseException e) {
             throw new RuntimeException(e);
         }
         return new ArrayList<>(ipoMap.values());
+    }
 
     }
-}
+
