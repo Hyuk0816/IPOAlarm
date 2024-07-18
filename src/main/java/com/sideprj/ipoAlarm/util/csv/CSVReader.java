@@ -4,6 +4,8 @@ import com.sideprj.ipoAlarm.domain.ipo.entity.Ipo;
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVParser;
 import org.apache.commons.csv.CSVRecord;
+import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.io.FileNotFoundException;
 import java.io.FileReader;
@@ -12,13 +14,14 @@ import java.io.Reader;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
-
+@Component
 public class CSVReader {
 
-    public List<Ipo> readCSV() throws FileNotFoundException {
+    @Transactional
+    public List<Ipo> readCSV(String filePath) throws FileNotFoundException {
 
         Map<String, Ipo> ipoMap = new HashMap<>();
-        String filePath = "C:/Users/neurolines/Downloads/ipo_data.csv";
+
         try(Reader reader = new FileReader(filePath);
             CSVParser csvParser = new CSVParser(reader, CSVFormat.DEFAULT)) {
             for (CSVRecord record : csvParser) {

@@ -2,16 +2,13 @@ package com.sideprj.ipoAlarm.domain.user.entity;
 
 import com.sideprj.ipoAlarm.domain.user.role.ROLE;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-@Getter
+@Getter @Setter
 @Table(name = "user")
 public class User {
 
@@ -29,7 +26,7 @@ public class User {
     @Column(name = "image", nullable = false)
     private String image;
 
-    @Column(name = "role", nullable = false)
+    @Column(name = "role")
     @Enumerated(EnumType.STRING)
     private ROLE role;
 
