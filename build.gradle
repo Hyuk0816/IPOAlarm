@@ -40,6 +40,9 @@ dependencies {
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testImplementation 'org.springframework.security:spring-security-test'
     testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+
+    //csv reader
+    implementation 'org.apache.commons:commons-csv:1.11.0'
 }
 
 tasks.named('test') {

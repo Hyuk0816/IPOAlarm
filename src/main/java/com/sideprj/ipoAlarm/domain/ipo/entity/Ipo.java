@@ -10,6 +10,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import java.util.Date;
+import java.util.Objects;
 
 @Entity
 @AllArgsConstructor
@@ -40,4 +41,17 @@ public class Ipo {
 
     @Column(name = "securities", nullable = false)
     private String securities;
+
+    @Override
+    public boolean equals(Object obj) {
+        if(this == obj) return true;
+        if(obj == null || getClass() != obj.getClass()) return false;
+        Ipo that = (Ipo) obj;
+        return ipoName.equals(that.ipoName);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(ipoName);
+    }
 }
