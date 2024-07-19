@@ -1,12 +1,20 @@
 package com.sideprj.ipoAlarm.domain.ipo.service;
 
-import com.sideprj.ipoAlarm.domain.ipo.entity.Ipo;
+import com.sideprj.ipoAlarm.domain.ipo.dto.IpoGetAllDto;
+import com.sideprj.ipoAlarm.domain.ipo.dto.IpoSearchRequestVo;
+import com.sideprj.ipoAlarm.util.page.PageResponseVo;
+import org.springframework.data.domain.Pageable;
 
-import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.text.ParseException;
 import java.util.List;
 
 public interface IpoService {
 
-    public void save() throws IOException;
+    void save() throws IOException;
+
+    PageResponseVo<IpoGetAllDto> fetchIpo(IpoSearchRequestVo searchRequestVo, Pageable pageable) throws IOException, ParseException;
+
+
+
 }

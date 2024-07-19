@@ -18,7 +18,7 @@ public class ErrorResponseDto {
     @Schema(
             description = "API path invoked by client"
     )
-    private  String apiPath;
+    private String apiPath;
 
     @Schema(
             description = "Error code representing the error happened"
@@ -28,7 +28,7 @@ public class ErrorResponseDto {
     @Schema(
             description = "Error message representing the error happened"
     )
-    private  String errorMessage;
+    private String errorMessage;
 
     @Schema(
             description = "Time representing when the error happened"

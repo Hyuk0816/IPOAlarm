@@ -50,7 +50,7 @@ public class SecurityConfig {
                 .authorizeHttpRequests((authorize)->
                         authorize
                                 .requestMatchers("/api/user/**", "/api/auth/login","api/product/name/**" ,"/api/product/update/**","/api/product/all","/api/auth/logout","/api/auth/accessToken", "/neurochem_swagger", "/swagger-ui/index.html").permitAll()
-                                .requestMatchers("/api/auth/**", "/api/ipo/**", "/api/s3/**").authenticated()
+                                .requestMatchers("/api/auth/**", "/api/ipo/**", "/api/s3/**", "/api/alarm/**").authenticated()
                                 .requestMatchers("api/product/**","/api/listData/get").authenticated())
                 .addFilterAt(new AuthoritiesLoggingAtFilter(),BasicAuthenticationFilter.class)
                 .addFilterAfter(new AuthoritiesLoggingAfterFilter(), BasicAuthenticationFilter.class)

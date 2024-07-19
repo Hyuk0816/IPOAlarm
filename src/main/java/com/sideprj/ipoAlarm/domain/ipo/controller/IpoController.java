@@ -1,35 +1,61 @@
 package com.sideprj.ipoAlarm.domain.ipo.controller;
 
 import com.sideprj.ipoAlarm.domain.ipo.constant.IpoConstants;
-import com.sideprj.ipoAlarm.domain.ipo.entity.Ipo;
+import com.sideprj.ipoAlarm.domain.ipo.dto.IpoGetAllDto;
+import com.sideprj.ipoAlarm.domain.ipo.dto.IpoSearchRequestVo;
 import com.sideprj.ipoAlarm.domain.ipo.service.IpoService;
+import com.sideprj.ipoAlarm.domain.ipo.service.impl.IpoServiceImpl;
 import com.sideprj.ipoAlarm.domain.ipo.vo.IpoDataSaveVo;
-import com.sideprj.ipoAlarm.util.csv.CSVReader;
+import com.sideprj.ipoAlarm.util.page.PageResponseVo;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
-import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.util.List;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.format.SignStyle;
+import java.util.Date;
 
 @RestController
 @RequiredArgsConstructor
 @Slf4j
-@RequestMapping("/api/ipo/")
+@RequestMapping("/api/ipo")
 public class IpoController {
 
     private final IpoService ipoService;
 
-    @PostMapping("data")
+    @PostMapping("/data")
     public ResponseEntity<IpoDataSaveVo> save() throws IOException {
         ipoService.save();
         return ResponseEntity
                 .status(HttpStatus.OK)
-                .body(new IpoDataSaveVo(IpoConstants.STATUS_201, IpoConstants.MESSAGE_201));
+                .body(new IpoDataSaveVo(IpoConstants.STATUS_200, IpoConstants.MESSAGE_200));
     }
+
+    @GetMapping("/data")
+    public ResponseEntity<PageResponseVo<IpoGetAllDto>> fetchIpo(@RequestParam(required = false) String ipoName,
+                                                                 @RequestParam(required = false) String start,
+                                                                 @RequestParam(required = false) String end,
+                                                                 Pageable pageable) throws IOException, ParseException {
+
+        Date startDate = IpoServiceImpl.convertDate(start);
+        Date endDate = IpoServiceImpl.convertDate(end);
+
+        IpoSearchRequestVo ipoSearchRequestVo = IpoSearchRequestVo.builder()
+                .ipoName(ipoName)
+                .searchStartDate(startDate)
+                .searchEndDate(endDate)
+                .build();
+
+        PageResponseVo<IpoGetAllDto> ipoGetAllDtoPageResponseVo = ipoService.fetchIpo(ipoSearchRequestVo, pageable);
+
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(ipoGetAllDtoPageResponseVo);
+    }
+
 }
