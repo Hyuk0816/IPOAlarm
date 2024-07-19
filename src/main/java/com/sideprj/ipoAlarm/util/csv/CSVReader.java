@@ -34,8 +34,8 @@ public class CSVReader {
             for (CSVRecord record : csvParser) {
                 String name = record.get("name");
                 Ipo ipo = ipoMap.getOrDefault(name, new Ipo());
-                SimpleDateFormat startDateFormatter = new SimpleDateFormat("yyyy.MM.dd");
-                SimpleDateFormat endDateFormatter = new SimpleDateFormat("MM.dd");
+                SimpleDateFormat startDateFormatter = new SimpleDateFormat("yyyy.MM.dd HH:mm");
+                SimpleDateFormat endDateFormatter = new SimpleDateFormat("yyyy.MM.dd HH:mm");
 
                 ipo = ipo.builder()
                         .ipoName(name)
