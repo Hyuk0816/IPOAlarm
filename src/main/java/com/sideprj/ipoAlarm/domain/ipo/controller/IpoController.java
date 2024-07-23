@@ -28,14 +28,6 @@ public class IpoController {
 
     private final IpoService ipoService;
 
-    @PostMapping("/data")
-    public ResponseEntity<IpoDataSaveVo> save() throws IOException {
-        ipoService.save();
-        return ResponseEntity
-                .status(HttpStatus.OK)
-                .body(new IpoDataSaveVo(IpoConstants.STATUS_200, IpoConstants.MESSAGE_200));
-    }
-
     @GetMapping("/data")
     public ResponseEntity<PageResponseVo<IpoGetAllDto>> fetchIpo(@RequestParam(required = false) String ipoName,
                                                                  @RequestParam(required = false) String start,

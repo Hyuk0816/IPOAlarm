@@ -1,5 +1,6 @@
 package com.sideprj.ipoAlarm.util.exception;
 
+import com.sideprj.ipoAlarm.domain.alarm.constants.AlarmConstants;
 import com.sideprj.ipoAlarm.domain.user.constants.UserConstants;
 import com.sideprj.ipoAlarm.util.error.ErrorResponseDto;
 import org.springframework.http.HttpHeaders;
@@ -114,6 +115,27 @@ public class GlobalExceptionHandler  extends ResponseEntityExceptionHandler {
                 webRequest.getDescription(false),
                 HttpStatus.NOT_FOUND,
                 UserConstants.MESSAGE_404,
+                LocalDateTime.now()
+        );
+        return new ResponseEntity<>(errorResponseDTO, HttpStatus.NOT_FOUND);
+    }
+
+    @ExceptionHandler(BetweenDateException.class)
+    public ResponseEntity<ErrorResponseDto> handleBetweenDateException(WebRequest webRequest){
+        ErrorResponseDto errorResponseDTO = new ErrorResponseDto(
+                webRequest.getDescription(false),
+                HttpStatus.BAD_REQUEST,
+                AlarmConstants.msg_between,
+                LocalDateTime.now()
+        );
+        return new ResponseEntity<>(errorResponseDTO, HttpStatus.NOT_FOUND);
+    }
+    @ExceptionHandler(EndDateException.class)
+    public ResponseEntity<ErrorResponseDto> handleEndDateException(WebRequest webRequest){
+        ErrorResponseDto errorResponseDTO = new ErrorResponseDto(
+                webRequest.getDescription(false),
+                HttpStatus.BAD_REQUEST,
+                AlarmConstants.msg_end,
                 LocalDateTime.now()
         );
         return new ResponseEntity<>(errorResponseDTO, HttpStatus.NOT_FOUND);
