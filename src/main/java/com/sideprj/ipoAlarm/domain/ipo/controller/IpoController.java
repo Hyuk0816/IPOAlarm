@@ -1,11 +1,9 @@
 package com.sideprj.ipoAlarm.domain.ipo.controller;
 
-import com.sideprj.ipoAlarm.domain.ipo.constant.IpoConstants;
 import com.sideprj.ipoAlarm.domain.ipo.dto.IpoGetAllDto;
 import com.sideprj.ipoAlarm.domain.ipo.dto.IpoSearchRequestVo;
 import com.sideprj.ipoAlarm.domain.ipo.service.IpoService;
 import com.sideprj.ipoAlarm.domain.ipo.service.impl.IpoServiceImpl;
-import com.sideprj.ipoAlarm.domain.ipo.vo.IpoDataSaveVo;
 import com.sideprj.ipoAlarm.util.page.PageResponseVo;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -16,8 +14,6 @@ import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.time.format.SignStyle;
 import java.util.Date;
 
 @RestController

@@ -38,3 +38,4 @@ out/
 /src/test/
 /src/main/resources/application.yml
 /ipo_data.csv
+/src/main/resources/application-oauth.yml

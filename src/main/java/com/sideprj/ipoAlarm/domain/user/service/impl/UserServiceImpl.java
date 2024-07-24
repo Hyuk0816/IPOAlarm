@@ -34,7 +34,7 @@ public class UserServiceImpl implements UserService {
 
         Optional<User> optionalUsers = userRepository.findByEmail(checkUserVo.getEmail());
         if (optionalUsers.isPresent()) {
-            throw new UsersAlreadyExistsException("Users already registered with given phone number");
+            throw new UsersAlreadyExistsException("이미 등록된 회원입니다.");
         }
 
         User user = UserMapper.mapToUsersDetailsRequestVo(checkUserVo);
