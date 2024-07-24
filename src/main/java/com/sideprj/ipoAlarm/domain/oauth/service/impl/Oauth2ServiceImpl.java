@@ -4,6 +4,7 @@ import com.sideprj.ipoAlarm.domain.oauth.kakao.client.KakaoOauthAPi;
 import com.sideprj.ipoAlarm.domain.oauth.kakao.client.KakaoResourceApi;
 import com.sideprj.ipoAlarm.domain.oauth.kakao.dto.KakaoResourceDto;
 import com.sideprj.ipoAlarm.domain.oauth.kakao.dto.KakaoTokenDto;
+import com.sideprj.ipoAlarm.domain.oauth.kakao.dto.KakaoUserInfoDto;
 import com.sideprj.ipoAlarm.domain.oauth.mapper.Oauth2Mapper;
 import com.sideprj.ipoAlarm.domain.oauth.service.Oauth2Service;
 import com.sideprj.ipoAlarm.domain.user.dto.LoginDto;
@@ -39,7 +40,6 @@ public class Oauth2ServiceImpl implements Oauth2Service {
     private final UserService userService;
     private final KakaoResourceApi kakaoResourceApi;
     private final KakaoOauthAPi kakaoOauthAPi;
-    private final PasswordEncoder passwordEncoder;
     private final AuthService authService;
 
 
@@ -47,7 +47,6 @@ public class Oauth2ServiceImpl implements Oauth2Service {
     @Override
     public KakaoResourceDto getUserInfo(String accessToken, String registration) {
         String resourceUri = env.getProperty("spring.security.oauth2.client.provider." + registration + ".user-info-uri");
-        log.info("resourceUri: {}", resourceUri);
         return kakaoResourceApi.kakaoGetResource("Bearer " + accessToken);
     }
 
@@ -68,7 +67,7 @@ public class Oauth2ServiceImpl implements Oauth2Service {
 
         UserDetailsRequestVo userVo = UserDetailsRequestVo.builder()
                 .email(email)
-                .password(passwordEncoder.encode(password))
+                .password(password)
                 .image(image)
                 .build();
 
@@ -84,13 +83,13 @@ public class Oauth2ServiceImpl implements Oauth2Service {
     public void socialLogin(String code, String registration, HttpServletResponse response) throws BadRequestException {
         String accessToken = getAccessToken(code, registration);
         KakaoResourceDto userInfoDto = getUserInfo(accessToken, registration);
-        if (checkUserExists(userInfoDto.getEmail())){
-            LoginDto loginDto = Oauth2Mapper.mapFromKakaoResourceDtoToLoginDto(userInfoDto);
-            authService.login(loginDto, response);
-        }else{
-            socialSignIn(userInfoDto.getEmail(), userInfoDto.getId(), userInfoDto.getPicture());
-            LoginDto loginDto = Oauth2Mapper.mapFromKakaoResourceDtoToLoginDto(userInfoDto);
-            authService.login(loginDto, response);
+        KakaoUserInfoDto kakaoUserInfoDto = Oauth2Mapper.mapFromKakaoResourceDtoToKakaoUserInfoDto(userInfoDto);
+
+        if (!checkUserExists(kakaoUserInfoDto.getEmail())){
+            socialSignIn(kakaoUserInfoDto.getEmail(), kakaoUserInfoDto.getId(), kakaoUserInfoDto.getImage());
         }
+        LoginDto loginDto = Oauth2Mapper.mapFromKakaoResourceDtoToLoginDto(kakaoUserInfoDto);
+        authService.login(loginDto, response);
+
     }
 }
