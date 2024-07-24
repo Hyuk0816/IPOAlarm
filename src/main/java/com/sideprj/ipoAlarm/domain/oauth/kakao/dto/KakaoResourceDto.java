@@ -13,7 +13,7 @@ public class KakaoResourceDto {
     @JsonProperty("id")
     private String id;
 
-    @JsonProperty("email")
+    @JsonProperty("kakao_account.email")
     private String email;
 
     @JsonProperty("kakao_account.profile.profile_image_url")

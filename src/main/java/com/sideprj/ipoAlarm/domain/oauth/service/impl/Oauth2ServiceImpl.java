@@ -47,6 +47,7 @@ public class Oauth2ServiceImpl implements Oauth2Service {
     @Override
     public KakaoResourceDto getUserInfo(String accessToken, String registration) {
         String resourceUri = env.getProperty("oauth2." + registration + ".resource-uri");
+        log.info("resourceUri: {}", resourceUri);
         return kakaoResourceApi.kakaoGetResource("Bearer " + accessToken);
     }
 
