@@ -46,7 +46,7 @@ public class Oauth2ServiceImpl implements Oauth2Service {
 
     @Override
     public KakaoResourceDto getUserInfo(String accessToken, String registration) {
-        String resourceUri = env.getProperty("oauth2." + registration + ".resource-uri");
+        String resourceUri = env.getProperty("spring.security.oauth2.client.provider." + registration + ".user-info-uri");
         log.info("resourceUri: {}", resourceUri);
         return kakaoResourceApi.kakaoGetResource("Bearer " + accessToken);
     }
@@ -65,9 +65,7 @@ public class Oauth2ServiceImpl implements Oauth2Service {
 
     @Override
     public void socialSignIn(String email, String password, String image) {
-        log.info("socialSignIn email:" + email);
-        log.info("socialSignIn password:" + password);
-        log.info("socialSignIn image:" + image);
+
         UserDetailsRequestVo userVo = UserDetailsRequestVo.builder()
                 .email(email)
                 .password(passwordEncoder.encode(password))
