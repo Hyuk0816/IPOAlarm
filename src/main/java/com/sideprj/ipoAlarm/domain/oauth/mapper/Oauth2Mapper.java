@@ -1,15 +1,12 @@
 package com.sideprj.ipoAlarm.domain.oauth.mapper;
 
-import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.sideprj.ipoAlarm.domain.oauth.kakao.dto.KakaoResourceDto;
 import com.sideprj.ipoAlarm.domain.oauth.kakao.dto.KakaoUserInfoDto;
 import com.sideprj.ipoAlarm.domain.user.dto.LoginDto;
 import lombok.extern.slf4j.Slf4j;
 
-import java.io.IOException;
 import java.util.Map;
 @Slf4j
 public class Oauth2Mapper {
@@ -35,7 +32,7 @@ public class Oauth2Mapper {
 
 
             return KakaoUserInfoDto.builder()
-                    .id(kakaoResourceDto.getId()) // id 필드가 String이 아닐 경우 toString() 사용
+                    .id(kakaoResourceDto.getId())
                     .email(kakaoAccountMap.get("email").toString())
                     .image(profileMap.get("thumbnail_image_url").toString())
                     .build();
