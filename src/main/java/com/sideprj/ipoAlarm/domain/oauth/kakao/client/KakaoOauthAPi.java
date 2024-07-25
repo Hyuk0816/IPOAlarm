@@ -2,6 +2,7 @@ package com.sideprj.ipoAlarm.domain.oauth.kakao.client;
 
 import com.sideprj.ipoAlarm.domain.oauth.kakao.dto.KakaoTokenDto;
 import org.springframework.cloud.openfeign.FeignClient;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 

@@ -9,20 +9,16 @@ import com.sideprj.ipoAlarm.domain.oauth.mapper.Oauth2Mapper;
 import com.sideprj.ipoAlarm.domain.oauth.service.Oauth2Service;
 import com.sideprj.ipoAlarm.domain.user.dto.LoginDto;
 import com.sideprj.ipoAlarm.domain.user.entity.User;
-import com.sideprj.ipoAlarm.domain.user.mapper.UserMapper;
 import com.sideprj.ipoAlarm.domain.user.repository.UserRepository;
-import com.sideprj.ipoAlarm.domain.user.role.ROLE;
 import com.sideprj.ipoAlarm.domain.user.service.AuthService;
 import com.sideprj.ipoAlarm.domain.user.service.UserService;
 import com.sideprj.ipoAlarm.domain.user.vo.UserDetailsRequestVo;
-import com.sideprj.ipoAlarm.util.exception.UsersAlreadyExistsException;
-import com.sideprj.ipoAlarm.util.jwt.TokenProvider;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.coyote.BadRequestException;
 import org.springframework.core.env.Environment;
-import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -58,7 +54,6 @@ public class Oauth2ServiceImpl implements Oauth2Service {
         String tokenUri = env.getProperty("spring.security.oauth2.client.provider." + registration + ".token-uri");
 
         KakaoTokenDto tokenDto = kakaoOauthAPi.kakaogetToken(authorizationCode,clientId,redirectUri,clientSecret,"authorization_code");
-
         return tokenDto.getAccessToken();
     }
 
@@ -80,6 +75,7 @@ public class Oauth2ServiceImpl implements Oauth2Service {
     }
 
     @Override
+    @Transactional
     public void socialLogin(String code, String registration, HttpServletResponse response) throws BadRequestException {
         String accessToken = getAccessToken(code, registration);
         KakaoResourceDto userInfoDto = getUserInfo(accessToken, registration);
