@@ -21,6 +21,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.coyote.BadRequestException;
 import org.springframework.core.env.Environment;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -43,7 +44,7 @@ public class Oauth2ServiceImpl implements Oauth2Service {
     private final KakaoOauthAPi kakaoOauthAPi;
     private final AuthService authService;
     private final KakaoTokenRepository kakaoTokenRepository;
-
+    private final RedisTemplate<String,String> redisTemplate;
 
 
     @Override
@@ -90,6 +91,48 @@ public class Oauth2ServiceImpl implements Oauth2Service {
         return kakaoTokenRepository.findByUserUserId(userId);
     }
 
+//    @Override
+//    public void socialLogin(String code, String registration, HttpServletResponse response) throws BadRequestException {
+//        Map<String, String> mapToken = getAccessToken(code, registration);
+//        String accessToken = mapToken.get("access_token");
+//        String refreshToken = mapToken.get("refresh_token");
+//
+//        KakaoResourceDto userInfoDto = getUserInfo(accessToken, registration);
+//        KakaoUserInfoDto kakaoUserInfoDto = Oauth2Mapper.mapFromKakaoResourceDtoToKakaoUserInfoDto(userInfoDto);
+//
+//        if (!checkUserExists(kakaoUserInfoDto.getEmail())){
+//            socialSignIn(kakaoUserInfoDto.getEmail(), kakaoUserInfoDto.getId(), kakaoUserInfoDto.getImage());
+//        }
+//
+//        User user = userRepository.findByEmail(kakaoUserInfoDto.getEmail()).orElseThrow(() -> new UsernameNotFoundException(UserConstants.MESSAGE_404));
+//
+//        if(checkKakaoTokenExists(user.getUserId())!=null){
+//            KakaoToken existsToken = checkKakaoTokenExists(user.getUserId());
+//            //쿼리 DSL 방식이랑 고민중,,,,,
+//            //아니면 아예 토큰을 redis에 저장시켜야 하나 고민 중,,, userAccess : access value , userRefresh : refresh value --> 이런식,,,
+//            existsToken.setAccessToken(accessToken);
+//            existsToken.setRefreshToken(refreshToken);
+//            kakaoTokenRepository.save(existsToken);
+//            LoginDto loginDto = Oauth2Mapper.mapFromKakaoResourceDtoToLoginDto(kakaoUserInfoDto);
+//            authService.login(loginDto, response);
+//        }else{
+//
+//            KakaoToken kakaoToken = KakaoToken.builder()
+//                    .accessToken(accessToken)
+//                    .refreshToken(refreshToken)
+//                    .user(user)
+//                    .build();
+//
+//            LoginDto loginDto = Oauth2Mapper.mapFromKakaoResourceDtoToLoginDto(kakaoUserInfoDto);
+//            kakaoTokenRepository.save(kakaoToken);
+//            authService.login(loginDto, response);
+//        }
+//    }
+
+    public boolean checkRedis(String email) {
+        return redisTemplate.opsForValue().get(email+"-kakao_access") == null && redisTemplate.opsForValue().get(email + "-kakao_refresh")== null ;
+    }
+
     @Override
     public void socialLogin(String code, String registration, HttpServletResponse response) throws BadRequestException {
         Map<String, String> mapToken = getAccessToken(code, registration);
@@ -105,25 +148,18 @@ public class Oauth2ServiceImpl implements Oauth2Service {
 
         User user = userRepository.findByEmail(kakaoUserInfoDto.getEmail()).orElseThrow(() -> new UsernameNotFoundException(UserConstants.MESSAGE_404));
 
-        if(checkKakaoTokenExists(user.getUserId())!=null){
-            KakaoToken existsToken = checkKakaoTokenExists(user.getUserId());
-            //쿼리 DSL 방식이랑 고민중,,,,,
-            //아니면 아예 토큰을 redis에 저장시켜야 하나 고민 중,,, userAccess : access value , userRefresh : refresh value --> 이런식,,,
-            existsToken.setAccessToken(accessToken);
-            existsToken.setRefreshToken(refreshToken);
-            kakaoTokenRepository.save(existsToken);
+        String accessKey = user.getEmail() + "-kakao_access";
+        String refreshKey = user.getEmail() + "-kakao_refresh";
+
+        if(checkRedis(user.getEmail())){
+            redisTemplate.opsForValue().set(accessKey, accessToken);
+            redisTemplate.opsForValue().set(refreshKey, refreshToken);
             LoginDto loginDto = Oauth2Mapper.mapFromKakaoResourceDtoToLoginDto(kakaoUserInfoDto);
             authService.login(loginDto, response);
         }else{
-
-            KakaoToken kakaoToken = KakaoToken.builder()
-                    .accessToken(accessToken)
-                    .refreshToken(refreshToken)
-                    .user(user)
-                    .build();
-
+            redisTemplate.opsForValue().set(accessKey, accessToken);
+            redisTemplate.opsForValue().set(refreshKey, refreshToken);
             LoginDto loginDto = Oauth2Mapper.mapFromKakaoResourceDtoToLoginDto(kakaoUserInfoDto);
-            kakaoTokenRepository.save(kakaoToken);
             authService.login(loginDto, response);
         }
     }
