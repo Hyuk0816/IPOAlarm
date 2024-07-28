@@ -1,8 +1,7 @@
 package com.sideprj.ipoAlarm.domain.message.client;
 
 import org.springframework.cloud.openfeign.FeignClient;
-import org.springframework.http.ResponseEntity;
-import org.springframework.util.MultiValueMap;
+import org.springframework.http.HttpHeaders;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
@@ -14,6 +13,6 @@ import org.springframework.web.bind.annotation.RequestHeader;
 public interface KakaoMessage {
 
     @PostMapping
-    ResponseEntity<String> sendMessage(@RequestHeader("Authorization") String accessToken,
-                                       @RequestBody MultiValueMap<String, String> body);
+    void sendMessage(@RequestHeader HttpHeaders headers,
+                     @RequestBody Object template_object);
 }

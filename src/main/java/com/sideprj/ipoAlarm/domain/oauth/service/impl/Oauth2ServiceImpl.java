@@ -152,13 +152,13 @@ public class Oauth2ServiceImpl implements Oauth2Service {
         String refreshKey = user.getEmail() + "-kakao_refresh";
 
         if(checkRedis(user.getEmail())){
-            redisTemplate.opsForValue().set(accessKey, accessToken);
-            redisTemplate.opsForValue().set(refreshKey, refreshToken);
+            redisTemplate.opsForValue().set(accessKey, "Bearer "+accessToken);
+            redisTemplate.opsForValue().set(refreshKey, "Bearer "+refreshToken);
             LoginDto loginDto = Oauth2Mapper.mapFromKakaoResourceDtoToLoginDto(kakaoUserInfoDto);
             authService.login(loginDto, response);
         }else{
-            redisTemplate.opsForValue().set(accessKey, accessToken);
-            redisTemplate.opsForValue().set(refreshKey, refreshToken);
+            redisTemplate.opsForValue().set(accessKey, "Bearer "+accessToken);
+            redisTemplate.opsForValue().set(refreshKey, "Bearer "+refreshToken);
             LoginDto loginDto = Oauth2Mapper.mapFromKakaoResourceDtoToLoginDto(kakaoUserInfoDto);
             authService.login(loginDto, response);
         }
