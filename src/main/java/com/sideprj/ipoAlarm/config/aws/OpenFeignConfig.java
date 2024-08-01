@@ -10,7 +10,6 @@ import org.springframework.data.redis.core.RedisTemplate;
 
 @Slf4j
 @RequiredArgsConstructor
-@Configuration
 public class OpenFeignConfig {
 
     private final RedisTemplate<String ,String> redisTemplate;
@@ -21,6 +20,7 @@ public class OpenFeignConfig {
 
         return requestTemplate -> {
             requestTemplate.header("Authorization", redisTemplate.opsForValue().get("rlawogur816@naver.com-kakao_access"));
+            log.info(redisTemplate.opsForValue().get("rlawogur816@naver.com-kakao_access") + " 로그할때도 호출?? ");
             requestTemplate.header("Content-Type", "application/x-www-form-urlencoded");
         };
     }

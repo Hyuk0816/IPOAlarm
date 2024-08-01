@@ -50,6 +50,7 @@ public class Oauth2ServiceImpl implements Oauth2Service {
     @Override
     public KakaoResourceDto getUserInfo(String accessToken, String registration) {
         String resourceUri = env.getProperty("spring.security.oauth2.client.provider." + registration + ".user-info-uri");
+        log.info(accessToken);
         return kakaoResourceApi.kakaoGetResource("Bearer " + accessToken);
     }
 
@@ -140,6 +141,7 @@ public class Oauth2ServiceImpl implements Oauth2Service {
         String refreshToken = mapToken.get("refresh_token");
 
         KakaoResourceDto userInfoDto = getUserInfo(accessToken, registration);
+
         KakaoUserInfoDto kakaoUserInfoDto = Oauth2Mapper.mapFromKakaoResourceDtoToKakaoUserInfoDto(userInfoDto);
 
         if (!checkUserExists(kakaoUserInfoDto.getEmail())){
