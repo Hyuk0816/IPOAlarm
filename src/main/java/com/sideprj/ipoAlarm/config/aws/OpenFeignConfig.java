@@ -20,7 +20,6 @@ public class OpenFeignConfig {
 
         return requestTemplate -> {
             requestTemplate.header("Authorization", redisTemplate.opsForValue().get("rlawogur816@naver.com-kakao_access"));
-            log.info(redisTemplate.opsForValue().get("rlawogur816@naver.com-kakao_access") + " 로그할때도 호출?? ");
             requestTemplate.header("Content-Type", "application/x-www-form-urlencoded");
         };
     }

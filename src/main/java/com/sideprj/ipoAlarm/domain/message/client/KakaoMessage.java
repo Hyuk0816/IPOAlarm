@@ -2,9 +2,11 @@ package com.sideprj.ipoAlarm.domain.message.client;
 
 import com.sideprj.ipoAlarm.config.aws.OpenFeignConfig;
 import org.springframework.cloud.openfeign.FeignClient;
+import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RequestPart;
 
 
 @FeignClient(
@@ -15,5 +17,5 @@ import org.springframework.web.bind.annotation.RequestParam;
 public interface KakaoMessage {
 
     @PostMapping
-    void sendMessage(@RequestParam("template_object") String template_object);
+    void sendMessage(@RequestPart("template_object") Object template_object);
 }

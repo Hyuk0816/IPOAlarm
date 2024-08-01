@@ -34,14 +34,12 @@ public class MessageServiceImpl implements MessageService {
         templateObj.put("link", "www.naver.com");
         templateObj.put("button_title", "test btn");
 
-
-        MultiValueMap<String, Object> parameters = new LinkedMultiValueMap<>();
+        MultiValueMap<String, String > parameters = new LinkedMultiValueMap<>();
 
         parameters.add("template_object", templateObj.toString());
 
         log.info("요청 보내기 시작!");
-        log.info(parameters.toString());
-        kakaoMessage.sendMessage(templateObj.toString());
+        kakaoMessage.sendMessage(templateObj);
         log.info("메세지 보내기 요청!~!");
     }
 }

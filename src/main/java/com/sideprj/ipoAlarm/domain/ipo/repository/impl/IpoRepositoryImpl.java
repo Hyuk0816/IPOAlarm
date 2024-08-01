@@ -45,7 +45,7 @@ public class IpoRepositoryImpl implements IpoRepositoryCustom {
                 .where(containIpoName(searchRequestVo.getIpoName()),
                         containStartDate(searchRequestVo),
                         containEndDate(searchRequestVo))
-                .orderBy(ipo.startDate.asc())
+                .orderBy(ipo.startDate.desc())
                 .fetch();
         JPAQuery<Ipo> countQuery = queryFactory.select(ipo).from(ipo)
                 .where(containIpoName(searchRequestVo.getIpoName()),
