@@ -63,6 +63,8 @@ public class RedisRepositoryConfig {
     }
 
 
+
+
     @Bean
     public CacheManager cacheManager() {
         RedisCacheConfiguration redisCacheConfiguration = RedisCacheConfiguration.defaultCacheConfig()
