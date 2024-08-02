@@ -1,12 +1,9 @@
 package com.sideprj.ipoAlarm.domain.message.client;
 
-import com.sideprj.ipoAlarm.config.aws.OpenFeignConfig;
+import com.sideprj.ipoAlarm.config.openfeign.OpenFeignConfig;
 import org.springframework.cloud.openfeign.FeignClient;
-import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RequestPart;
 
 
 @FeignClient(

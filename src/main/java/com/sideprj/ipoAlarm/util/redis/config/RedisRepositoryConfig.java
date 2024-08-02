@@ -16,6 +16,7 @@ import org.springframework.data.redis.serializer.GenericToStringSerializer;
 import org.springframework.data.redis.serializer.RedisSerializationContext;
 import org.springframework.data.redis.serializer.StringRedisSerializer;
 
+import java.time.Duration;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -50,7 +51,6 @@ public class RedisRepositoryConfig {
         return redisTemplate;
     }
 
-
     @Bean
     public  RedisTemplate<String, Long> redisTemplateLong() {
         RedisTemplate<String,Long >  redisTemplate = new RedisTemplate<>();
@@ -61,9 +61,6 @@ public class RedisRepositoryConfig {
         redisTemplate.setEnableTransactionSupport(true);
         return redisTemplate;
     }
-
-
-
 
     @Bean
     public CacheManager cacheManager() {
@@ -81,9 +78,8 @@ public class RedisRepositoryConfig {
 
     private static Map<String, RedisCacheConfiguration> getStringRedisCacheConfigurationMap(RedisCacheConfiguration redisCacheConfiguration) {
         Map<String, RedisCacheConfiguration> cacheConfigurations = new HashMap<>();
-
+        //cacheConfigurations.put("getListNames", redisCacheConfiguration.entryTtl(Duration.ofHours(1)));
         return cacheConfigurations;
     }
-
 
 }
