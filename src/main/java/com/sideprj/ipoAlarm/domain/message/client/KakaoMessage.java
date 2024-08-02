@@ -17,5 +17,5 @@ import org.springframework.web.bind.annotation.RequestPart;
 public interface KakaoMessage {
 
     @PostMapping
-    void sendMessage(@RequestPart("template_object") Object template_object);
+    void sendMessage(@RequestBody Object template_object);
 }

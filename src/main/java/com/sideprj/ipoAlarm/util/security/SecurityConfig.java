@@ -49,7 +49,9 @@ public class SecurityConfig {
                 .sessionManagement(httpSecuritySessionManagementConfigurer -> httpSecuritySessionManagementConfigurer.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests((authorize)->
                         authorize
-                                .requestMatchers("/api/user/**", "/api/auth/login","api/product/name/**" ,"/api/product/update/**","/api/product/all","/api/auth/logout","/api/auth/accessToken", "/neurochem_swagger", "/swagger-ui/index.html", "/dev/**").permitAll()
+                                .requestMatchers("/api/user/**", "/api/auth/login","api/product/name/**" ,"/api/product/update/**",
+                                        "/api/product/all","/api/auth/logout","/api/auth/accessToken",
+                                        "/neurochem_swagger", "/swagger-ui/**", "/dev/**").permitAll()
                                 .requestMatchers("/api/auth/**", "/api/ipo/**", "/api/s3/**", "/api/alarm/**").authenticated()
                                 .requestMatchers("api/product/**","/api/listData/get").authenticated())
                 .addFilterAt(new AuthoritiesLoggingAtFilter(),BasicAuthenticationFilter.class)

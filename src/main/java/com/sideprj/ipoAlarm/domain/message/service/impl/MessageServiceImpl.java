@@ -39,7 +39,7 @@ public class MessageServiceImpl implements MessageService {
         parameters.add("template_object", templateObj.toString());
 
         log.info("요청 보내기 시작!");
-        kakaoMessage.sendMessage(templateObj);
+        kakaoMessage.sendMessage(templateObj.toString());
         log.info("메세지 보내기 요청!~!");
     }
 }
