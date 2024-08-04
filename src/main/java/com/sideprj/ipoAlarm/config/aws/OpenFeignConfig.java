@@ -1,10 +1,11 @@
-package com.sideprj.ipoAlarm.config.openfeign;
+package com.sideprj.ipoAlarm.config.aws;
 
 import feign.Logger;
 import feign.RequestInterceptor;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.data.redis.core.RedisTemplate;
 
 @Slf4j

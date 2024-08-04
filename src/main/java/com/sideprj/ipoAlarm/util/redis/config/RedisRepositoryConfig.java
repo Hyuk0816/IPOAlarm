@@ -64,6 +64,9 @@ public class RedisRepositoryConfig {
         return redisTemplate;
     }
 
+
+
+
     @Bean
     public RedisTemplate<String, PageResponseVo<IpoGetAllDto>> redisTemplateIpoGetAllDto() {
         RedisTemplate<String,PageResponseVo<IpoGetAllDto>> redisTemplate = new RedisTemplate<>();
