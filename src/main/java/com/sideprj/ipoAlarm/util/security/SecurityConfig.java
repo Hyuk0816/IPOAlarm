@@ -51,7 +51,7 @@ public class SecurityConfig {
                         authorize
                                 .requestMatchers("/api/user/**", "/api/auth/login","api/product/name/**" ,"/api/product/update/**",
                                         "/api/product/all","/api/auth/logout","/api/auth/accessToken",
-                                        "/neurochem_swagger", "/swagger-ui/**", "/dev/**").permitAll()
+                                        "/neurochem_swagger", "/swagger-ui/**", "/dev/**","/v3/api-docs/**").permitAll()
                                 .requestMatchers("/api/auth/**", "/api/ipo/**", "/api/s3/**", "/api/alarm/**").authenticated()
                                 .requestMatchers("api/product/**","/api/listData/get").authenticated())
                 .addFilterAt(new AuthoritiesLoggingAtFilter(),BasicAuthenticationFilter.class)
