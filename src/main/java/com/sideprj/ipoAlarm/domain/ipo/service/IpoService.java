@@ -15,6 +15,6 @@ public interface IpoService {
 
     PageResponseVo<IpoGetAllDto> fetchIpo(IpoSearchRequestVo searchRequestVo, Pageable pageable) throws IOException, ParseException;
 
-
+//    PageResponseVo<IpoGetAllDto> getAll(IpoSearchRequestVo searchRequestVo, Pageable pageable) throws IOException, ParseException;
 
 }

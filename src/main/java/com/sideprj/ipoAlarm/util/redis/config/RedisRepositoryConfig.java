@@ -1,5 +1,7 @@
 package com.sideprj.ipoAlarm.util.redis.config;
 
+import com.sideprj.ipoAlarm.domain.ipo.dto.IpoGetAllDto;
+import com.sideprj.ipoAlarm.util.page.PageResponseVo;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cache.CacheManager;
@@ -62,8 +64,14 @@ public class RedisRepositoryConfig {
         return redisTemplate;
     }
 
-
-
+    @Bean
+    public RedisTemplate<String, PageResponseVo<IpoGetAllDto>> redisTemplateIpoGetAllDto() {
+        RedisTemplate<String,PageResponseVo<IpoGetAllDto>> redisTemplate = new RedisTemplate<>();
+        redisTemplate.setConnectionFactory(redisConnectionFactory());
+        redisTemplate.setDefaultSerializer(new GenericJackson2JsonRedisSerializer());
+        redisTemplate.setEnableTransactionSupport(true);
+        return redisTemplate;
+    }
 
     @Bean
     public CacheManager cacheManager() {

@@ -14,6 +14,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -32,6 +33,7 @@ public class IpoServiceImpl implements IpoService {
     private final IpoRepository ipoRepository;
     private final CSVReader csvReader;
     private final S3Service s3Service;
+    private final RedisTemplate<String,PageResponseVo<IpoGetAllDto>> redisTemplate;
 
 
     @Override
@@ -57,6 +59,16 @@ public class IpoServiceImpl implements IpoService {
                 totalPage
         );
     }
+
+//    @Override
+//    public PageResponseVo<IpoGetAllDto> getAll(IpoSearchRequestVo searchRequestVo, Pageable pageable) throws IOException, ParseException {
+//        String key = String.format("IpoGetAll : %sPage", pageable.getPageNumber());
+//        if(redisTemplate.opsForList().range(key, 0, pageable.getPageSize()) == null){
+//            return fetchIpo(searchRequestVo, pageable);
+//        }else{
+//            return redisTemplate.opsForList().range(key, 0, pageable.getPageSize());
+//        }
+//    }
 
     public static Date convertDate(String date) throws ParseException {
         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
