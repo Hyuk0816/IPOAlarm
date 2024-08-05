@@ -72,7 +72,7 @@ public class IpoController {
                 .searchEndDate(endDate)
                 .build();
 
-        PageResponseVo<IpoGetAllDto> ipoGetAllDtoPageResponseVo = ipoService.fetchIpo(ipoSearchRequestVo, pageable);
+        PageResponseVo<IpoGetAllDto> ipoGetAllDtoPageResponseVo = ipoService.getAll(ipoSearchRequestVo, pageable);
 
         return ResponseEntity
                 .status(HttpStatus.OK)
