@@ -53,7 +53,7 @@ public class SecurityConfig {
                                         "/api/product/all","/api/auth/logout","/api/auth/accessToken",
                                         "/neurochem_swagger", "/swagger-ui/**", "/dev/**").permitAll()
                                 .requestMatchers("/api/auth/**", "/api/ipo/**", "/api/s3/**", "/api/alarm/**").authenticated()
-                                .requestMatchers("api/product/**","/api/listData/get").authenticated())
+                                .requestMatchers("api/product/**","/api/listData/get", "/api/mypage/**").authenticated())
                 .addFilterAt(new AuthoritiesLoggingAtFilter(),BasicAuthenticationFilter.class)
                 .addFilterAfter(new AuthoritiesLoggingAfterFilter(), BasicAuthenticationFilter.class)
                 .addFilterBefore(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);

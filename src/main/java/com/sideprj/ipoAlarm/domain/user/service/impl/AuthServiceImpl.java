@@ -12,7 +12,6 @@ import com.sideprj.ipoAlarm.util.jwt.TokenProvider;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.redis.core.RedisTemplate;
@@ -24,6 +23,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 
 import java.util.Arrays;
@@ -94,18 +94,22 @@ public class AuthServiceImpl implements AuthService {
         redisTemplate.delete(userDetails.getUsername());
     }
 
-
-    // acess token redis에 있는지 확인 필요 email check 필요
-    // 로그아웃 상태일때 헤더에는 토큰이 없으므로 UsernameNotFoundExceptiond에 걸림
-    // Authentication 클래스는 헤더에서 AccessToken를 가져옴
     @Override
     @Transactional
     public void getAccessToken(HttpServletRequest request, HttpServletResponse response) {
-        var userInfo = callAuthentication();
-        String checkToken = redisTemplate.opsForValue().get(userInfo.getEmail());
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        UserDetails userDetails = customUserDetails.loadUserByUsername(authentication.getName());
+
+        var usersInfo = usersRepository.findByEmail(userDetails.getUsername())
+                .orElseThrow(() -> new UsernameNotFoundException("user not found"));
+
+        String checkToken = redisTemplate.opsForValue().get(usersInfo.getEmail());
+
         if (!hasText(checkToken)) {
-            throw new UserNameNotFoundException(UserConstants.STATUS_404, UserConstants.MESSAGE_404);
+            throw new RuntimeException("test2");
         }
+
+
         Cookie[] cookies = request.getCookies();
         if (cookies != null) {
             Optional<String> cookieValue = Arrays.stream(cookies)

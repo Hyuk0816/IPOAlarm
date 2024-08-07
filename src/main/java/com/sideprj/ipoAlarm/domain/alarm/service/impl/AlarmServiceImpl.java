@@ -4,7 +4,6 @@ import com.sideprj.ipoAlarm.domain.alarm.constants.AlarmConstants;
 import com.sideprj.ipoAlarm.domain.alarm.entity.Alarm;
 import com.sideprj.ipoAlarm.domain.alarm.repository.AlarmRepository;
 import com.sideprj.ipoAlarm.domain.alarm.service.AlarmService;
-import com.sideprj.ipoAlarm.domain.ipo.constant.IpoConstants;
 import com.sideprj.ipoAlarm.domain.ipo.entity.Ipo;
 import com.sideprj.ipoAlarm.domain.ipo.repository.IpoRepository;
 import com.sideprj.ipoAlarm.domain.user.constants.UserConstants;

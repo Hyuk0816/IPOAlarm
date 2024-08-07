@@ -10,6 +10,8 @@ import com.sideprj.ipoAlarm.domain.ipo.entity.QIpo;
 import com.sideprj.ipoAlarm.domain.user.entity.QUser;
 import jakarta.persistence.EntityManager;
 
+import java.util.List;
+
 import static com.sideprj.ipoAlarm.domain.alarm.entity.QAlarm.*;
 import static com.sideprj.ipoAlarm.domain.ipo.entity.QIpo.*;
 import static com.sideprj.ipoAlarm.domain.user.entity.QUser.*;
@@ -33,6 +35,10 @@ public class AlarmRepositoryImpl implements AlarmRepositoryCustom {
                 .fetchOne();
     }
 
-
-
+    @Override
+    public List<Alarm> findByUserId(Long id) {
+        return queryFactory.selectFrom(alarm)
+                .where(alarm.user.userId.eq(id))
+                .fetch();
+    }
 }
