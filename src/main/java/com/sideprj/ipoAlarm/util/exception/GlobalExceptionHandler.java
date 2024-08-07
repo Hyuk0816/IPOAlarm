@@ -128,7 +128,7 @@ public class GlobalExceptionHandler  extends ResponseEntityExceptionHandler {
                 AlarmConstants.msg_between,
                 LocalDateTime.now()
         );
-        return new ResponseEntity<>(errorResponseDTO, HttpStatus.NOT_FOUND);
+        return new ResponseEntity<>(errorResponseDTO, HttpStatus.BAD_REQUEST);
     }
     @ExceptionHandler(EndDateException.class)
     public ResponseEntity<ErrorResponseDto> handleEndDateException(WebRequest webRequest){
@@ -138,7 +138,7 @@ public class GlobalExceptionHandler  extends ResponseEntityExceptionHandler {
                 AlarmConstants.msg_end,
                 LocalDateTime.now()
         );
-        return new ResponseEntity<>(errorResponseDTO, HttpStatus.NOT_FOUND);
+        return new ResponseEntity<>(errorResponseDTO, HttpStatus.BAD_REQUEST);
     }
 
 }
