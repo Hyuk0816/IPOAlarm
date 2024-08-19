@@ -56,7 +56,7 @@ public class MyPageController {
     @GetMapping("/data")
     public ResponseEntity<MyPageDto> getUserInfo() {
         return ResponseEntity
-                .ok()
+                .status(HttpStatus.OK)
                 .body(myPageService.userInfo());
     }
 
@@ -89,7 +89,7 @@ public class MyPageController {
     @GetMapping("/myalarm")
     public ResponseEntity<List<MyAlarmDto>> getMyAlarm() {
         return ResponseEntity
-                .ok()
+                .status(HttpStatus.OK)
                 .body(myPageService.myAlarm());
     }
 }
