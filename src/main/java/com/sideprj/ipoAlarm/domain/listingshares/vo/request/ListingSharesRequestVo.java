@@ -18,10 +18,10 @@ public class ListingSharesRequestVo {
     private String ipoName;
 
     @Schema(description = "상장일 검색 시작 값 ", example = "2024-08-01", type = "String", format = "date-time")
-    private Date listingStartDate;
+    private String listingStartDate;
 
     @Schema(description = "상장일 검색 끝 값 ", example = "2024-08-01", type = "String", format = "date-time")
-    private Date listingendDate;
+    private String listingEndDate;
 
     @Schema(description = "전일 대비 가격 변동율 검색 시작 값", example = "-1.8")
     private Double minChangeRatePrevious;

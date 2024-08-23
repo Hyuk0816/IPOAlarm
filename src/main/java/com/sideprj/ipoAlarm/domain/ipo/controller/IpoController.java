@@ -4,6 +4,7 @@ import com.sideprj.ipoAlarm.domain.ipo.dto.IpoGetAllDto;
 import com.sideprj.ipoAlarm.domain.ipo.vo.request.IpoSearchRequestVo;
 import com.sideprj.ipoAlarm.domain.ipo.service.IpoService;
 import com.sideprj.ipoAlarm.domain.ipo.service.impl.IpoServiceImpl;
+import com.sideprj.ipoAlarm.util.converter.DateFormatter;
 import com.sideprj.ipoAlarm.util.page.PageResponseVo;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -63,8 +64,8 @@ public class IpoController {
                                                                  @RequestParam(required = false) String end,
                                                                  Pageable pageable) throws IOException, ParseException {
 
-        Date startDate = IpoServiceImpl.convertDate(start);
-        Date endDate = IpoServiceImpl.convertDate(end);
+        Date startDate = DateFormatter.convertDate(start);
+        Date endDate = DateFormatter.convertDate(end);
 
         IpoSearchRequestVo ipoSearchRequestVo = IpoSearchRequestVo.builder()
                 .ipoName(ipoName)

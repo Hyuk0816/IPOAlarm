@@ -13,6 +13,8 @@ import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.text.ParseException;
+
 @RequiredArgsConstructor
 @Service
 @Slf4j
@@ -23,7 +25,7 @@ public class ListingSharesServiceImpl implements ListingSharesService {
 
     @Override
     @Transactional(readOnly = true)
-    public PageResponseVo<ListingSharesGetAllDto> fetchListingShares(ListingSharesRequestVo requestVo, Pageable pageable) {
+    public PageResponseVo<ListingSharesGetAllDto> fetchListingShares(ListingSharesRequestVo requestVo, Pageable pageable) throws ParseException {
         Page<ListingSharesGetAllDto> content = listingSharesRepository.fetchListingShares(requestVo, pageable);
         long total = content.getTotalElements();
         long totalPages = content.getTotalPages();

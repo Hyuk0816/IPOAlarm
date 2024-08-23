@@ -78,13 +78,4 @@ public class IpoServiceImpl implements IpoService {
         }
         log.info("캐시 갱신 완료");
     }
-
-    public static Date convertDate(String date) throws ParseException {
-        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
-        if(date != null){
-            return format.parse(date);
-        }else{
-            return null;
-        }
-    }
 }

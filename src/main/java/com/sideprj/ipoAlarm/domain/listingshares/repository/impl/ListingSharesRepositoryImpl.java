@@ -6,16 +6,21 @@ import com.querydsl.core.types.Projections;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
+import com.sideprj.ipoAlarm.domain.ipo.service.impl.IpoServiceImpl;
 import com.sideprj.ipoAlarm.domain.listingshares.dto.ListingSharesGetAllDto;
 import com.sideprj.ipoAlarm.domain.listingshares.entity.ListingShares;
 import com.sideprj.ipoAlarm.domain.listingshares.repository.ListingSharesRepositoryCustom;
 import com.sideprj.ipoAlarm.domain.listingshares.vo.request.ListingSharesRequestVo;
+import com.sideprj.ipoAlarm.util.converter.DateFormatter;
 import jakarta.persistence.EntityManager;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.support.PageableExecutionUtils;
 
+import java.text.ParseException;
+import java.time.LocalDate;
+import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 
@@ -33,7 +38,7 @@ public class ListingSharesRepositoryImpl implements ListingSharesRepositoryCusto
 
 
     @Override
-    public Page<ListingSharesGetAllDto> fetchListingShares(ListingSharesRequestVo requestVo, Pageable pageable) {
+    public Page<ListingSharesGetAllDto> fetchListingShares(ListingSharesRequestVo requestVo, Pageable pageable) throws ParseException {
 
         BooleanBuilder builder = new BooleanBuilder();
         //공모주 이름
@@ -118,13 +123,16 @@ public class ListingSharesRepositoryImpl implements ListingSharesRepositoryCusto
         }
     }
 
-    private void addListingDateCondition(BooleanBuilder whereBuilder, ListingSharesRequestVo requestVo) {
-        if(requestVo.getListingStartDate() !=null && requestVo.getListingendDate() != null){
-            whereBuilder.and(listingShares.listingDate.between(requestVo.getListingStartDate(),requestVo.getListingendDate()));
+    private void addListingDateCondition(BooleanBuilder whereBuilder, ListingSharesRequestVo requestVo) throws ParseException {
+        LocalDate listingStartDate = DateFormatter.format(requestVo.getListingStartDate());
+        LocalDate listingEndDate = DateFormatter.format(requestVo.getListingEndDate());
+
+        if(requestVo.getListingStartDate() !=null && requestVo.getListingEndDate() != null){
+            whereBuilder.and(listingShares.listingDate.between(listingStartDate,listingEndDate));
         } else if(requestVo.getListingStartDate() != null){
-            whereBuilder.and(listingShares.listingDate.after(requestVo.getListingStartDate()));
-        } else if (requestVo.getListingendDate() != null) {
-            whereBuilder.and(listingShares.listingDate.before(requestVo.getListingendDate()));
+            whereBuilder.and(listingShares.listingDate.after(listingStartDate));
+        } else if (requestVo.getListingEndDate() != null) {
+            whereBuilder.and(listingShares.listingDate.before(listingEndDate));
         }
     }
 

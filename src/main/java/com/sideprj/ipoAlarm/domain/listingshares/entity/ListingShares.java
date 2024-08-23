@@ -9,6 +9,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.Objects;
 
@@ -25,7 +26,7 @@ public class ListingShares {
     private String ipoName;
 
     @Column(name = "listing_date", nullable = false)
-    private Date listingDate;
+    private LocalDate listingDate;
 
     @Column(name = "current_price", nullable = true)
     private String currentPrice;

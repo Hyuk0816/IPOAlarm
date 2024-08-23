@@ -6,6 +6,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDate;
 import java.util.Date;
 
 @AllArgsConstructor
@@ -18,7 +19,7 @@ public class ListingSharesGetAllDto {
     private String ipoName;
 
     @Schema(description = "신규 상장일")
-    private Date listingDate;
+    private LocalDate listingDate;
 
     @Schema(description = "현재가")
     private String currentPrice;

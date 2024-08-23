@@ -57,41 +57,37 @@ public class ListingSharesController {
     }
     )
     @GetMapping("/data")
-    public ResponseEntity<PageResponseVo<ListingSharesGetAllDto>> fetchListingShares(@RequestParam(required = false)String ipoName,
-                                                                                     @RequestParam(required = false)String startDate,
-                                                                                     @RequestParam(required = false)String endDate,
-                                                                                     @RequestParam(required = false)Double minChangeRatePrevious,
-                                                                                     @RequestParam(required = false)Double maxChangeRatePrevious,
-                                                                                     @RequestParam(required = false)Double minChangeRateOfferingPrice,
-                                                                                     @RequestParam(required = false)Double maxChangeRateOfferingPrice,
-                                                                                     @RequestParam(required = false)Double minChangeRateOpeningToOfferingPrice,
-                                                                                     @RequestParam(required = false)Double maxChangeRateOpeningToOfferingPrice,
-                                                                                     Pageable pageable
-                                                                                     ) throws ParseException {
-
-        Date listingStartDate = IpoServiceImpl.convertDate(startDate);
-        Date listingEndDate = IpoServiceImpl.convertDate(endDate);
-
-        ListingSharesRequestVo requestVo = ListingSharesRequestVo.builder()
-                .ipoName(ipoName)
-                .listingStartDate(listingStartDate)
-                .listingendDate(listingEndDate)
-                .minChangeRatePrevious(minChangeRatePrevious)
-                .maxChangeRatePrevious(maxChangeRatePrevious)
-                .minChangeRateOfferingPrice(minChangeRateOfferingPrice)
-                .maxChangeRateOfferingPrice(maxChangeRateOfferingPrice)
-                .minChangeRateOpeningToOfferingPrice(minChangeRateOpeningToOfferingPrice)
-                .maxChangeRateOpeningToOfferingPrice(maxChangeRateOpeningToOfferingPrice)
-                .build();
-
+    public ResponseEntity<PageResponseVo<ListingSharesGetAllDto>> fetchListingShares(ListingSharesRequestVo requestVo, Pageable pageable) throws ParseException {
         return ResponseEntity
                 .status(HttpStatus.OK)
                 .body(listingSharesService.fetchListingShares(requestVo,pageable));
 
     }
-
 //    @GetMapping("/data")
-//    public ResponseEntity<PageResponseVo<ListingSharesGetAllDto>> fetchListingShares(ListingSharesRequestVo requestVo, Pageable pageable) {
+//    public ResponseEntity<PageResponseVo<ListingSharesGetAllDto>> fetchListingShares(@RequestParam(required = false)String ipoName,
+//                                                                                     @RequestParam(required = false)String startDate,
+//                                                                                     @RequestParam(required = false)String endDate,
+//                                                                                     @RequestParam(required = false)Double minChangeRatePrevious,
+//                                                                                     @RequestParam(required = false)Double maxChangeRatePrevious,
+//                                                                                     @RequestParam(required = false)Double minChangeRateOfferingPrice,
+//                                                                                     @RequestParam(required = false)Double maxChangeRateOfferingPrice,
+//                                                                                     @RequestParam(required = false)Double minChangeRateOpeningToOfferingPrice,
+//                                                                                     @RequestParam(required = false)Double maxChangeRateOpeningToOfferingPrice,
+//                                                                                     Pageable pageable
+//                                                                                     ) throws ParseException {
+//
+//
+//        ListingSharesRequestVo requestVo = ListingSharesRequestVo.builder()
+//                .ipoName(ipoName)
+//                .listingStartDate(listingStartDate)
+//                .listingendDate(listingEndDate)
+//                .minChangeRatePrevious(minChangeRatePrevious)
+//                .maxChangeRatePrevious(maxChangeRatePrevious)
+//                .minChangeRateOfferingPrice(minChangeRateOfferingPrice)
+//                .maxChangeRateOfferingPrice(maxChangeRateOfferingPrice)
+//                .minChangeRateOpeningToOfferingPrice(minChangeRateOpeningToOfferingPrice)
+//                .maxChangeRateOpeningToOfferingPrice(maxChangeRateOpeningToOfferingPrice)
+//                .build();
 //
 //        return ResponseEntity
 //                .status(HttpStatus.OK)

@@ -5,8 +5,10 @@ import com.sideprj.ipoAlarm.domain.listingshares.vo.request.ListingSharesRequest
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
+import java.text.ParseException;
+
 public interface ListingSharesRepositoryCustom {
 
-    Page<ListingSharesGetAllDto> fetchListingShares(ListingSharesRequestVo requestVo, Pageable pageable);
+    Page<ListingSharesGetAllDto> fetchListingShares(ListingSharesRequestVo requestVo, Pageable pageable) throws ParseException;
 
 }
