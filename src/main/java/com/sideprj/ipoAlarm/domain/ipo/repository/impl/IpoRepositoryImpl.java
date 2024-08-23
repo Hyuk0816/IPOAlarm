@@ -6,7 +6,7 @@ import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import com.sideprj.ipoAlarm.domain.alarm.entity.Alarm;
 import com.sideprj.ipoAlarm.domain.ipo.dto.IpoGetAllDto;
-import com.sideprj.ipoAlarm.domain.ipo.dto.IpoSearchRequestVo;
+import com.sideprj.ipoAlarm.domain.ipo.vo.request.IpoSearchRequestVo;
 import com.sideprj.ipoAlarm.domain.ipo.entity.Ipo;
 import com.sideprj.ipoAlarm.domain.ipo.repository.IpoRepositoryCustom;
 import com.sideprj.ipoAlarm.domain.mypage.MyAlarmDto;
@@ -15,14 +15,11 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.support.PageableExecutionUtils;
 
-import static com.sideprj.ipoAlarm.domain.alarm.entity.QAlarm.alarm;
 import static com.sideprj.ipoAlarm.domain.ipo.entity.QIpo.*;
 import static org.springframework.util.StringUtils.hasText;
 
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Stack;
 import java.util.stream.Collectors;
 
 public class IpoRepositoryImpl implements IpoRepositoryCustom {

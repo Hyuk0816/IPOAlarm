@@ -1,4 +1,4 @@
-package com.sideprj.ipoAlarm.domain.ipo.vo;
+package com.sideprj.ipoAlarm.domain.ipo.vo.response;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

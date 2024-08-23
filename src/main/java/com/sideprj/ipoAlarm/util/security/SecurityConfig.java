@@ -53,7 +53,8 @@ public class SecurityConfig {
                                         "/api/product/all","/api/auth/logout","/api/auth/accessToken",
                                         "/docs", "/swagger-ui/**", "/dev/**", "/v3/**").permitAll()
                                 .requestMatchers("/api/auth/**", "/api/ipo/**", "/api/s3/**", "/api/alarm/**").authenticated()
-                                .requestMatchers("api/product/**","/api/listData/get", "/api/mypage/**").authenticated())
+                                .requestMatchers("api/product/**","/api/listData/get", "/api/mypage/**", "/api/ipo_detail/**",
+                                        "/api/listing_shares/**").authenticated())
                 .addFilterAt(new AuthoritiesLoggingAtFilter(),BasicAuthenticationFilter.class)
                 .addFilterAfter(new AuthoritiesLoggingAfterFilter(), BasicAuthenticationFilter.class)
                 .addFilterBefore(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);

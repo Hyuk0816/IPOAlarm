@@ -1,7 +1,7 @@
 package com.sideprj.ipoAlarm.domain.ipo.controller;
 
 import com.sideprj.ipoAlarm.domain.ipo.dto.IpoGetAllDto;
-import com.sideprj.ipoAlarm.domain.ipo.dto.IpoSearchRequestVo;
+import com.sideprj.ipoAlarm.domain.ipo.vo.request.IpoSearchRequestVo;
 import com.sideprj.ipoAlarm.domain.ipo.service.IpoService;
 import com.sideprj.ipoAlarm.domain.ipo.service.impl.IpoServiceImpl;
 import com.sideprj.ipoAlarm.util.page.PageResponseVo;
@@ -72,7 +72,7 @@ public class IpoController {
                 .searchEndDate(endDate)
                 .build();
 
-        PageResponseVo<IpoGetAllDto> ipoGetAllDtoPageResponseVo = ipoService.getAll(ipoSearchRequestVo, pageable);
+        PageResponseVo<IpoGetAllDto> ipoGetAllDtoPageResponseVo = ipoService.fetchIpo(ipoSearchRequestVo, pageable);
 
         return ResponseEntity
                 .status(HttpStatus.OK)

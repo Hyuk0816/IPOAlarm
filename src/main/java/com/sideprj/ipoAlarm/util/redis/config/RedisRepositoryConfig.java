@@ -6,6 +6,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cache.CacheManager;
 import org.springframework.cache.annotation.EnableCaching;
+import org.springframework.cache.interceptor.KeyGenerator;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.redis.cache.RedisCacheConfiguration;
@@ -18,6 +19,7 @@ import org.springframework.data.redis.serializer.GenericToStringSerializer;
 import org.springframework.data.redis.serializer.RedisSerializationContext;
 import org.springframework.data.redis.serializer.StringRedisSerializer;
 
+import java.time.Duration;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -92,8 +94,23 @@ public class RedisRepositoryConfig {
 
     private static Map<String, RedisCacheConfiguration> getStringRedisCacheConfigurationMap(RedisCacheConfiguration redisCacheConfiguration) {
         Map<String, RedisCacheConfiguration> cacheConfigurations = new HashMap<>();
-
+        cacheConfigurations.put("fetchAllIpoData", redisCacheConfiguration.entryTtl(Duration.ofHours(1)));
+        cacheConfigurations.put("getIpoDetail", redisCacheConfiguration.entryTtl(Duration.ofMinutes(15)));
         return cacheConfigurations;
+    }
+
+    //redis의 key generator
+    @Bean
+    public KeyGenerator customKeyGenerator() {
+        return (target, method, params) -> {
+            StringBuilder key = new StringBuilder();
+            key.append(target.getClass().getSimpleName()).append(".");
+            key.append(method.getName());
+            for (Object param : params) {
+                key.append(".").append(param);
+            }
+            return key.toString();
+        };
     }
 
 

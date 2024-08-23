@@ -1,6 +1,6 @@
 package com.sideprj.ipoAlarm.domain.calender.client;
 
-//import com.sideprj.ipoAlarm.config.aws.OpenFeignConfig;
+//import com.sideprj.ipoAlarm.util.openfeign.OpenFeignConfig;
 import jakarta.persistence.PostRemove;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.PostMapping;

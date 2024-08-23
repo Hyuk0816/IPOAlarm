@@ -1,4 +1,4 @@
-package com.sideprj.ipoAlarm.domain.ipo.dto;
+package com.sideprj.ipoAlarm.domain.ipo.vo.request;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.*;
@@ -9,6 +9,7 @@ import java.util.Date;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
+@EqualsAndHashCode
 public class IpoSearchRequestVo {
 
     private String ipoName;
