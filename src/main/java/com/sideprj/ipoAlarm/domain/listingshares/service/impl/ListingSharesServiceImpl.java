@@ -7,6 +7,7 @@ import com.sideprj.ipoAlarm.domain.listingshares.vo.request.ListingSharesRequest
 import com.sideprj.ipoAlarm.util.page.PageResponseVo;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.parameters.P;
@@ -25,6 +26,7 @@ public class ListingSharesServiceImpl implements ListingSharesService {
 
     @Override
     @Transactional(readOnly = true)
+    @Cacheable(value = "listingSharesGetAll", keyGenerator = "customKeyGenerator")
     public PageResponseVo<ListingSharesGetAllDto> fetchListingShares(ListingSharesRequestVo requestVo, Pageable pageable) throws ParseException {
         Page<ListingSharesGetAllDto> content = listingSharesRepository.fetchListingShares(requestVo, pageable);
         long total = content.getTotalElements();

@@ -130,9 +130,9 @@ public class ListingSharesRepositoryImpl implements ListingSharesRepositoryCusto
         if(requestVo.getListingStartDate() !=null && requestVo.getListingEndDate() != null){
             whereBuilder.and(listingShares.listingDate.between(listingStartDate,listingEndDate));
         } else if(requestVo.getListingStartDate() != null){
-            whereBuilder.and(listingShares.listingDate.after(listingStartDate));
+            whereBuilder.and(listingShares.listingDate.goe(listingStartDate));
         } else if (requestVo.getListingEndDate() != null) {
-            whereBuilder.and(listingShares.listingDate.before(listingEndDate));
+            whereBuilder.and(listingShares.listingDate.loe(listingEndDate));
         }
     }
 
