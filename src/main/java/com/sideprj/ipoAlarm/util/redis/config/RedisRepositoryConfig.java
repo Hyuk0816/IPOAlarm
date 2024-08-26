@@ -1,10 +1,5 @@
 package com.sideprj.ipoAlarm.util.redis.config;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.SerializationFeature;
-import com.fasterxml.jackson.datatype.jdk8.Jdk8Module;
-import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
-import com.fasterxml.jackson.module.paramnames.ParameterNamesModule;
 import com.sideprj.ipoAlarm.domain.ipo.dto.IpoGetAllDto;
 import com.sideprj.ipoAlarm.util.page.PageResponseVo;
 import lombok.RequiredArgsConstructor;
@@ -39,6 +34,8 @@ public class RedisRepositoryConfig {
     private int port;
     @Value("${spring.data.redis.password}")
     private String password;
+
+
 
     @Bean
     public LettuceConnectionFactory redisConnectionFactory() {
@@ -82,21 +79,22 @@ public class RedisRepositoryConfig {
         redisTemplate.setEnableTransactionSupport(true);
         return redisTemplate;
     }
-    @Bean
-    public ObjectMapper objectMapper() {
-        ObjectMapper mapper = new ObjectMapper();
-        mapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS); // timestamp 형식 안 따르도록 설정
-        mapper.registerModule(new JavaTimeModule()); // LocalDateTime 매핑을 위해 모듈 활성화
-        mapper.registerModule(new Jdk8Module()); // JDK 8 모듈 활성화
-        mapper.registerModule(new ParameterNamesModule()); // 생성자의 매개변수 이름을 사용하여 JSON 속성과 매핑
-        return mapper;
-    }
+//    @Bean
+//    public ObjectMapper objectMapper() {
+//        ObjectMapper mapper = new ObjectMapper();
+//        mapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS); // timestamp 형식 안 따르도록 설정
+//        mapper.registerModule(new JavaTimeModule()); // LocalDateTime 매핑을 위해 모듈 활성화
+//        mapper.registerModule(new Jdk8Module()); // JDK 8 모듈 활성화
+//        mapper.registerModule(new ParameterNamesModule()); // 생성자의 매개변수 이름을 사용하여 JSON 속성과 매핑
+//        return mapper;
+//    }
+
     @Bean
     public CacheManager cacheManager() {
 
         RedisCacheConfiguration redisCacheConfiguration = RedisCacheConfiguration.defaultCacheConfig()
                 .serializeKeysWith(RedisSerializationContext.SerializationPair.fromSerializer(new StringRedisSerializer()))
-                .serializeValuesWith(RedisSerializationContext.SerializationPair.fromSerializer(new GenericJackson2JsonRedisSerializer(objectMapper())));
+                .serializeValuesWith(RedisSerializationContext.SerializationPair.fromSerializer(new GenericJackson2JsonRedisSerializer()));
         Map<String, RedisCacheConfiguration> cacheConfigurations = getStringRedisCacheConfigurationMap(redisCacheConfiguration);
 
         return RedisCacheManager.RedisCacheManagerBuilder

@@ -20,8 +20,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.List;
 
 @RequiredArgsConstructor
@@ -36,7 +34,7 @@ public class IpoServiceImpl implements IpoService {
     @Override
     @Transactional(readOnly = true)
     @Cacheable(value = "fetchAllIpoData", keyGenerator = "customKeyGenerator")
-    public PageResponseVo<IpoGetAllDto> fetchIpo(IpoSearchRequestVo requestVo, Pageable pageable) {
+    public PageResponseVo<IpoGetAllDto> fetchIpo(IpoSearchRequestVo requestVo, Pageable pageable) throws ParseException {
 
         Page<IpoGetAllDto> ipoGetAllDtoPage = ipoRepository.fetchIpoData(requestVo, pageable);
         List<IpoGetAllDto> ipoList = IpoMapper.mapFromIpoListToIpoGetAllDtoList(ipoGetAllDtoPage);
@@ -54,7 +52,7 @@ public class IpoServiceImpl implements IpoService {
     @Override
     @Transactional
     @Scheduled(cron = "0 0 */6 * * ?")
-    public void cacheWarming() {
+    public void cacheWarming() throws ParseException {
         List<Ipo> all = ipoRepository.findAll();
         long totalElements = all.size();
         int pageSize = 50;

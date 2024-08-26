@@ -64,13 +64,11 @@ public class IpoController {
                                                                  @RequestParam(required = false) String end,
                                                                  Pageable pageable) throws IOException, ParseException {
 
-        Date startDate = DateFormatter.convertDate(start);
-        Date endDate = DateFormatter.convertDate(end);
 
         IpoSearchRequestVo ipoSearchRequestVo = IpoSearchRequestVo.builder()
                 .ipoName(ipoName)
-                .searchStartDate(startDate)
-                .searchEndDate(endDate)
+                .searchStartDate(start)
+                .searchEndDate(end)
                 .build();
 
         PageResponseVo<IpoGetAllDto> ipoGetAllDtoPageResponseVo = ipoService.fetchIpo(ipoSearchRequestVo, pageable);

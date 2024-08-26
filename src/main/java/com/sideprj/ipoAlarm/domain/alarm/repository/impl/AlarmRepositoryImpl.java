@@ -7,6 +7,7 @@ import com.sideprj.ipoAlarm.domain.alarm.entity.Alarm;
 import com.sideprj.ipoAlarm.domain.alarm.entity.QAlarm;
 import com.sideprj.ipoAlarm.domain.alarm.repository.AlarmRepositoryCustom;
 import com.sideprj.ipoAlarm.domain.ipo.entity.QIpo;
+import com.sideprj.ipoAlarm.domain.mypage.MyAlarmDto;
 import com.sideprj.ipoAlarm.domain.user.entity.QUser;
 import jakarta.persistence.EntityManager;
 
@@ -39,6 +40,24 @@ public class AlarmRepositoryImpl implements AlarmRepositoryCustom {
     public List<Alarm> findByUserId(Long id) {
         return queryFactory.selectFrom(alarm)
                 .where(alarm.user.userId.eq(id))
+                .fetch();
+    }
+
+    @Override
+    public List<MyAlarmDto> fetchMyAlarms(Long userId) {
+        return queryFactory
+                .select(Projections.fields(MyAlarmDto.class,
+                        ipo.ipoName.as("ipoName"),
+                        ipo.ipoPrice.as("ipoPrice"),
+                        ipo.confirmPrice.as("confirmPrice"), // Alarm에서 confirmPrice 가져오기
+                        ipo.securities.as("securities"),
+                        ipo.startDate.as("startDate") // Alarm에서 startDate 가져오기
+                ))
+                .from(ipo)
+                .leftJoin(alarm)
+                .on(ipo.ipoName.eq(alarm.ipo.ipoName))
+                .where(alarm.user.userId.eq(userId))
+                .orderBy(ipo.startDate.desc())
                 .fetch();
     }
 }

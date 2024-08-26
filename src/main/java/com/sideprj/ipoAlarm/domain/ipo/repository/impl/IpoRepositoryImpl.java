@@ -1,29 +1,36 @@
 package com.sideprj.ipoAlarm.domain.ipo.repository.impl;
 
+import com.querydsl.core.BooleanBuilder;
 import com.querydsl.core.types.Projections;
-import com.querydsl.core.types.dsl.BooleanExpression;
-import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import com.sideprj.ipoAlarm.domain.alarm.entity.Alarm;
+import com.sideprj.ipoAlarm.domain.alarm.entity.QAlarm;
 import com.sideprj.ipoAlarm.domain.ipo.dto.IpoGetAllDto;
 import com.sideprj.ipoAlarm.domain.ipo.vo.request.IpoSearchRequestVo;
-import com.sideprj.ipoAlarm.domain.ipo.entity.Ipo;
 import com.sideprj.ipoAlarm.domain.ipo.repository.IpoRepositoryCustom;
 import com.sideprj.ipoAlarm.domain.mypage.MyAlarmDto;
+import com.sideprj.ipoAlarm.util.converter.DateFormatter;
 import jakarta.persistence.EntityManager;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.support.PageableExecutionUtils;
 
+import static com.sideprj.ipoAlarm.domain.alarm.entity.QAlarm.*;
 import static com.sideprj.ipoAlarm.domain.ipo.entity.QIpo.*;
 import static org.springframework.util.StringUtils.hasText;
 
 
+import java.text.ParseException;
+import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 public class IpoRepositoryImpl implements IpoRepositoryCustom {
 
+    private static final Logger log = LoggerFactory.getLogger(IpoRepositoryImpl.class);
     private final JPAQueryFactory queryFactory;
 
     public IpoRepositoryImpl(EntityManager em) {
@@ -31,7 +38,12 @@ public class IpoRepositoryImpl implements IpoRepositoryCustom {
     }
 
     @Override
-    public Page<IpoGetAllDto> fetchIpoData(IpoSearchRequestVo searchRequestVo, Pageable pageable) {
+    public Page<IpoGetAllDto> fetchIpoData(IpoSearchRequestVo searchRequestVo, Pageable pageable) throws ParseException {
+        BooleanBuilder builder = new BooleanBuilder();
+
+        ipoNameCondition(builder, searchRequestVo.getIpoName());
+        ipoDateCondition(builder, searchRequestVo);
+
         List<IpoGetAllDto> content = queryFactory
                 .select(Projections.fields(IpoGetAllDto.class,
                         ipo.ipoName.as("ipoName"),
@@ -45,64 +57,34 @@ public class IpoRepositoryImpl implements IpoRepositoryCustom {
                 .from(ipo)
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize())
-                .where(containIpoName(searchRequestVo.getIpoName()),
-                        containStartDate(searchRequestVo),
-                        containEndDate(searchRequestVo))
+                .where(builder)
                 .orderBy(ipo.startDate.desc())
                 .fetch();
-        JPAQuery<Ipo> countQuery = queryFactory.select(ipo).from(ipo)
-                .where(containIpoName(searchRequestVo.getIpoName()),
-                        containStartDate(searchRequestVo),
-                        containEndDate(searchRequestVo));
 
-        return PageableExecutionUtils.getPage(content, pageable,countQuery::fetchCount);
+        Long countQuery = queryFactory.select(ipo.count()).from(ipo).where(builder).fetchOne();
+
+        return PageableExecutionUtils.getPage(content, pageable, Objects.requireNonNull(countQuery)::longValue);
     }
 
-    @Override
-    public List<MyAlarmDto> fetchMyAlarm(List<Alarm> alarms) {
-        return alarms.stream()
-                .map(alarm -> {
-                    String ipoName = alarm.getIpo().getIpoName();
-
-                    // QueryDSL을 사용하여 MyAlarmDto 생성
-                    return queryFactory
-                            .select(Projections.fields(MyAlarmDto.class,
-                                    ipo.ipoName.as("ipoName"),
-                                    ipo.ipoPrice.as("ipoPrice"),
-                                    ipo.confirmPrice.as("confirmPrice"), // Alarm에서 confirmPrice 가져오기
-                                    ipo.securities.as("securities"),
-                                    ipo.startDate.as("startDate") // Alarm에서 startDate 가져오기
-                            ))
-                            .from(ipo)
-                            .where(ipo.ipoName.eq(ipoName))
-                            .orderBy(ipo.startDate.desc())
-                            .fetchOne();
-                })
-                .collect(Collectors.toList()); // Stream을 List로 변환
-    }
-
-    private BooleanExpression containIpoName(String ipoName){return hasText(ipoName) ? ipo.ipoName.contains(ipoName) : null;}
-
-
-
-    private BooleanExpression containStartDate(IpoSearchRequestVo searchRequestVo) {
-        if (searchRequestVo.getSearchStartDate() != null) {
-            if (searchRequestVo.getSearchEndDate() != null) {
-                return ipo.startDate.between(searchRequestVo.getSearchStartDate(), searchRequestVo.getSearchEndDate());
-            } else {
-                return ipo.startDate.after(searchRequestVo.getSearchStartDate());
-            }
+    //공모주 이름 조회 조건
+    private void ipoNameCondition(BooleanBuilder builder, String ipoName){
+        if(ipoName != null  && !ipoName.isEmpty()){
+            builder.and(ipo.ipoName.contains(ipoName));
         }
-        return null;
     }
+    //공모주 청약 일자 조회 조건
+    private void ipoDateCondition(BooleanBuilder builder, IpoSearchRequestVo searchRequestVo) throws ParseException {
+        Date startDate = DateFormatter.convertDate(searchRequestVo.getSearchStartDate());
+        Date endDate = DateFormatter.convertDate(searchRequestVo.getSearchEndDate());
 
-    private BooleanExpression containEndDate(IpoSearchRequestVo searchRequestVo) {
-        if (searchRequestVo.getSearchEndDate() != null && searchRequestVo.getSearchStartDate() == null) {
-            return ipo.startDate.before(searchRequestVo.getSearchEndDate());
+        if(startDate != null && endDate != null){
+            builder.and(ipo.startDate.goe(startDate)).and(ipo.endDate.loe(endDate));
         }
-        return null;
+        else if(startDate != null){
+            builder.and(ipo.startDate.goe(startDate));
+        }
+        else if(endDate != null){
+            builder.and(ipo.endDate.loe(endDate));
+        }
     }
-
-
-
 }

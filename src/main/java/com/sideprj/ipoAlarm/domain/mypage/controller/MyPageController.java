@@ -90,6 +90,6 @@ public class MyPageController {
     public ResponseEntity<List<MyAlarmDto>> getMyAlarm() {
         return ResponseEntity
                 .status(HttpStatus.OK)
-                .body(myPageService.myAlarm());
+                .body(myPageService.fetchMyAlarmList());
     }
 }

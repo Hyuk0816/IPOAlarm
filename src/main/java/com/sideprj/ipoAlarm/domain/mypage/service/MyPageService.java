@@ -9,5 +9,5 @@ public interface MyPageService {
 
     MyPageDto userInfo();
 
-    List<MyAlarmDto> myAlarm();
+    List<MyAlarmDto> fetchMyAlarmList();
 }

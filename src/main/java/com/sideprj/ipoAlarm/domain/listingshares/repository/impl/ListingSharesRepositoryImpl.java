@@ -3,12 +3,8 @@ package com.sideprj.ipoAlarm.domain.listingshares.repository.impl;
 
 import com.querydsl.core.BooleanBuilder;
 import com.querydsl.core.types.Projections;
-import com.querydsl.core.types.dsl.BooleanExpression;
-import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
-import com.sideprj.ipoAlarm.domain.ipo.service.impl.IpoServiceImpl;
 import com.sideprj.ipoAlarm.domain.listingshares.dto.ListingSharesGetAllDto;
-import com.sideprj.ipoAlarm.domain.listingshares.entity.ListingShares;
 import com.sideprj.ipoAlarm.domain.listingshares.repository.ListingSharesRepositoryCustom;
 import com.sideprj.ipoAlarm.domain.listingshares.vo.request.ListingSharesRequestVo;
 import com.sideprj.ipoAlarm.util.converter.DateFormatter;
@@ -20,7 +16,6 @@ import org.springframework.data.support.PageableExecutionUtils;
 
 import java.text.ParseException;
 import java.time.LocalDate;
-import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 
@@ -42,15 +37,15 @@ public class ListingSharesRepositoryImpl implements ListingSharesRepositoryCusto
 
         BooleanBuilder builder = new BooleanBuilder();
         //공모주 이름
-        addIpoNameCondition(builder,requestVo.getIpoName());
+        ipoNameCondition(builder,requestVo.getIpoName());
         //전일비 조건
-        addChangeRatePreviousCondition(builder, requestVo);
+        changeRatePreviousCondition(builder, requestVo);
         //공모가격 대비 가격 변동율 조건
-        addChangeRateOfferingPriceCondition(builder, requestVo);
+        changeRateOfferingPriceCondition(builder, requestVo);
         //공모가격 대비 상장일 당일 가격 변동율 조건
-        addChangeRateOpeningToOfferingPriceCondition(builder, requestVo);
+        changeRateOpeningToOfferingPriceCondition(builder, requestVo);
         //상장일 조건
-        addListingDateCondition(builder,requestVo);
+        listingDateCondition(builder,requestVo);
 
         List<ListingSharesGetAllDto> content = queryFactory
                 .select(Projections.fields(ListingSharesGetAllDto.class,
@@ -80,14 +75,14 @@ public class ListingSharesRepositoryImpl implements ListingSharesRepositoryCusto
     }
 
     // IPO 이름 조건 추가 메서드
-    private void addIpoNameCondition(BooleanBuilder whereBuilder, String ipoName) {
+    private void ipoNameCondition(BooleanBuilder whereBuilder, String ipoName) {
         if (ipoName != null && !ipoName.isEmpty()) {
             whereBuilder.and(listingShares.ipoName.contains(ipoName));
         }
     }
 
     // 전일 대비 가격 변동율 조건 추가 메서드
-    private void addChangeRatePreviousCondition(BooleanBuilder whereBuilder, ListingSharesRequestVo requestVo) {
+    private void changeRatePreviousCondition(BooleanBuilder whereBuilder, ListingSharesRequestVo requestVo) {
         //둘다 null이 아닐 때
         if (requestVo.getMinChangeRatePrevious() != null && requestVo.getMaxChangeRatePrevious() != null) {
             whereBuilder.and(listingShares.changeRatePrevious.between(requestVo.getMinChangeRatePrevious(),requestVo.getMaxChangeRatePrevious()));
@@ -100,7 +95,7 @@ public class ListingSharesRepositoryImpl implements ListingSharesRepositoryCusto
 
 
     // 공모가격 대비 가격 변동율 조건 추가 메서드
-    private void addChangeRateOfferingPriceCondition(BooleanBuilder whereBuilder, ListingSharesRequestVo requestVo) {
+    private void changeRateOfferingPriceCondition(BooleanBuilder whereBuilder, ListingSharesRequestVo requestVo) {
         //둘다 null이 아닐 때
         if (requestVo.getMinChangeRateOfferingPrice() != null && requestVo.getMaxChangeRateOfferingPrice() != null) {
             whereBuilder.and(listingShares.changeRateOfferingPrice.between(requestVo.getMinChangeRateOfferingPrice(), requestVo.getMaxChangeRateOfferingPrice()));
@@ -112,7 +107,7 @@ public class ListingSharesRepositoryImpl implements ListingSharesRepositoryCusto
     }
 
     // 공모가격 대비 상장일 당일 가격 변동율 조건 추가 메서드
-    private void addChangeRateOpeningToOfferingPriceCondition(BooleanBuilder whereBuilder, ListingSharesRequestVo requestVo) {
+    private void changeRateOpeningToOfferingPriceCondition(BooleanBuilder whereBuilder, ListingSharesRequestVo requestVo) {
         //둘다 null이 아닐 때
         if (requestVo.getMinChangeRateOpeningToOfferingPrice() != null && requestVo.getMaxChangeRateOpeningToOfferingPrice() != null) {
             whereBuilder.and(listingShares.changeRateOpeningToOfferingPrice.between(requestVo.getMinChangeRateOpeningToOfferingPrice(), requestVo.getMaxChangeRateOpeningToOfferingPrice()));
@@ -123,7 +118,7 @@ public class ListingSharesRepositoryImpl implements ListingSharesRepositoryCusto
         }
     }
 
-    private void addListingDateCondition(BooleanBuilder whereBuilder, ListingSharesRequestVo requestVo) throws ParseException {
+    private void listingDateCondition(BooleanBuilder whereBuilder, ListingSharesRequestVo requestVo) throws ParseException {
         LocalDate listingStartDate = DateFormatter.format(requestVo.getListingStartDate());
         LocalDate listingEndDate = DateFormatter.format(requestVo.getListingEndDate());
 

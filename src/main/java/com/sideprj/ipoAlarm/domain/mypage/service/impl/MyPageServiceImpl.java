@@ -3,7 +3,6 @@ package com.sideprj.ipoAlarm.domain.mypage.service.impl;
 import com.sideprj.ipoAlarm.domain.alarm.entity.Alarm;
 import com.sideprj.ipoAlarm.domain.alarm.repository.AlarmRepository;
 import com.sideprj.ipoAlarm.domain.ipo.repository.IpoRepository;
-import com.sideprj.ipoAlarm.domain.ipo.repository.impl.IpoRepositoryImpl;
 import com.sideprj.ipoAlarm.domain.mypage.MyAlarmDto;
 import com.sideprj.ipoAlarm.domain.mypage.MyPageDto;
 import com.sideprj.ipoAlarm.domain.mypage.service.MyPageService;
@@ -26,7 +25,6 @@ public class MyPageServiceImpl implements MyPageService {
 
     private final UserRepository userRepository;
     private final AlarmRepository alarmRepository;
-    private final IpoRepository ipRepository;
 
 
 
@@ -43,11 +41,10 @@ public class MyPageServiceImpl implements MyPageService {
     }
 
     @Override
-    public List<MyAlarmDto> myAlarm() {
+    public List<MyAlarmDto> fetchMyAlarmList() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         User user = userRepository.findByEmail(authentication.getName())
                 .orElseThrow(() -> new UsernameNotFoundException(UserConstants.MESSAGE_404));
-        List<Alarm> myAlarmList = alarmRepository.findByUserId(user.getUserId());
-        return ipRepository.fetchMyAlarm(myAlarmList);
+        return alarmRepository.fetchMyAlarms(user.getUserId());
     }
 }
