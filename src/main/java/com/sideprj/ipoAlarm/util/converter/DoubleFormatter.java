@@ -16,7 +16,5 @@ public class DoubleFormatter {
             }
         }
         return null; // 변환 실패 시 null 반환
-
-
     }
 }

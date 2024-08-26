@@ -60,4 +60,6 @@ public class AlarmRepositoryImpl implements AlarmRepositoryCustom {
                 .orderBy(ipo.startDate.desc())
                 .fetch();
     }
+
+
 }

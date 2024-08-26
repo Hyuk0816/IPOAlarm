@@ -1,6 +1,7 @@
 package com.sideprj.ipoAlarm.domain.listingshares.service.impl;
 
 import com.sideprj.ipoAlarm.domain.listingshares.dto.ListingSharesGetAllDto;
+import com.sideprj.ipoAlarm.domain.listingshares.dto.OfferingToOpeningPriceMonthlyProfitDto;
 import com.sideprj.ipoAlarm.domain.listingshares.repository.ListingSharesRepository;
 import com.sideprj.ipoAlarm.domain.listingshares.service.ListingSharesService;
 import com.sideprj.ipoAlarm.domain.listingshares.vo.request.ListingSharesRequestVo;
@@ -39,5 +40,12 @@ public class ListingSharesServiceImpl implements ListingSharesService {
                 totalPages
         );
 
+    }
+
+    @Override
+    public OfferingToOpeningPriceMonthlyProfitDto monthlyProfit() {
+        OfferingToOpeningPriceMonthlyProfitDto profit = listingSharesRepository.monthlyProfit();
+        profit.setMonthlyProfit(Math.ceil(profit.getMonthlyProfit()));
+        return profit;
     }
 }

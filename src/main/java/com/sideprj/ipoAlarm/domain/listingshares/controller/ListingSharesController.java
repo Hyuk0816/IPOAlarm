@@ -2,6 +2,7 @@ package com.sideprj.ipoAlarm.domain.listingshares.controller;
 
 import com.sideprj.ipoAlarm.domain.ipo.service.impl.IpoServiceImpl;
 import com.sideprj.ipoAlarm.domain.listingshares.dto.ListingSharesGetAllDto;
+import com.sideprj.ipoAlarm.domain.listingshares.dto.OfferingToOpeningPriceMonthlyProfitDto;
 import com.sideprj.ipoAlarm.domain.listingshares.service.ListingSharesService;
 import com.sideprj.ipoAlarm.domain.listingshares.vo.request.ListingSharesRequestVo;
 import com.sideprj.ipoAlarm.util.converter.DateFormatter;
@@ -63,36 +64,37 @@ public class ListingSharesController {
                 .body(listingSharesService.fetchListingShares(requestVo,pageable));
 
     }
-//    @GetMapping("/data")
-//    public ResponseEntity<PageResponseVo<ListingSharesGetAllDto>> fetchListingShares(@RequestParam(required = false)String ipoName,
-//                                                                                     @RequestParam(required = false)String startDate,
-//                                                                                     @RequestParam(required = false)String endDate,
-//                                                                                     @RequestParam(required = false)Double minChangeRatePrevious,
-//                                                                                     @RequestParam(required = false)Double maxChangeRatePrevious,
-//                                                                                     @RequestParam(required = false)Double minChangeRateOfferingPrice,
-//                                                                                     @RequestParam(required = false)Double maxChangeRateOfferingPrice,
-//                                                                                     @RequestParam(required = false)Double minChangeRateOpeningToOfferingPrice,
-//                                                                                     @RequestParam(required = false)Double maxChangeRateOpeningToOfferingPrice,
-//                                                                                     Pageable pageable
-//                                                                                     ) throws ParseException {
-//
-//
-//        ListingSharesRequestVo requestVo = ListingSharesRequestVo.builder()
-//                .ipoName(ipoName)
-//                .listingStartDate(listingStartDate)
-//                .listingendDate(listingEndDate)
-//                .minChangeRatePrevious(minChangeRatePrevious)
-//                .maxChangeRatePrevious(maxChangeRatePrevious)
-//                .minChangeRateOfferingPrice(minChangeRateOfferingPrice)
-//                .maxChangeRateOfferingPrice(maxChangeRateOfferingPrice)
-//                .minChangeRateOpeningToOfferingPrice(minChangeRateOpeningToOfferingPrice)
-//                .maxChangeRateOpeningToOfferingPrice(maxChangeRateOpeningToOfferingPrice)
-//                .build();
-//
-//        return ResponseEntity
-//                .status(HttpStatus.OK)
-//                .body(listingSharesService.fetchListingShares(requestVo,pageable));
-//
-//    }
+    @Operation(
+            summary = "listing Data Search Rest API",
+            description = "Create listing data get Request"
+    )
+    @ApiResponses({
+            @ApiResponse(
+                    responseCode = "200",
+                    description = "HTTP STATUS OK"
+            ),
+            @ApiResponse(
+                    responseCode = "401",
+                    description = "HTTP STATUS UNAUTHORIZED"
+            ),
+            @ApiResponse(
+                    responseCode = "404",
+                    description = "HTTP STATUS NOT FOUND"
+            ),
+            @ApiResponse(
+                    responseCode = "500",
+                    description = "HTTP Status Internal Server Error",
+                    content = @Content(
+                            schema = @Schema(implementation = ErrorResponse.class)
+                    )
+            )
+
+    }
+    )
+    @GetMapping("/monthly_profit")
+    public ResponseEntity<OfferingToOpeningPriceMonthlyProfitDto> monthlyProfitOpeningPrice(){
+        return ResponseEntity.status(HttpStatus.OK).body(listingSharesService.monthlyProfit());
+    }
+
 
 }

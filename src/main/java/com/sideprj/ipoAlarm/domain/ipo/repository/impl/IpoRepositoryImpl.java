@@ -23,6 +23,7 @@ import static org.springframework.util.StringUtils.hasText;
 
 
 import java.text.ParseException;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Objects;
@@ -75,7 +76,7 @@ public class IpoRepositoryImpl implements IpoRepositoryCustom {
     //공모주 청약 일자 조회 조건
     private void ipoDateCondition(BooleanBuilder builder, IpoSearchRequestVo searchRequestVo) throws ParseException {
         Date startDate = DateFormatter.convertDate(searchRequestVo.getSearchStartDate());
-        Date endDate = DateFormatter.convertDate(searchRequestVo.getSearchEndDate());
+        Date endDate = endDateTimeSet(DateFormatter.convertDate(searchRequestVo.getSearchEndDate()));
 
         if(startDate != null && endDate != null){
             builder.and(ipo.startDate.goe(startDate)).and(ipo.endDate.loe(endDate));
@@ -85,6 +86,18 @@ public class IpoRepositoryImpl implements IpoRepositoryCustom {
         }
         else if(endDate != null){
             builder.and(ipo.endDate.loe(endDate));
+        }
+    }
+
+    private Date endDateTimeSet(Date endDate){
+        if(endDate != null){
+            Calendar calendar = Calendar.getInstance();
+            calendar.setTime(endDate);
+            calendar.set(Calendar.HOUR_OF_DAY, 23);
+            endDate = calendar.getTime();
+            return endDate;
+        }else{
+            return null;
         }
     }
 }

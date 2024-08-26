@@ -5,17 +5,22 @@ import com.querydsl.core.BooleanBuilder;
 import com.querydsl.core.types.Projections;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import com.sideprj.ipoAlarm.domain.listingshares.dto.ListingSharesGetAllDto;
+import com.sideprj.ipoAlarm.domain.listingshares.dto.OfferingToOpeningPriceMonthlyProfitDto;
 import com.sideprj.ipoAlarm.domain.listingshares.repository.ListingSharesRepositoryCustom;
 import com.sideprj.ipoAlarm.domain.listingshares.vo.request.ListingSharesRequestVo;
 import com.sideprj.ipoAlarm.util.converter.DateFormatter;
+import feign.template.Expressions;
 import jakarta.persistence.EntityManager;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.cglib.core.Local;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.support.PageableExecutionUtils;
 
 import java.text.ParseException;
 import java.time.LocalDate;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 
@@ -70,8 +75,19 @@ public class ListingSharesRepositoryImpl implements ListingSharesRepositoryCusto
                 .where(builder).fetchOne();
 
         return PageableExecutionUtils.getPage(content,pageable, Objects.requireNonNull(countQuery)::longValue);
+    }
 
+    @Override
+    public OfferingToOpeningPriceMonthlyProfitDto monthlyProfit() {
 
+        LocalDate date = LocalDate.now();
+
+        LocalDate start = previousDateFirst(date);
+        LocalDate end = previousDateLast(date);
+
+        return queryFactory.select(Projections.fields(OfferingToOpeningPriceMonthlyProfitDto.class,
+                listingShares.changeRateOpeningToOfferingPrice.avg().as("monthlyProfit")
+        )).from(listingShares).where(listingShares.listingDate.between(start, end)).fetchOne();
     }
 
     // IPO 이름 조건 추가 메서드
@@ -129,6 +145,15 @@ public class ListingSharesRepositoryImpl implements ListingSharesRepositoryCusto
         } else if (requestVo.getListingEndDate() != null) {
             whereBuilder.and(listingShares.listingDate.loe(listingEndDate));
         }
+    }
+
+
+    private LocalDate previousDateFirst(LocalDate date){
+        return date.minusMonths(1).withDayOfMonth(1);
+    }
+
+    private LocalDate previousDateLast(LocalDate date){
+       return date.minusMonths(1).withDayOfMonth(date.minusMonths(1).lengthOfMonth());
     }
 
 }
