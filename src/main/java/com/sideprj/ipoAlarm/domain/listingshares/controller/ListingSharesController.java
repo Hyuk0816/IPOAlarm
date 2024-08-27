@@ -22,6 +22,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.text.ParseException;
 import java.util.Date;
+import java.util.List;
 
 @Slf4j
 @RestController
@@ -91,9 +92,42 @@ public class ListingSharesController {
 
     }
     )
+    @GetMapping("/previous_month_profit")
+    public ResponseEntity<OfferingToOpeningPriceMonthlyProfitDto> previousMonthProfitController(){
+        return ResponseEntity.status(HttpStatus.OK).body(listingSharesService.previousMonthProfitService());
+    }
+    @Operation(
+            summary = "listing Data Monthly Profit Data Rest API",
+            description = "listing Data Monthly Profit Data get Request"
+    )
+    @ApiResponses({
+            @ApiResponse(
+                    responseCode = "200",
+                    description = "HTTP STATUS OK"
+            ),
+            @ApiResponse(
+                    responseCode = "401",
+                    description = "HTTP STATUS UNAUTHORIZED"
+            ),
+            @ApiResponse(
+                    responseCode = "404",
+                    description = "HTTP STATUS NOT FOUND"
+            ),
+            @ApiResponse(
+                    responseCode = "500",
+                    description = "HTTP Status Internal Server Error",
+                    content = @Content(
+                            schema = @Schema(implementation = ErrorResponse.class)
+                    )
+            )
+
+    }
+    )
     @GetMapping("/monthly_profit")
-    public ResponseEntity<OfferingToOpeningPriceMonthlyProfitDto> monthlyProfitOpeningPrice(){
-        return ResponseEntity.status(HttpStatus.OK).body(listingSharesService.monthlyProfit());
+    public ResponseEntity<List<Double>> monthlyProfitController(@RequestParam("year") Integer year){
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(listingSharesService.monthlyProfit(year));
     }
 
 

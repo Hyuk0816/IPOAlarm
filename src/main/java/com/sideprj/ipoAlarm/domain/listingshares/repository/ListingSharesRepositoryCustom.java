@@ -7,10 +7,13 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
 import java.text.ParseException;
+import java.util.List;
 
 public interface ListingSharesRepositoryCustom {
 
     Page<ListingSharesGetAllDto> fetchListingShares(ListingSharesRequestVo requestVo, Pageable pageable) throws ParseException;
 
-    OfferingToOpeningPriceMonthlyProfitDto monthlyProfit();
+    OfferingToOpeningPriceMonthlyProfitDto previousMonthProfit();
+
+    List<Double> monthlyProfit(Integer year);
 }

@@ -9,20 +9,15 @@ import com.sideprj.ipoAlarm.domain.listingshares.dto.OfferingToOpeningPriceMonth
 import com.sideprj.ipoAlarm.domain.listingshares.repository.ListingSharesRepositoryCustom;
 import com.sideprj.ipoAlarm.domain.listingshares.vo.request.ListingSharesRequestVo;
 import com.sideprj.ipoAlarm.util.converter.DateFormatter;
-import feign.template.Expressions;
 import jakarta.persistence.EntityManager;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.cglib.core.Local;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.support.PageableExecutionUtils;
 
 import java.text.ParseException;
 import java.time.LocalDate;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 
 import static com.sideprj.ipoAlarm.domain.listingshares.entity.QListingShares.*;
 import static org.springframework.util.StringUtils.hasText;
@@ -78,7 +73,7 @@ public class ListingSharesRepositoryImpl implements ListingSharesRepositoryCusto
     }
 
     @Override
-    public OfferingToOpeningPriceMonthlyProfitDto monthlyProfit() {
+    public OfferingToOpeningPriceMonthlyProfitDto previousMonthProfit() {
 
         LocalDate date = LocalDate.now();
 
@@ -88,6 +83,24 @@ public class ListingSharesRepositoryImpl implements ListingSharesRepositoryCusto
         return queryFactory.select(Projections.fields(OfferingToOpeningPriceMonthlyProfitDto.class,
                 listingShares.changeRateOpeningToOfferingPrice.avg().as("monthlyProfit")
         )).from(listingShares).where(listingShares.listingDate.between(start, end)).fetchOne();
+    }
+
+    @Override
+    public List<Double> monthlyProfit(Integer year) {
+
+        List<Double> monthlyProfitList = new ArrayList<>();
+        for(int i = 1; i<13; i++){
+            LocalDate startDate = LocalDate.of(year, i, 1);
+            LocalDate endDate = startDate.withDayOfMonth(startDate.lengthOfMonth());
+
+            Double avgProfit = queryFactory.select(listingShares.changeRateOpeningToOfferingPrice.avg())
+                    .from(listingShares)
+                    .where(listingShares.listingDate.between(startDate, endDate))
+                    .fetchOne();
+
+            monthlyProfitList.add(avgProfit != null ? avgProfit : 0);
+        }
+        return monthlyProfitList;
     }
 
     // IPO 이름 조건 추가 메서드
@@ -110,7 +123,7 @@ public class ListingSharesRepositoryImpl implements ListingSharesRepositoryCusto
     }
 
 
-    // 공모가격 대비 가격 변동율 조건 추가 메서드
+    // 공모가격 대비 현재가격 변동율 조건 추가 메서드
     private void changeRateOfferingPriceCondition(BooleanBuilder whereBuilder, ListingSharesRequestVo requestVo) {
         //둘다 null이 아닐 때
         if (requestVo.getMinChangeRateOfferingPrice() != null && requestVo.getMaxChangeRateOfferingPrice() != null) {
@@ -146,7 +159,6 @@ public class ListingSharesRepositoryImpl implements ListingSharesRepositoryCusto
             whereBuilder.and(listingShares.listingDate.loe(listingEndDate));
         }
     }
-
 
     private LocalDate previousDateFirst(LocalDate date){
         return date.minusMonths(1).withDayOfMonth(1);

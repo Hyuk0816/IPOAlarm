@@ -16,6 +16,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.text.ParseException;
+import java.util.List;
 
 @RequiredArgsConstructor
 @Service
@@ -43,9 +44,14 @@ public class ListingSharesServiceImpl implements ListingSharesService {
     }
 
     @Override
-    public OfferingToOpeningPriceMonthlyProfitDto monthlyProfit() {
-        OfferingToOpeningPriceMonthlyProfitDto profit = listingSharesRepository.monthlyProfit();
+    public OfferingToOpeningPriceMonthlyProfitDto previousMonthProfitService() {
+        OfferingToOpeningPriceMonthlyProfitDto profit = listingSharesRepository.previousMonthProfit();
         profit.setMonthlyProfit(Math.ceil(profit.getMonthlyProfit()));
         return profit;
+    }
+
+    @Override
+    public List<Double> monthlyProfit(Integer year) {
+        return listingSharesRepository.monthlyProfit(year);
     }
 }
