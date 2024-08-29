@@ -8,16 +8,13 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import java.util.List;
-import java.util.Stack;
-
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
 @Getter
 @Table(name = "ipo_comments")
-public class ipoComments {
+public class IpoComments {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

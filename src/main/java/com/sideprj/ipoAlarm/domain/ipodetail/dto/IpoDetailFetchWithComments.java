@@ -1,5 +1,6 @@
 package com.sideprj.ipoAlarm.domain.ipodetail.dto;
 
+import com.sideprj.ipoAlarm.domain.ipocomments.dto.IpoCommentsDto;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -11,7 +12,7 @@ import java.util.List;
 @NoArgsConstructor
 @Builder
 @Getter
-public class IpoDetailFetchDto {
+public class IpoDetailFetchWithComments {
 
     private String ipoName;
     private String industry;
@@ -20,5 +21,6 @@ public class IpoDetailFetchDto {
     private String netProfit;
     private String totalOfferedShares;
 
+    private List<IpoCommentsDto> ipoComments;
 
 }

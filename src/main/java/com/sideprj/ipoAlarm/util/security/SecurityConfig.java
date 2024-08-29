@@ -51,10 +51,10 @@ public class SecurityConfig {
                         authorize
                                 .requestMatchers("/api/user/**", "/api/auth/login","api/product/name/**" ,"/api/product/update/**",
                                         "/api/product/all","/api/auth/logout","/api/auth/accessToken",
-                                        "/docs", "/swagger-ui/**", "/dev/**", "/v3/**").permitAll()
+                                        "/docs", "/swagger-ui/**", "/dev/**", "/v3/**", "/actuator/**").permitAll()
                                 .requestMatchers("/api/auth/**", "/api/ipo/**", "/api/s3/**", "/api/alarm/**").authenticated()
                                 .requestMatchers("api/product/**","/api/listData/get", "/api/mypage/**", "/api/ipo_detail/**",
-                                        "/api/listing_shares/**").authenticated())
+                                        "/api/listing_shares/**", "/api/ipo_comments/**").authenticated())
                 .addFilterAt(new AuthoritiesLoggingAtFilter(),BasicAuthenticationFilter.class)
                 .addFilterAfter(new AuthoritiesLoggingAfterFilter(), BasicAuthenticationFilter.class)
                 .addFilterBefore(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);

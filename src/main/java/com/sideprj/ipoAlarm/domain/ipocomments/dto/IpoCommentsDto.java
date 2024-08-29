@@ -6,13 +6,21 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
+
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
 @Getter
 public class IpoCommentsDto {
 
+    @Schema(description = "댓글아이디")
+    private Long id;
+
     @Schema(description = "공모주 상세 페이지 댓글")
     private String ipoComments;
+
+    @Schema(description = "게시한 시간 ")
+    private String regDate;
 
 }

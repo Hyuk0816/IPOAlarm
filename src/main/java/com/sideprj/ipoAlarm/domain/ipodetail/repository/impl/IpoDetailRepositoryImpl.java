@@ -3,11 +3,15 @@ package com.sideprj.ipoAlarm.domain.ipodetail.repository.impl;
 
 
 import com.querydsl.core.types.Projections;
+import com.querydsl.core.types.dsl.Expressions;
 import com.querydsl.jpa.impl.JPAQueryFactory;
+import com.sideprj.ipoAlarm.domain.ipocomments.dto.IpoCommentsDto;
+import com.sideprj.ipoAlarm.domain.ipocomments.entity.QIpoComments;
 import com.sideprj.ipoAlarm.domain.ipodetail.dto.IpoDetailFetchDto;
 import com.sideprj.ipoAlarm.domain.ipodetail.repository.IpoDetailRepositoryCustom;
 import jakarta.persistence.EntityManager;
 
+import static com.sideprj.ipoAlarm.domain.ipocomments.entity.QIpoComments.*;
 import static com.sideprj.ipoAlarm.domain.ipodetail.entity.QIpoDetail.*;
 
 public class IpoDetailRepositoryImpl implements IpoDetailRepositoryCustom {
@@ -26,9 +30,7 @@ public class IpoDetailRepositoryImpl implements IpoDetailRepositoryCustom {
                 ipoDetail.industry.as("industry"),
                 ipoDetail.representative.as("representative"),
                 ipoDetail.revenue.as("revenue"),
-                ipoDetail.netProfit.as("netProfit"),
-                ipoDetail.totalOfferedShares.as("totalOfferedShares")
-                ))
+                ipoDetail.netProfit.as("netProfit")))
                 .from(ipoDetail)
                 .where(ipoDetail.ipoName.eq(ipoName))
                 .fetchOne();

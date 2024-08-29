@@ -6,4 +6,6 @@ import org.springframework.data.querydsl.QuerydslPredicateExecutor;
 
 public interface IpoDetailRepository extends JpaRepository<IpoDetail, Long>, QuerydslPredicateExecutor, IpoDetailRepositoryCustom {
 
+    IpoDetail findByIpoName(String name);
+
 }

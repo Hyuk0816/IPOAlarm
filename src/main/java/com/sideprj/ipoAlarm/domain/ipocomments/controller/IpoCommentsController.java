@@ -1,8 +1,10 @@
-package com.sideprj.ipoAlarm.domain.ipodetail.controller;
+package com.sideprj.ipoAlarm.domain.ipocomments.controller;
 
-import com.sideprj.ipoAlarm.domain.ipodetail.dto.IpoDetailFetchDto;
-import com.sideprj.ipoAlarm.domain.ipodetail.dto.IpoDetailFetchWithComments;
-import com.sideprj.ipoAlarm.domain.ipodetail.service.IpoDetailService;
+import com.amazonaws.Response;
+import com.sideprj.ipoAlarm.domain.ipocomments.constants.IpoCommentConstants;
+import com.sideprj.ipoAlarm.domain.ipocomments.service.IpoCommentsService;
+import com.sideprj.ipoAlarm.domain.ipocomments.vo.request.IpoCommentsRequest;
+import com.sideprj.ipoAlarm.domain.ipocomments.vo.response.IpoCommentsResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -15,18 +17,17 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.ErrorResponse;
 import org.springframework.web.bind.annotation.*;
 
-@Slf4j
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api/ipo_detail")
-public class IpoDetailController {
+@Slf4j
+@RequestMapping("/api/ipo_comments")
+public class IpoCommentsController {
 
-    private final IpoDetailService ipoDetailService;
-
+    private final IpoCommentsService ipoCommentsService;
 
     @Operation(
-            summary = "IPO Detail Data Search Rest API",
-            description = "Create IPO data Detail get Request"
+            summary = "Comments in IPO Detail Page Rest API",
+            description = "Create Comments in IPO Detail Page Rest API"
     )
     @ApiResponses({
             @ApiResponse(
@@ -51,11 +52,11 @@ public class IpoDetailController {
 
     }
     )
-    @GetMapping("/data/{ipoName}")
-    public ResponseEntity<IpoDetailFetchWithComments> getIpoDetail(@PathVariable String ipoName) {
+    @PostMapping("/comment/{ipoName}")
+    public ResponseEntity<IpoCommentsResponse> comments(@PathVariable String ipoName, @RequestBody IpoCommentsRequest commentsRequest) {
+        ipoCommentsService.comments(ipoName, commentsRequest);
         return ResponseEntity
                 .status(HttpStatus.OK)
-                .body(ipoDetailService.getIpoDetail(ipoName));
-
+                .body(new IpoCommentsResponse(IpoCommentConstants.STATUS_201, IpoCommentConstants.MESSAGE_201));
     }
 }

@@ -16,6 +16,6 @@ public interface IpoService {
 
 
 
-    void cacheWarming() throws ParseException;
+//    void cacheWarming() throws ParseException;
 
 }

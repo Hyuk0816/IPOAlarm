@@ -5,6 +5,7 @@ import lombok.extern.slf4j.Slf4j;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.util.Date;
@@ -13,8 +14,14 @@ public class DateFormatter {
 
     private static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 
+    private static final DateTimeFormatter LOCAL_DATE_TINE_FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+
     public static LocalDate format(String dateTime) {
         return dateTime != null ? parse(dateTime) : null;
+    }
+
+    public static String LocalDateTimeformat(LocalDateTime dateTime) {
+        return dateTime != null ? dateTime.format(LOCAL_DATE_TINE_FORMATTER) : null;
     }
 
     public static LocalDate parse(String dateTimeString) {

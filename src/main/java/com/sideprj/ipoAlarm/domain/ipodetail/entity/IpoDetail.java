@@ -38,6 +38,7 @@ public class IpoDetail {
     @Column(name = "total_offerd_shares", nullable = false)
     private String totalOfferedShares;
 
+
     @Override
     public boolean equals(Object obj) {
         if(this == obj) return true;

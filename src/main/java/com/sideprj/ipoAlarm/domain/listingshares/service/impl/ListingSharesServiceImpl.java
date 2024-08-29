@@ -42,7 +42,7 @@ public class ListingSharesServiceImpl implements ListingSharesService {
         );
 
     }
-
+    //전월 이윤
     @Override
     public OfferingToOpeningPriceMonthlyProfitDto previousMonthProfitService() {
         OfferingToOpeningPriceMonthlyProfitDto profit = listingSharesRepository.previousMonthProfit();
@@ -50,6 +50,7 @@ public class ListingSharesServiceImpl implements ListingSharesService {
         return profit;
     }
 
+    //연도별 이윤
     @Override
     public List<Double> monthlyProfit(Integer year) {
         return listingSharesRepository.monthlyProfit(year);

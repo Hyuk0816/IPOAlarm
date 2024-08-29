@@ -74,7 +74,8 @@ dependencies {
 
     implementation 'com.fasterxml.jackson.datatype:jackson-datatype-jsr310'
 
-    
+    //캐시 액추에이터
+    implementation 'org.springframework.boot:spring-boot-starter-actuator'
 
 }
 
