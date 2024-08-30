@@ -1,5 +1,6 @@
 package com.sideprj.ipoAlarm.domain.user.service.impl;
 
+import com.sideprj.ipoAlarm.domain.user.constants.UserConstants;
 import com.sideprj.ipoAlarm.domain.user.entity.User;
 import com.sideprj.ipoAlarm.domain.user.mapper.UserMapper;
 import com.sideprj.ipoAlarm.domain.user.repository.UserRepository;
@@ -34,7 +35,7 @@ public class UserServiceImpl implements UserService {
 
         Optional<User> optionalUsers = userRepository.findByEmail(checkUserVo.getEmail());
         if (optionalUsers.isPresent()) {
-            throw new UsersAlreadyExistsException("이미 등록된 회원입니다.");
+            throw new UsersAlreadyExistsException(UserConstants.MESSAGE_ALREADY_EXISTS);
         }
 
         User user = UserMapper.mapToUsersDetailsRequestVo(checkUserVo);

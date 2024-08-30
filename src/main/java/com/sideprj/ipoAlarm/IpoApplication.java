@@ -10,8 +10,6 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 @EnableFeignClients
 public class IpoApplication {
 
-    public static void main(String[] args) {
-        SpringApplication.run(IpoApplication.class, args);
-    }
+    public static void main(String[] args) {SpringApplication.run(IpoApplication.class, args);}
 
 }

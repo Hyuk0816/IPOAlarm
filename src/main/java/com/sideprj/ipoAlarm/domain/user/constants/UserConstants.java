@@ -16,4 +16,6 @@ public class UserConstants {
 
     public static final String  STATUS_404 = "404";
     public static final String  MESSAGE_404 = "User Not Found";
+
+    public static final String MESSAGE_ALREADY_EXISTS = "User already exists";
 }

@@ -8,6 +8,7 @@ import com.sideprj.ipoAlarm.domain.ipo.mapper.IpoMapper;
 import com.sideprj.ipoAlarm.domain.ipo.repository.IpoRepository;
 import com.sideprj.ipoAlarm.domain.ipo.service.IpoService;
 import com.sideprj.ipoAlarm.util.page.PageResponseVo;
+import io.micrometer.core.annotation.Counted;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.cache.annotation.Cacheable;
@@ -32,6 +33,7 @@ public class IpoServiceImpl implements IpoService {
     @Override
     @Transactional(readOnly = true)
     @Cacheable(value = "fetchAllIpoData", keyGenerator = "customKeyGenerator")
+    @Counted
     public PageResponseVo<IpoGetAllDto> fetchIpo(IpoSearchRequestVo requestVo, Pageable pageable) throws ParseException {
 
         Page<IpoGetAllDto> ipoGetAllDtoPage = ipoRepository.fetchIpoData(requestVo, pageable);
