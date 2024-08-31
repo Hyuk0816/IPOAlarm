@@ -1,5 +1,6 @@
 package com.sideprj.ipoAlarm.domain.listingalarm.service.impl;
 
+import com.sideprj.ipoAlarm.domain.listingalarm.constants.ListingSharesAlarmsConstants;
 import com.sideprj.ipoAlarm.domain.listingalarm.entity.ListingSharesAlarms;
 import com.sideprj.ipoAlarm.domain.listingalarm.repository.ListingSharesAlarmsRepository;
 import com.sideprj.ipoAlarm.domain.listingalarm.service.ListingSharesAlarmsService;
@@ -9,6 +10,8 @@ import com.sideprj.ipoAlarm.domain.listingshares.service.ListingSharesService;
 import com.sideprj.ipoAlarm.domain.user.constants.UserConstants;
 import com.sideprj.ipoAlarm.domain.user.entity.User;
 import com.sideprj.ipoAlarm.domain.user.repository.UserRepository;
+import com.sideprj.ipoAlarm.util.exception.EndDateException;
+import com.sideprj.ipoAlarm.util.exception.ListingSharesAlarmEndDateException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.Authentication;
@@ -17,6 +20,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDate;
 import java.util.Optional;
 
 @Service
@@ -35,6 +39,12 @@ public class ListingSharesAlarmsServiceImpl implements ListingSharesAlarmsServic
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         User user = userRepository.findByEmail(authentication.getName())
                 .orElseThrow(() -> new UsernameNotFoundException(UserConstants.MESSAGE_404));
+
+        LocalDate now = LocalDate.now();
+
+        if(now.isAfter(listingShare.getListingDate())){
+            throw new ListingSharesAlarmEndDateException(ListingSharesAlarmsConstants.MSG_ALREADY_LISTING);
+        }
 
         ListingSharesAlarms alarms = ListingSharesAlarms.builder()
                 .listingShares(listingShare)

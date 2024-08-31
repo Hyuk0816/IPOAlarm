@@ -1,8 +1,10 @@
 package com.sideprj.ipoAlarm.util.exception;
 
 import com.sideprj.ipoAlarm.domain.alarm.constants.AlarmConstants;
+import com.sideprj.ipoAlarm.domain.listingalarm.constants.ListingSharesAlarmsConstants;
 import com.sideprj.ipoAlarm.domain.user.constants.UserConstants;
 import com.sideprj.ipoAlarm.util.error.ErrorResponseDto;
+import org.apache.coyote.BadRequestException;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
@@ -140,5 +142,17 @@ public class GlobalExceptionHandler  extends ResponseEntityExceptionHandler {
         );
         return new ResponseEntity<>(errorResponseDTO, HttpStatus.BAD_REQUEST);
     }
+
+    @ExceptionHandler(ListingSharesAlarmEndDateException.class)
+    public ResponseEntity<ErrorResponseDto> handleListingSharesAlarmEndDateException(WebRequest webRequest){
+        ErrorResponseDto errorResponseDTO = new ErrorResponseDto(
+                webRequest.getDescription(false),
+                HttpStatus.BAD_REQUEST,
+                ListingSharesAlarmsConstants.MSG_ALREADY_LISTING,
+                LocalDateTime.now()
+        );
+        return new ResponseEntity<>(errorResponseDTO, HttpStatus.BAD_REQUEST);
+    }
+
 
 }
