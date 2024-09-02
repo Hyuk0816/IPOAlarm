@@ -1,7 +1,7 @@
 package com.sideprj.ipoAlarm.domain.alarm.repository;
 
 import com.sideprj.ipoAlarm.domain.alarm.entity.Alarm;
-import com.sideprj.ipoAlarm.domain.mypage.MyAlarmDto;
+import com.sideprj.ipoAlarm.domain.mypage.dto.MyAlarmDto;
 
 import java.util.List;
 

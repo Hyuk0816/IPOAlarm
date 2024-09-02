@@ -3,12 +3,9 @@ package com.sideprj.ipoAlarm.domain.ipo.repository.impl;
 import com.querydsl.core.BooleanBuilder;
 import com.querydsl.core.types.Projections;
 import com.querydsl.jpa.impl.JPAQueryFactory;
-import com.sideprj.ipoAlarm.domain.alarm.entity.Alarm;
-import com.sideprj.ipoAlarm.domain.alarm.entity.QAlarm;
 import com.sideprj.ipoAlarm.domain.ipo.dto.IpoGetAllDto;
 import com.sideprj.ipoAlarm.domain.ipo.vo.request.IpoSearchRequestVo;
 import com.sideprj.ipoAlarm.domain.ipo.repository.IpoRepositoryCustom;
-import com.sideprj.ipoAlarm.domain.mypage.MyAlarmDto;
 import com.sideprj.ipoAlarm.util.converter.DateFormatter;
 import jakarta.persistence.EntityManager;
 import org.slf4j.Logger;
@@ -17,7 +14,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.support.PageableExecutionUtils;
 
-import static com.sideprj.ipoAlarm.domain.alarm.entity.QAlarm.*;
 import static com.sideprj.ipoAlarm.domain.ipo.entity.QIpo.*;
 import static org.springframework.util.StringUtils.hasText;
 
@@ -27,7 +23,6 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Objects;
-import java.util.stream.Collectors;
 
 public class IpoRepositoryImpl implements IpoRepositoryCustom {
 

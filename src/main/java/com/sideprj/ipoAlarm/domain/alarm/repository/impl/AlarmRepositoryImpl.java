@@ -2,13 +2,9 @@ package com.sideprj.ipoAlarm.domain.alarm.repository.impl;
 
 import com.querydsl.core.types.Projections;
 import com.querydsl.jpa.impl.JPAQueryFactory;
-import com.sideprj.ipoAlarm.domain.alarm.dto.AlarmExitsDto;
 import com.sideprj.ipoAlarm.domain.alarm.entity.Alarm;
-import com.sideprj.ipoAlarm.domain.alarm.entity.QAlarm;
 import com.sideprj.ipoAlarm.domain.alarm.repository.AlarmRepositoryCustom;
-import com.sideprj.ipoAlarm.domain.ipo.entity.QIpo;
-import com.sideprj.ipoAlarm.domain.mypage.MyAlarmDto;
-import com.sideprj.ipoAlarm.domain.user.entity.QUser;
+import com.sideprj.ipoAlarm.domain.mypage.dto.MyAlarmDto;
 import jakarta.persistence.EntityManager;
 
 import java.util.List;

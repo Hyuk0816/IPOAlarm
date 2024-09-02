@@ -51,7 +51,7 @@ public class SecurityConfig {
                         authorize
                                 .requestMatchers("/api/user/**", "/api/auth/login","api/product/name/**" ,"/api/product/update/**",
                                         "/api/product/all","/api/auth/logout","/api/auth/accessToken",
-                                        "/docs", "/swagger-ui/**", "/dev/**", "/v3/**", "/actuator/**").permitAll()
+                                        "/docs", "/swagger-ui/**", "/dev/**", "/v3/**", "/actuator/**", "/api/ipo/data/**").permitAll()
                                 .requestMatchers("/api/auth/**", "/api/ipo/**", "/api/s3/**", "/api/alarm/**").authenticated()
                                 .requestMatchers("api/product/**","/api/listData/get", "/api/mypage/**", "/api/ipo_detail/**",
                                         "/api/listing_shares/**", "/api/ipo_comments/**", "/api/listing_share_alarm/**").authenticated())
@@ -67,7 +67,7 @@ public class SecurityConfig {
         CorsConfiguration config = new CorsConfiguration();
 
         config.setAllowCredentials(true);
-        config.setAllowedOrigins(List.of("http://localhost:3000", "http://localhost:3001"));
+        config.setAllowedOrigins(List.of("http://localhost:3000", "http://localhost:5173"));
         config.setAllowedMethods(List.of("*"));
         config.setAllowedHeaders(List.of("*"));
         config.setExposedHeaders(List.of("*"));

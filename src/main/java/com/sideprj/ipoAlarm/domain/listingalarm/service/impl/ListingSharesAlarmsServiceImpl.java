@@ -6,11 +6,9 @@ import com.sideprj.ipoAlarm.domain.listingalarm.repository.ListingSharesAlarmsRe
 import com.sideprj.ipoAlarm.domain.listingalarm.service.ListingSharesAlarmsService;
 import com.sideprj.ipoAlarm.domain.listingshares.entity.ListingShares;
 import com.sideprj.ipoAlarm.domain.listingshares.repository.ListingSharesRepository;
-import com.sideprj.ipoAlarm.domain.listingshares.service.ListingSharesService;
 import com.sideprj.ipoAlarm.domain.user.constants.UserConstants;
 import com.sideprj.ipoAlarm.domain.user.entity.User;
 import com.sideprj.ipoAlarm.domain.user.repository.UserRepository;
-import com.sideprj.ipoAlarm.util.exception.EndDateException;
 import com.sideprj.ipoAlarm.util.exception.ListingSharesAlarmEndDateException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -21,7 +19,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
-import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -42,7 +39,7 @@ public class ListingSharesAlarmsServiceImpl implements ListingSharesAlarmsServic
 
         LocalDate now = LocalDate.now();
 
-        if(now.isAfter(listingShare.getListingDate())){
+        if(now.isAfter(listingShare.getListingDate()) || now.equals(listingShare.getListingDate())){
             throw new ListingSharesAlarmEndDateException(ListingSharesAlarmsConstants.MSG_ALREADY_LISTING);
         }
 

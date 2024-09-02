@@ -1,9 +1,9 @@
 package com.sideprj.ipoAlarm.domain.mypage.controller;
 
-import com.sideprj.ipoAlarm.domain.mypage.MyAlarmDto;
-import com.sideprj.ipoAlarm.domain.mypage.MyPageDto;
+import com.sideprj.ipoAlarm.domain.mypage.dto.MyAlarmDto;
+import com.sideprj.ipoAlarm.domain.mypage.dto.MyListingSharesAlarmsDto;
+import com.sideprj.ipoAlarm.domain.mypage.dto.MyPageDto;
 import com.sideprj.ipoAlarm.domain.mypage.service.MyPageService;
-import feign.Response;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -91,5 +91,37 @@ public class MyPageController {
         return ResponseEntity
                 .status(HttpStatus.OK)
                 .body(myPageService.fetchMyAlarmList());
+    }
+    @Operation(
+            summary = "fetch my Listing Alarm List Rest API",
+            description = "Get my Listing Alarm List"
+    )
+    @ApiResponses({
+            @ApiResponse(
+                    responseCode = "200",
+                    description = "HTTP STATUS OK"
+            ),
+            @ApiResponse(
+                    responseCode = "401",
+                    description = "HTTP STATUS UNAUTHORIZED"
+            ),
+            @ApiResponse(
+                    responseCode = "404",
+                    description = "HTTP STATUS NOT FOUND"
+            ),
+            @ApiResponse(
+                    responseCode = "500",
+                    description = "HTTP Status Internal Server Error",
+                    content = @Content(
+                            schema = @Schema(implementation = ErrorResponse.class)
+                    )
+            ),
+    }
+    )
+    @GetMapping("/myListingAlarm")
+    public ResponseEntity<List<MyListingSharesAlarmsDto>> getMyListingAlarm(){
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(myPageService.fetchMyListingSharesList());
     }
 }

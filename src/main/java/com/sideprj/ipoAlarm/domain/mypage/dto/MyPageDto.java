@@ -1,4 +1,4 @@
-package com.sideprj.ipoAlarm.domain.mypage;
+package com.sideprj.ipoAlarm.domain.mypage.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

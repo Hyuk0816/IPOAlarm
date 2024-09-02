@@ -4,7 +4,8 @@ import com.sideprj.ipoAlarm.domain.listingalarm.entity.ListingSharesAlarms;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.querydsl.QuerydslPredicateExecutor;
 
-public interface ListingSharesAlarmsRepository extends JpaRepository<ListingSharesAlarms,Long>, QuerydslPredicateExecutor {
+import java.util.List;
 
+public interface ListingSharesAlarmsRepository extends JpaRepository<ListingSharesAlarms,Long>, QuerydslPredicateExecutor, ListingSharesAlarmsRepositoryCustom {
 
 }
