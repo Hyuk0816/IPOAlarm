@@ -12,9 +12,9 @@
 - S3에 저장된 각 csv 파일을 Apache commons-csv 를 이용하여 RDB에 저장한다(@Schedule 적용). 이 때 중복을 고려하여 변경된 데이터는 Update되고 새로운 데이터는 insert 되게 한다 (hashCode 이용)
 - DB insert는 따로 분리하여 Docker Container로 실행 중(Repo: https://github.com/Hyuk0816/IPO_DB_Insert_Module)
 
-# DOCS
+## DOCS
 
-### API 명세 문서 
+### 1. [API 명세 문서] (https://github.com/Hyuk0816/IPOAlarm/blob/main/docs/API.md)
 
 ### Swager 
 
