@@ -26,6 +26,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 
+import java.io.IOException;
 import java.util.Arrays;
 import java.util.Optional;
 
@@ -63,9 +64,12 @@ public class AuthServiceImpl implements AuthService {
             response.addHeader("Authorization", "Bearer " + accessToken);
             tokenProvider.createRefreshTokenCookie(response, "refreshToken", refreshToken, maxAgeForCookie);
 
+//            response.sendRedirect("http://localhost:5173");
 
         }catch(BadCredentialsException e){
             throw new BadCredentialsException(AuthConstants.MESSAGE_401);
+//        } catch (IOException e) {
+//            throw new RuntimeException(e);
         }
     }
 

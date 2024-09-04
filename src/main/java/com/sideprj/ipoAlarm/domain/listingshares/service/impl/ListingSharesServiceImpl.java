@@ -52,6 +52,8 @@ public class ListingSharesServiceImpl implements ListingSharesService {
 
     //연도별 이윤
     @Override
+    @Transactional(readOnly = true)
+    @Cacheable(value = "monthlyProfit", keyGenerator = "customKeyGenerator")
     public List<Double> monthlyProfit(Integer year) {
         return listingSharesRepository.monthlyProfit(year);
     }

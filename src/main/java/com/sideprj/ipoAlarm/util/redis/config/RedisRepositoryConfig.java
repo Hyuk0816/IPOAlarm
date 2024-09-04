@@ -108,6 +108,7 @@ public class RedisRepositoryConfig {
         Map<String, RedisCacheConfiguration> cacheConfigurations = new HashMap<>();
         cacheConfigurations.put("fetchAllIpoData", redisCacheConfiguration.entryTtl(Duration.ofHours(10)));
 //        cacheConfigurations.put("getIpoDetail", redisCacheConfiguration.entryTtl(Duration.ofMinutes(15)));
+        cacheConfigurations.put("monthlyProfit", redisCacheConfiguration.entryTtl(Duration.ofHours(10)));
         return cacheConfigurations;
     }
 
