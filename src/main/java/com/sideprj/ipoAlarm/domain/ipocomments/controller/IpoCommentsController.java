@@ -31,8 +31,8 @@ public class IpoCommentsController {
     )
     @ApiResponses({
             @ApiResponse(
-                    responseCode = "200",
-                    description = "HTTP STATUS OK"
+                    responseCode = "201",
+                    description = "HTTP STATUS Created"
             ),
             @ApiResponse(
                     responseCode = "401",
@@ -56,7 +56,7 @@ public class IpoCommentsController {
     public ResponseEntity<IpoCommentsResponse> comments(@PathVariable String ipoName, @RequestBody IpoCommentsRequest commentsRequest) {
         ipoCommentsService.comments(ipoName, commentsRequest);
         return ResponseEntity
-                .status(HttpStatus.OK)
+                .status(HttpStatus.CREATED)
                 .body(new IpoCommentsResponse(IpoCommentConstants.STATUS_201, IpoCommentConstants.MESSAGE_201));
     }
 }
