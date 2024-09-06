@@ -5,6 +5,7 @@ import jakarta.persistence.PostRemove;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 
 @FeignClient(
         name = "kakaoCalender",
@@ -14,5 +15,5 @@ import org.springframework.web.bind.annotation.RequestBody;
 public interface KakaoCalender {
 
     @PostMapping
-    void createCalender(@RequestBody Object calender);
+    void createCalender(@RequestHeader("Authorization: Bearer ")String accessToken,@RequestBody Object calender);
 }
