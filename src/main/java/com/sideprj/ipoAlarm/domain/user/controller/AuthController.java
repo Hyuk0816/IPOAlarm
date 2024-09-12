@@ -4,6 +4,7 @@ import com.sideprj.ipoAlarm.domain.user.constants.AuthConstants;
 import com.sideprj.ipoAlarm.domain.user.dto.LoginDto;
 import com.sideprj.ipoAlarm.domain.user.service.AuthService;
 import com.sideprj.ipoAlarm.domain.user.vo.UserStatusResponseVo;
+import com.sideprj.ipoAlarm.domain.user.vo.response.AccessTokenResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -117,16 +118,16 @@ public class AuthController {
 
     })
     @GetMapping(path ="/accessToken")
-    public ResponseEntity<UserStatusResponseVo> getAccessToken(
+    public ResponseEntity<AccessTokenResponse> getAccessToken(
             HttpServletRequest request,
             HttpServletResponse response
     ) {
-        authService.getAccessToken(request, response);
+
+        AccessTokenResponse tokensInfo = authService.getAccessToken(request, response);
         return ResponseEntity
                 .status(HttpStatus.OK)
-                .body(new UserStatusResponseVo(AuthConstants.STATUS_200, AuthConstants.MESSAGE_TOKEN_200));
+                .body(tokensInfo);
     }
-
 
 }
 

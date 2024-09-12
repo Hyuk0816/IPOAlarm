@@ -7,6 +7,7 @@ import com.sideprj.ipoAlarm.domain.user.entity.User;
 import com.sideprj.ipoAlarm.domain.user.repository.UserRepository;
 import com.sideprj.ipoAlarm.domain.user.service.AuthService;
 import com.sideprj.ipoAlarm.domain.user.userDetails.CustomUserDetails;
+import com.sideprj.ipoAlarm.domain.user.vo.response.AccessTokenResponse;
 import com.sideprj.ipoAlarm.util.exception.UserNameNotFoundException;
 import com.sideprj.ipoAlarm.util.jwt.TokenProvider;
 import jakarta.servlet.http.Cookie;
@@ -64,12 +65,12 @@ public class AuthServiceImpl implements AuthService {
             response.addHeader("Authorization", "Bearer " + accessToken);
             tokenProvider.createRefreshTokenCookie(response, "refreshToken", refreshToken, maxAgeForCookie);
 
-//            response.sendRedirect("http://localhost:5173");
+            response.sendRedirect("http://localhost:8080/");
 
         }catch(BadCredentialsException e){
             throw new BadCredentialsException(AuthConstants.MESSAGE_401);
-//        } catch (IOException e) {
-//            throw new RuntimeException(e);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
         }
     }
 
@@ -98,22 +99,13 @@ public class AuthServiceImpl implements AuthService {
         redisTemplate.delete(userDetails.getUsername());
     }
 
+
+    // acess token redis에 있는지 확인 필요 email check 필요
+    // 로그아웃 상태일때 헤더에는 토큰이 없으므로 UsernameNotFoundExceptiond에 걸림
+    // Authentication 클래스는 헤더에서 AccessToken를 가져옴
     @Override
     @Transactional
-    public void getAccessToken(HttpServletRequest request, HttpServletResponse response) {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        UserDetails userDetails = customUserDetails.loadUserByUsername(authentication.getName());
-
-        var usersInfo = usersRepository.findByEmail(userDetails.getUsername())
-                .orElseThrow(() -> new UsernameNotFoundException("user not found"));
-
-        String checkToken = redisTemplate.opsForValue().get(usersInfo.getEmail());
-
-        if (!hasText(checkToken)) {
-            throw new RuntimeException("test2");
-        }
-
-
+    public AccessTokenResponse getAccessToken(HttpServletRequest request, HttpServletResponse response) {
         Cookie[] cookies = request.getCookies();
         if (cookies != null) {
             Optional<String> cookieValue = Arrays.stream(cookies)
@@ -121,22 +113,18 @@ public class AuthServiceImpl implements AuthService {
                     .map(Cookie::getValue)
                     .findFirst();
 
-            cookieValue.ifPresentOrElse(
-                    refreshToken -> {
-                        String accessToken = tokenProvider.searchAccessTokenByRefreshToken(refreshToken);
-                        if (accessToken != null) {
-                            log.info("Access token found: {}", accessToken);
-                            response.setHeader("Authorization", "Bearer " + accessToken);
-                        } else {
-                            handleMissingRefreshToken();
-                        }
-                    },
-                    this::handleMissingRefreshToken);
-        } else {
-            handleMissingRefreshToken();
-        }
-    }
+            if (cookieValue.isPresent()) {
+                log.info(cookieValue.get());
+                String accessToken = tokenProvider.searchAccessTokenByRefreshToken(cookieValue.get());
+                return AccessTokenResponse.builder()
+                        .accessToken(accessToken)
+                        .type("bearer")
+                        .build();
+            }
 
+        }
+        return null;
+    }
     private User callAuthentication() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         UserDetails userDetails = customUserDetails.loadUserByUsername(authentication.getName());

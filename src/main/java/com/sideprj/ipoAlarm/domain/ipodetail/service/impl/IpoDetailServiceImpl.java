@@ -30,6 +30,8 @@ public class IpoDetailServiceImpl implements IpoDetailService {
 
         IpoDetailFetchDto ipoDetailFetchDto = ipoDetailRepository.fetchIpoDetail(ipoName);
 
+        log.info(ipoName + " 서비스 코드 ");
+        log.info(ipoDetailFetchDto.getIpoName() + " 왜 널로 들어갈까");
         List<IpoCommentsDto> byIpoName = ipoCommentsRepository.findByIpoName(ipoName);
 
         return IpoDetailFetchWithComments.builder()

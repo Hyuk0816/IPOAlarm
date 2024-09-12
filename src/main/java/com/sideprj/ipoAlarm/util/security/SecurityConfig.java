@@ -6,8 +6,11 @@ import com.sideprj.ipoAlarm.util.filter.AuthoritiesLoggingAtFilter;
 import com.sideprj.ipoAlarm.util.filter.JwtAuthenticationFilter;
 import com.sideprj.ipoAlarm.util.jwt.TokenProvider;
 import lombok.RequiredArgsConstructor;
+import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.io.ClassPathResource;
+import org.springframework.core.io.Resource;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -23,18 +26,31 @@ import org.springframework.security.web.authentication.www.BasicAuthenticationFi
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+import org.springframework.web.servlet.resource.PathResourceResolver;
 
 
+import java.io.IOException;
 import java.util.List;
 
 @Configuration
 @EnableWebSecurity
 @RequiredArgsConstructor
-public class SecurityConfig {
+public class SecurityConfig implements WebMvcConfigurer {
 
 
     private final TokenProvider tokenProvider;
     private final CustomUserDetails customUserDetails;
+    private static final String[] BASIC_LIST = {
+            "/",
+            "/**",
+            "/login",
+            "/index.html",
+            "/static/**",
+            "/favicon.ico",
+            "/assets/**"
+    };
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
@@ -49,7 +65,8 @@ public class SecurityConfig {
                 .sessionManagement(httpSecuritySessionManagementConfigurer -> httpSecuritySessionManagementConfigurer.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests((authorize)->
                         authorize
-                                .requestMatchers("/resources/static/index.html","/api/user/**", "/api/auth/login","api/product/name/**" ,"/api/product/update/**",
+                                .requestMatchers("/**").permitAll()
+                                .requestMatchers("/api/user/**", "/api/auth/login","api/product/name/**" ,"/api/product/update/**",
                                         "/api/product/all","/api/auth/logout","/api/auth/accessToken",
                                         "/docs", "/swagger-ui/**", "/dev/**", "/v3/**", "/actuator/**",
                                         "/api/ipo/data/**", "/api/listing_shares/monthly_profit", "/api/listing_shares/data/**").permitAll()
@@ -61,7 +78,19 @@ public class SecurityConfig {
                 .addFilterBefore(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
         return http.build();
     }
-
+    @Override
+    public void addResourceHandlers(ResourceHandlerRegistry registry) {
+        registry.addResourceHandler("/**")
+                .addResourceLocations("classpath:/static/")
+                .resourceChain(true)
+                .addResolver(new PathResourceResolver() {
+                    @Override
+                    protected Resource getResource(String resourcePath, Resource location) throws IOException {
+                        Resource requestedResource = location.createRelative(resourcePath);
+                        return requestedResource.exists() && requestedResource.isReadable() ? requestedResource : new ClassPathResource("/static/index.html");
+                    }
+                });
+    }
 
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {

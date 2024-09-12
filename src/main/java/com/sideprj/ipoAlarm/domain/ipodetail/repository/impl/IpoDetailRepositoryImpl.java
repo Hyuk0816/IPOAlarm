@@ -25,6 +25,7 @@ public class IpoDetailRepositoryImpl implements IpoDetailRepositoryCustom {
 
     @Override //나중에 댓글도 추가해서 join 해서 가져와야 한다.
     public IpoDetailFetchDto fetchIpoDetail(String ipoName) {
+
         return queryFactory.select(Projections.fields(IpoDetailFetchDto.class,
                 ipoDetail.ipoName.as("ipoName"),
                 ipoDetail.industry.as("industry"),
