@@ -9,5 +9,5 @@ public class AlarmConstants {
 
     public static final String msg_end = "마감일이 지난 공모주는 알림 등록 할 수 없습니다.";
 
-    public static final String msg_between = "현재 청약 진행 중인 건은 알람 등록 할 수 없습니다. 청약 진행하시면 됩니다!";
+    public static final String msg_between = "현재 청약 진행 중인 건은 알람 등록 할 수 없습니다. 청약 진행하시면 됩니다!!!!!";
 }
