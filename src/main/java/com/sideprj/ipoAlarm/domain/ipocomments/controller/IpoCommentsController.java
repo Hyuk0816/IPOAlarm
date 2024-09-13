@@ -54,6 +54,10 @@ public class IpoCommentsController {
     )
     @PostMapping("/comment/{ipoName}")
     public ResponseEntity<IpoCommentsResponse> comments(@PathVariable String ipoName, @RequestBody IpoCommentsRequest commentsRequest) {
+
+        log.info("{}controller", ipoName);
+        log.info("{}controller", commentsRequest.getIpoComment());
+
         ipoCommentsService.comments(ipoName, commentsRequest);
         return ResponseEntity
                 .status(HttpStatus.CREATED)

@@ -7,3 +7,5 @@ export const API_GET_IPO_DATA = '/ipo/data'
 export const API_GET_IPO_DETAIL = '/ipo_detail/data/'
 
 export const API_IPO_ALARM = '/alarm/data'
+
+export const LISTING_SHARES_ALARM = '/listing_share_alarm/alarm'

@@ -25,8 +25,6 @@ public class AlarmRepositoryImpl implements AlarmRepositoryCustom {
     public Alarm checkIfAlarmExists(String ipoName, Long userId) {
 
         return queryFactory.selectFrom(alarm)
-                .leftJoin(alarm.ipo, ipo)
-                .leftJoin(alarm.user, user)
                 .where(alarm.ipo.ipoName.eq(ipoName),
                         alarm.user.userId.eq(userId))
                 .fetchOne();

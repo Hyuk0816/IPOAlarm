@@ -4,6 +4,6 @@ import org.springframework.security.core.Authentication;
 
 public interface AlarmService {
 
-    void save(String ipoName, Authentication authentication);
+    void save(String ipoName);
 
 }

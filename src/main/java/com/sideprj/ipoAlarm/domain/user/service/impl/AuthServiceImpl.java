@@ -142,4 +142,10 @@ public class AuthServiceImpl implements AuthService {
         }
     }
 
+    @Override
+    public void checkAuthentication(Authentication authentication) {
+        if(authentication == null){
+            throw new UsernameNotFoundException(UserConstants.REQUIRED_LOGIN);
+        }
+    }
 }

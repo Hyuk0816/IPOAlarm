@@ -18,4 +18,6 @@ public class UserConstants {
     public static final String  MESSAGE_404 = "User Not Found";
 
     public static final String MESSAGE_ALREADY_EXISTS = "User already exists";
+
+    public static final String REQUIRED_LOGIN = "로그인이 필요한 서비스 입니다.";
 }

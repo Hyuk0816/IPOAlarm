@@ -1,10 +1,7 @@
 import {defineStore} from 'pinia';
-import {ref} from 'vue';
 import axios from "@/plugin/axios.js";
-import {API_GET_IPO_DETAIL} from "@/api/apiPoints.js";
-export const useIpoDetailStore = defineStore('ipoDetail',()=> {
 
-    let currentIpoName = '';
+export const useIpoDetailStore = defineStore('ipoDetail',()=> {
 
     const fetchIpoDetail = async (ipoName) => {
 
@@ -13,16 +10,35 @@ export const useIpoDetailStore = defineStore('ipoDetail',()=> {
             alert("Ipo name missing")
         }
         try{
-            console.log(ipoName + "store")
-            const response = await axios.get(`http://localhost:8080/api/ipo_detail/data?ipoName=${ipoName}`);
-            console.log(response.data)
-            currentIpoName = ipoName;
+            return await axios.get(`http://localhost:8080/api/ipo_detail/data?ipoName=${ipoName}`)
         }catch(err){
             console.error(err);
         }
+    }
 
+    const saveComments = async (ipoName, ipoComments) =>{
+
+        console.log(ipoName + "store")
+        console.log(ipoComments + "store")
+        try{
+
+            const response =  await axios.post(`http://localhost:8080/api/ipo_comments/comment/${ipoName}`, {
+                ipoComment : ipoComments.value
+            })
+            alert(response.data.statusMsg)
+            location.reload();
+        }catch (err){
+            console.error(err);
+            alert("오류 발생!")
+        }
     }
     return{
         fetchIpoDetail,
+        saveComments
     }
+
+
+
+
+
 });

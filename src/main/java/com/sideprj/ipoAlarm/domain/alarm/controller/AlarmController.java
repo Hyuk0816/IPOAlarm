@@ -52,8 +52,8 @@ public class AlarmController {
     }
     )
     @PostMapping( value = "/data")
-    public ResponseEntity<AlarmResponseVo> saveAlarm(@RequestParam String ipoName, Authentication authentication) {
-        alarmService.save(ipoName,authentication);
+    public ResponseEntity<AlarmResponseVo> saveAlarm(@RequestParam String ipoName) {
+        alarmService.save(ipoName);
         return ResponseEntity
                 .status(HttpStatus.CREATED)
                 .body(new AlarmResponseVo(AlarmConstants.status_201,AlarmConstants.msg_201 ));

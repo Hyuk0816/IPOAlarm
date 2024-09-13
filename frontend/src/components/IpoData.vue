@@ -37,37 +37,37 @@
         </div>
       </div>
     </div>
-
-    <table>
-      <thead>
-      <tr>
-        <th>Num</th>
-        <th>이름</th>
-        <th>공모 가격</th>
-        <th>확정 가격</th>
-        <th>경쟁률</th>
-        <th>증권사</th>
-        <th>시작일</th>
-        <th>종료일</th>
-        <th>알림신청</th>
-      </tr>
-      </thead>
-      <tbody>
-      <tr v-for="(item, index) in paginatedData" :key="index">
-        <td>{{ index + 1 + currentPage * pageSize }}</td>
-        <td @click="fetchDetail(item.ipoName)">{{ item.ipoName }}</td>
-        <td>{{ item.ipoPrice }}</td>
-        <td>{{ item.confirmPrice }}</td>
-        <td>{{ item.competitionRate }}</td>
-        <td>{{ item.securities }}</td>
-        <td>{{ formatDate(item.startDate) }}</td>
-        <td>{{ formatDate(item.endDate) }}</td>
-        <td class="text-center">
-          <button class="btn btn-primary" @click="openModal(item)" id="alarm_button">신청</button>
-        </td>
-      </tr>
-      </tbody>
-    </table>
+    <div class="table-responsive">
+      <table class="table table-striped table-bordered table-hover">
+        <thead class="thead-light">
+        <tr>
+          <th>Num</th>
+          <th>이름</th>
+          <th>공모 가격</th>
+          <th>확정 가격</th>
+          <th>경쟁률</th>
+          <th>증권사</th>
+          <th>시작일</th>
+          <th>종료일</th>
+          <th>알림신청</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr v-for="(item, index) in paginatedData" :key="index">
+          <td>{{ index + 1 + currentPage * pageSize }}</td>
+          <td @click="goToDetailPage(item.ipoName)" class="link-item">{{ item.ipoName }}</td>
+          <td>{{ item.ipoPrice }}</td>
+          <td>{{ item.confirmPrice }}</td>
+          <td>{{ item.competitionRate }}</td>
+          <td>{{ item.securities }}</td>
+          <td>{{ formatDate(item.startDate) }}</td>
+          <td>{{ formatDate(item.endDate) }}</td>
+          <td class="text-center">
+            <button class="btn btn-primary" @click="openModal(item)">신청</button>
+          </td>
+        </tr>
+        </tbody>
+      </table>
     <div class="pagination">
       <a href="#" class="first-page" @click.prevent="goToPage(0)" :class="{ disabled: currentPage === 0 }">First</a>
       <a href="#" class="prev-page" @click.prevent="prevPage" :class="{ disabled: currentPage === 0 }">Prev</a>
@@ -101,15 +101,17 @@
       <p>{{ selectedItem.value ? selectedItem.value : '' }} 알람 신청하시겠습니까?</p>
     </modal>
   </div>
+  </div>
 </template>
 
-<script setup>
+<script setup lang="js">
 import { ref, onMounted, computed } from 'vue';
 import axios from '../plugin/axios.js';
 import Modal from './Modal.vue'; // 모달 컴포넌트 임포트
 import {API_GET_IPO_DATA} from '../api/apiPoints.js'
 import {API_IPO_ALARM} from "../api/apiPoints.js";
-import {useIpoDetailStore} from "@/stores/IpoDetailStore.js";
+import { useRouter } from 'vue-router'; // 라우터 가져오기
+
 
 const ipoData = ref([]);
 const searchName = ref('');
@@ -122,6 +124,7 @@ const isFilterOpen = ref(false); // 필터가 열려있는지 여부
 const isModalOpen = ref(false);
 const selectedItem = ref(null); // 선택된 아이템 저장
 
+const router = useRouter();
 
 const fetchData = async (page) => {
   const params = {
@@ -226,14 +229,8 @@ const submitAlarm = async () => {
   isModalOpen.value = false; // 모달 닫기
 };
 
-const IpoDetailStore = useIpoDetailStore();
-
-const fetchDetail = async (ipoName) =>{
-  try{
-    await IpoDetailStore.fetchIpoDetail(ipoName);
-  }catch (error){
-    console.error('Error fetching detail:', error);
-  }
+const goToDetailPage = async (ipoName) => {
+   await router.push({path: '/ipoDetail', query: {ipoName}})
 }
 
 
@@ -249,6 +246,7 @@ body {
 
 h1 {
   text-align: center;
+  color: #007bff; /* 텍스트 색상 */
 }
 
 .search-container {
@@ -256,8 +254,9 @@ h1 {
   justify-content: center;
   margin-bottom: 20px;
 }
-.list-group-item button{
-  margin: 10px;
+
+.search-container button {
+  margin: 5px;
 }
 
 .filter-menu {
@@ -274,31 +273,43 @@ input, select {
   padding: 5px;
 }
 
-table {
-  width: 60%;
+.table-responsive {
+  overflow-x: auto; /* 반응형 테이블 */
+}
+
+.table {
+  width: 50%; /* 테이블 너비 설정 */
   border-collapse: collapse;
   margin: 0 auto;
+  font-size: 0.9rem; /* 테이블 폰트 크기 조정 */
 }
 
-td {
-  border: 1px solid #ddd;
-  padding: 8px;
-  text-align: left;
-  min-width: 60px;
-  max-width: 120px;
-  overflow-wrap: break-word;
-  white-space: normal;
-}
-
-th, td {
+td, th {
   border: 1px solid #ddd;
   padding: 8px;
   text-align: left;
 }
 
 th {
-  background-color: #4CAF50;
+  background-color: #007bff; /* 헤더 배경색 */
   color: white;
+}
+
+.table-striped tbody tr:nth-of-type(odd) {
+  background-color: #f2f2f2; /* 홀수 줄 배경색 */
+}
+
+.table-hover tbody tr:hover {
+  background-color: #e2e6ea; /* 마우스 오버 시 배경색 */
+}
+
+.link-item {
+  cursor: pointer; /* 링크 스타일 */
+  color: #007bff; /* 링크 색상 */
+}
+
+.link-item:hover {
+  text-decoration: underline; /* 링크 오버 시 밑줄 */
 }
 
 
@@ -313,8 +324,18 @@ th {
   margin: auto;
 }
 
+.pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 10px 0;
+  list-style: none;
+  width: 90%;
+  margin: auto;
+}
+
 .pagination a {
-  color: #6e7a8e;
+  color: #007bff; /* 링크 색상 */
   padding: 8px 12px;
   margin: 0 4px;
   text-decoration: none;
@@ -323,30 +344,41 @@ th {
 }
 
 .pagination a:hover {
-  background-color: #e4e9f1;
+  background-color: #e4e9f1; /* 마우스 오버 시 배경색 */
   cursor: pointer;
 }
 
 .pagination a.active {
-  color: blue;
+  color: white;
+  background-color: #007bff; /* 활성 페이지 색상 */
   font-weight: bold;
   pointer-events: none;
 }
 
 .pagination a.disabled {
-  color: #d1d5db;
+  color: #d1d5db; /* 비활성 링크 색상 */
   pointer-events: none;
 }
 
-.pagination a:first-child,
-.pagination a:last-child {
-  margin-right: 10px;
-  position: relative;
-}
+@media (max-width: 768px) {
+  h1 {
+    font-size: 1.5rem; /* 모바일에서 제목 크기 조정 */
+  }
 
-.pagination a.first-page,
-.pagination a.last-page {
-  font-weight: bold;
-  position: relative;
+  .table {
+    width: 300%;
+    font-size: 0.8rem; /* 모바일에서 테이블 폰트 크기 조정 */
+    overflow-x: auto; /* 테이블이 가로 스크롤 가능하도록 설정 */
+    display: block; /* 블록으로 설정하여 스크롤 가능하도록 함 */
+  }
+
+  .pagination {
+    flex-direction: row; /* 모바일에서 페이지네이션을 가로로 배치 */
+    justify-content: center; /* 가운데 정렬 */
+  }
+
+  .pagination a {
+    margin: 0 2px; /* 페이지네이션 링크 여백 조정 */
+  }
 }
 </style>

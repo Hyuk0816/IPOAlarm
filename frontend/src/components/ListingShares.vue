@@ -1,4 +1,4 @@
-<template xmlns="">
+<template>
   <div>
     <h1 class="text-left display-4 text-primary mb-4">상장일 일정</h1>
     <div class="search-container">
@@ -21,6 +21,15 @@
               <input type="date" v-model="listingEndDate" class="form-control-sm" />
             </li>
             <li class="list-group-item">
+              <label for="pageSize">사이즈:</label>
+              <select v-model="pageSize" class="form-select form-select-sm" @change="searchData">
+                <option value="10">10</option>
+                <option value="20" selected>20</option>
+                <option value="30" >30</option>
+                <option value="50">50</option>
+              </select>
+            </li>
+            <li class="list-group-item">
               <button @click="searchData" class="btn btn-primary">검색</button>
               <button @click="resetFilters" class="btn btn-secondary">초기화</button>
             </li>
@@ -28,41 +37,42 @@
         </div>
       </div>
     </div>
-
-    <table>
-      <thead>
-      <tr>
-        <th>Num</th>
-        <th>이름</th>
-        <th>상장일</th>
-        <th>현재가</th>
-        <th>변동률 (이전)</th>
-        <th>공모가</th>
-        <th>변동률 (공모가)</th>
-        <th>시가</th>
-        <th>변동률 (시가)</th>
-        <th>첫 날 종가</th>
-        <th>알림신청</th>
-      </tr>
-      </thead>
-      <tbody>
-      <tr v-for="(item, index) in paginatedData" :key="index">
-        <td>{{ index + 1 }}</td>
-        <td>{{ item.ipoName }}</td>
-        <td>{{ formatDate(item.listingDate) }}</td>
-        <td>{{ item.currentPrice }}</td>
-        <td>{{ item.changeRatePrevious }}</td>
-        <td>{{ item.offeringPrice }}</td>
-        <td>{{ item.changeRateOfferingPrice }}</td>
-        <td>{{ item.openingPrice }}</td>
-        <td>{{ item.changeRateOpeningToOfferingPrice }}</td>
-        <td>{{ item.closingPriceFirstDay }}</td>
-        <td class="text-center">
-          <button class="btn btn-primary" @click="openModal(item)">신청</button>
-        </td>
-      </tr>
-      </tbody>
-    </table>
+    <div class="table-responsive">
+      <table class="table table-striped table-bordered table-hover">
+        <thead class="thead-light">
+        <tr>
+          <th>Num</th>
+          <th>이름</th>
+          <th>상장일</th>
+          <th>현재가</th>
+          <th>변동률 (이전)</th>
+          <th>공모가</th>
+          <th>변동률 (공모가)</th>
+          <th>시가</th>
+          <th>변동률 (시가)</th>
+          <th>첫 날 종가</th>
+          <th>알림신청</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr v-for="(item, index) in paginatedData" :key="index">
+          <td>{{ index + 1 }}</td>
+          <td @click="goToDetailPage(item.ipoName)" class="link-item">{{ item.ipoName }}</td>
+          <td>{{ formatDate(item.listingDate) }}</td>
+          <td>{{ item.currentPrice }}</td>
+          <td>{{ item.changeRatePrevious }}</td>
+          <td>{{ item.offeringPrice }}</td>
+          <td>{{ item.changeRateOfferingPrice }}</td>
+          <td>{{ item.openingPrice }}</td>
+          <td>{{ item.changeRateOpeningToOfferingPrice }}</td>
+          <td>{{ item.closingPriceFirstDay }}</td>
+          <td class="text-center">
+            <button class="btn btn-primary btn-sm" @click="openModal(item)">신청</button>
+          </td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
     <div class="pagination">
       <a href="#" class="first-page" @click.prevent="goToPage(0)" :class="{ disabled: currentPage === 0 }">First</a>
       <a href="#" class="prev-page" @click.prevent="prevPage" :class="{ disabled: currentPage === 0 }">Prev</a>
@@ -102,6 +112,8 @@
 import { ref, onMounted, computed } from 'vue';
 import axios from '../plugin/axios.js'
 import Modal from './Modal.vue'; // 모달 컴포넌트 임포트
+import {LISTING_SHARES_ALARM} from "../api/apiPoints.js"
+import router from "@/router/router.js";
 
 const listingData = ref([]);
 const searchName = ref('');
@@ -202,7 +214,7 @@ const submitAlarm = async () => {
     const listingShares = selectedItem.value;
 
     try {
-      const response = await axios.post(`http://localhost:8080/api/listing_share_alarm/alarm`, null, {
+      const response = await axios.post(LISTING_SHARES_ALARM, null, {
         params: { listingShares }
       });
 
@@ -218,6 +230,9 @@ const submitAlarm = async () => {
   }
   isModalOpen.value = false; // 모달 닫기
 };
+const goToDetailPage = async (ipoName) => {
+  await router.push({path: '/ipoDetail', query: {ipoName}})
+}
 
 
 onMounted(() => fetchData(0));
@@ -231,12 +246,17 @@ body {
 
 h1 {
   text-align: center;
+  color: #007bff; /* 텍스트 색상 */
 }
 
 .search-container {
   display: flex;
   justify-content: center;
   margin-bottom: 20px;
+}
+
+.search-container button{
+  margin: 5px;
 }
 
 .filter-menu {
@@ -253,27 +273,45 @@ input, select {
   padding: 5px;
 }
 
-table {
-  width: 80%;
-  border-collapse: collapse;
-  margin: 0 auto;
+.table-responsive {
+  overflow-x: auto; /* 반응형 테이블 */
 }
 
-td {
+.table {
+  width: 50%;
+  border-collapse: collapse;
+  margin: 0 auto;
+  font-size: 0.9rem; /* 테이블 폰트 크기 조정 */
+}
+
+td, th {
   border: 1px solid #ddd;
   padding: 8px;
   text-align: left;
 }
 
-th, td {
-  border: 1px solid #ddd;
-  padding: 8px;
-}
-
 th {
-  background-color: #4CAF50;
+  background-color: #007bff; /* 헤더 배경색 */
   color: white;
 }
+
+.table-striped tbody tr:nth-of-type(odd) {
+  background-color: #f2f2f2; /* 홀수 줄 배경색 */
+}
+
+.table-hover tbody tr:hover {
+  background-color: #e2e6ea; /* 마우스 오버 시 배경색 */
+}
+
+.link-item {
+  cursor: pointer; /* 링크 스타일 */
+  color: #007bff; /* 링크 색상 */
+}
+
+.link-item:hover {
+  text-decoration: underline; /* 링크 오버 시 밑줄 */
+}
+
 
 .pagination {
   display: flex;
@@ -281,13 +319,12 @@ th {
   align-items: center;
   padding: 10px 0;
   list-style: none;
-  align-items: center;
   width: 90%;
   margin: auto;
 }
 
 .pagination a {
-  color: #6e7a8e;
+  color: #007bff; /* 링크 색상 */
   padding: 8px 12px;
   margin: 0 4px;
   text-decoration: none;
@@ -296,32 +333,42 @@ th {
 }
 
 .pagination a:hover {
-  background-color: #e4e9f1;
+  background-color: #e4e9f1; /* 마우스 오버 시 배경색 */
   cursor: pointer;
 }
 
 .pagination a.active {
-  color: blue;
+  color: white;
+  background-color: #007bff; /* 활성 페이지 색상 */
   font-weight: bold;
   pointer-events: none;
 }
 
 .pagination a.disabled {
-  color: #d1d5db;
+  color: #d1d5db; /* 비활성 링크 색상 */
   pointer-events: none;
 }
 
-.pagination a:first-child,
-.pagination a:last-child {
-  margin-right: 10px;
-  position: relative;
-}
+@media (max-width: 768px) {
+  h1 {
+    font-size: 1.5rem; /* 모바일에서 제목 크기 조정 */
+  }
 
-.pagination a.first-page,
-.pagination a.last-page {
-  font-weight: bold;
-  position: relative;
+  .table {
+    width: 300%;
+    font-size: 0.8rem; /* 모바일에서 테이블 폰트 크기 조정 */
+    overflow-x: auto; /* 테이블이 가로 스크롤 가능하도록 설정 */
+    display: block; /* 블록으로 설정하여 스크롤 가능하도록 함 */
+  }
 
+  .pagination {
+    flex-direction: row; /* 모바일에서 페이지네이션을 가로로 배치 */
+    justify-content: center; /* 가운데 정렬 */
+  }
+
+  .pagination a {
+    margin: 0 2px; /* 페이지네이션 링크 여백 조정 */
+  }
 }
 
 </style>

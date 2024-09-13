@@ -8,4 +8,6 @@ import java.util.List;
 public interface ListingSharesAlarmsRepositoryCustom {
 
     List<MyListingSharesAlarmsDto> fetchMyListingSharesAlarms(Long userID);
+
+    ListingSharesAlarms checkAlreadyExists(String listingShares, Long userID);
 }

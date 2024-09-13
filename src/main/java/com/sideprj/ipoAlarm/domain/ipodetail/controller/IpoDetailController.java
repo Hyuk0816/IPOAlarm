@@ -54,7 +54,6 @@ public class IpoDetailController {
     @GetMapping("/data")
     public ResponseEntity<IpoDetailFetchWithComments> getIpoDetail(@RequestParam("ipoName") String ipoName) {
 
-        log.info(ipoName + " 컨트롤러 ! 의 값은? ");
         return ResponseEntity
                 .status(HttpStatus.OK)
                 .body(ipoDetailService.getIpoDetail(ipoName));
