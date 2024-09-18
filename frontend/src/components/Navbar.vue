@@ -1,7 +1,22 @@
 <script setup>
   import KakaoLogin from "./KakaoLogin.vue";
+  import {onMounted, ref} from "vue";
+  import {useMypageStore} from "@/stores/myPageStore.js";
 
+  const myPageStore = useMypageStore();
+  const mypageRes = ref(null); // 초기 상태를 빈 객체로 설정
+  const getMyData = async () =>{
+    try{
+      const response =  await myPageStore.getMyPage()
+      mypageRes.value = response.data;
+    }catch (err){
+      console.error(err)
+    }
 
+  }
+  onMounted(() => {
+    getMyData()
+  })
 </script>
 
 <template>
@@ -23,8 +38,8 @@
             <a class="nav-link active" href="/mypage">마이페이지</a>
           </li>
         </ul>
-        <ul class="navbar-nav ms-auto">
-          <li class="nav-item" >
+        <ul class="navbar-nav ms-auto" >
+          <li class="nav-item-kakao" v-if="!mypageRes" >
             <KakaoLogin />
           </li>
         </ul>
@@ -34,6 +49,5 @@
 </template>
 
 <style scoped>
-
 
 </style>
