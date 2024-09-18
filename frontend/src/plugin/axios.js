@@ -1,5 +1,6 @@
 import axios from "axios";
 import {API_BASE_URL, API_GET_ACCESS_TOKEN} from "../api/apiPoints.js";
+import {ref} from "vue";
 
 const instance = axios.create({
     timeout: 2000,
@@ -9,7 +10,7 @@ const instance = axios.create({
         'Content-Type': 'application/json'
     }
 });
-
+const isLogin = ref(false);
 instance.interceptors.request.use(
     async (config) => {
         try {
@@ -22,6 +23,9 @@ instance.interceptors.request.use(
                 console.log(accessToken + ": axios ")
                 config.headers['Authorization'] = `Bearer ${accessToken}`;
                 console.log('Access token set in header:', accessToken);
+
+                isLogin.value = true;
+                console.log(isLogin.value+ " : isLogin 값은 ? ")
 
             }
 

@@ -5,8 +5,6 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import java.util.List;
-
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
@@ -18,6 +16,9 @@ public class IpoDetailFetchDto {
     private String representative;
     private String revenue;
     private String netProfit;
+    private String competitionRate;
+    private String securities;
+    private String confirmPrice;
     private String totalOfferedShares;
 
 

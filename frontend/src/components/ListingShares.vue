@@ -278,7 +278,7 @@ input, select {
 }
 
 .table {
-  width: 50%;
+  width: 70%;
   border-collapse: collapse;
   margin: 0 auto;
   font-size: 0.9rem; /* 테이블 폰트 크기 조정 */

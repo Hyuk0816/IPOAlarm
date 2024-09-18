@@ -20,7 +20,9 @@ public class IpoDetailFetchWithComments {
     private String revenue;
     private String netProfit;
     private String totalOfferedShares;
-
+    private String competitionRate;
+    private String securities;
+    private String confirmPrice;
     private List<IpoCommentsDto> ipoComments;
 
 }

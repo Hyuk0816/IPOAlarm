@@ -33,40 +33,12 @@ public class AuthController {
 
     private final AuthService authService;
 
-    @Operation(
-            summary = "Login Rest API",
-            description = "Create Login Request"
-    )
-    @ApiResponses({
-            @ApiResponse(
-                    responseCode = "200",
-                    description = "HTTP STATUS OK"
-            ),
-            @ApiResponse(
-                    responseCode = "401",
-                    description = "HTTP STATUS UNAUTHORIZED"
-            ),
-            @ApiResponse(
-                    responseCode = "404",
-                    description = "HTTP STATUS NOT FOUND"
-            ),
-            @ApiResponse(
-                    responseCode = "500",
-                    description = "HTTP Status Internal Server Error",
-                    content = @Content(
-                            schema = @Schema(implementation = ErrorResponse.class)
-                    )
-            )
 
-    }
-    )
     @PostMapping(path = "/login")
-    public ResponseEntity<UserStatusResponseVo> Login(@RequestBody LoginDto loginDto,
+    public void Login(@RequestBody LoginDto loginDto,
                                                        HttpServletResponse response) throws BadRequestException {
         authService.login(loginDto, response);
-        return ResponseEntity
-                .status(HttpStatus.OK)
-                .body(new UserStatusResponseVo(AuthConstants.STATUS_200, AuthConstants.MESSAGE_Login_200));
+
     }
 
     @Operation(

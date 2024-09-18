@@ -1,5 +1,7 @@
 <script setup>
   import KakaoLogin from "./KakaoLogin.vue";
+
+
 </script>
 
 <template>
@@ -18,11 +20,11 @@
             <a class="nav-link active" href="/ListingShares">상장일 일정</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link active" href="#">Info</a>
+            <a class="nav-link active" href="/mypage">마이페이지</a>
           </li>
         </ul>
         <ul class="navbar-nav ms-auto">
-          <li class="nav-item">
+          <li class="nav-item" >
             <KakaoLogin />
           </li>
         </ul>

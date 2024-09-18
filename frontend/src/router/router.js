@@ -4,6 +4,8 @@ import IpoData from "../components/IpoData.vue";
 import MonthlyChart from "../components/MonthlyChart.vue";
 import ListingShares from "../components/ListingShares.vue";
 import IpoDetail from "@/components/IpoDetail.vue";
+import mypage from "../components/mypage.vue"
+
 
 const router = createRouter({
     history: createWebHistory(),
@@ -12,6 +14,7 @@ const router = createRouter({
         {path:'/',component:MonthlyChart, name:"home"},
         {path: '/ListingShares', component:ListingShares},
         {path: `/IpoDetail`, component:IpoDetail},
+        {path: '/mypage', component:mypage}
     ]
 })
 

@@ -15,10 +15,8 @@
   };
 
   const regComments = async (comments) =>{
-    const commentPayload = {
-      ipoComment: comments.value // 댓글 내용을 가져오기
-    };
-    await ipoDetailStore.saveComments(ipoName.value,commentPayload.ipoComment);
+    console.log(comments + " 댓글이 왜 안들어올까 ? ")
+    await ipoDetailStore.saveComments(ipoName.value,comments);
   }
 
   onMounted(fetchIpoDetail);
@@ -33,12 +31,15 @@
         <p class="card-text"><strong>대표:</strong> {{ response.data.representative }}</p>
         <p class="card-text"><strong>매출:</strong> {{ response.data.revenue }}</p>
         <p class="card-text"><strong>순이익:</strong> {{ response.data.netProfit }}</p>
+        <p class="card-text"><strong>경쟁률:</strong> {{ response.data.competitonRate }}</p>
+        <p class="card-text"><strong>주간사:</strong> {{ response.data.securities }}</p>
+        <p class="card-text"><strong>확정 공모가:</strong> {{ response.data.confirmPrice }}</p>
       </div>
     </div>
 
     <div class="comment-form mb-4">
       <textarea v-model="comments" class="form-control mb-2" rows="3" placeholder="댓글을 입력하세요..."></textarea>
-      <button class="btn btn-primary" @click="regComments">댓글 작성</button>
+      <button class="btn btn-primary" @click="regComments(comments)">댓글 작성</button>
     </div>
 
     <h5 class="mb-3">댓글</h5>

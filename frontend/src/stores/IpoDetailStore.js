@@ -23,7 +23,7 @@ export const useIpoDetailStore = defineStore('ipoDetail',()=> {
         try{
 
             const response =  await axios.post(`http://localhost:8080/api/ipo_comments/comment/${ipoName}`, {
-                ipoComment : ipoComments.value
+                ipoComment : ipoComments
             })
             alert(response.data.statusMsg)
             location.reload();

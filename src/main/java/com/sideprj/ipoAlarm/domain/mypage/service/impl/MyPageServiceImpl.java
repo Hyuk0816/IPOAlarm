@@ -34,9 +34,14 @@ public class MyPageServiceImpl implements MyPageService {
         User user = userRepository.findByEmail(authentication.getName())
                 .orElseThrow(() -> new UsernameNotFoundException(UserConstants.MESSAGE_404));
 
+        List<MyAlarmDto> myAlarmDto = fetchMyAlarmList();
+        List<MyListingSharesAlarmsDto> myListingSharesAlarmsDto = fetchMyListingSharesList();
+
         return MyPageDto.builder()
                 .email(user.getEmail())
                 .image(user.getImage())
+                .myAlarm(myAlarmDto)
+                .myListingShares(myListingSharesAlarmsDto)
                 .build();
     }
 

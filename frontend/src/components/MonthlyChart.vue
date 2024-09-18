@@ -117,12 +117,13 @@ export default {
 </script>
 
 <style scoped>
+
 .nav-pills .nav-link {
   margin-bottom: 10px; /* 탭 간의 간격 조정 */
 }
 
 #profitChart {
-  height: 400px; /* 원하는 높이 설정 */
-  width: 50px; /* 너비를 100%로 설정 */
+  height: 50%; /* 원하는 높이 설정 */
+  width: 50%; /* 너비를 100%로 설정 */
 }
 </style>

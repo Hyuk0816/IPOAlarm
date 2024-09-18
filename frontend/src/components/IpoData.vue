@@ -216,6 +216,7 @@ const submitAlarm = async () => {
       const response = await axios.post(API_IPO_ALARM, null, {
         params: { ipoName }
       });
+
       alert(response.data.statusMsg);
     } catch (error) {
       if (error.response) {
@@ -278,7 +279,7 @@ input, select {
 }
 
 .table {
-  width: 50%; /* 테이블 너비 설정 */
+  width: 75%; /* 테이블 너비 설정 */
   border-collapse: collapse;
   margin: 0 auto;
   font-size: 0.9rem; /* 테이블 폰트 크기 조정 */

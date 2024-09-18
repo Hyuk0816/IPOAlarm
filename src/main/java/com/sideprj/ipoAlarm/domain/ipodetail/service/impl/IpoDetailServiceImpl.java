@@ -39,6 +39,9 @@ public class IpoDetailServiceImpl implements IpoDetailService {
                 .representative(ipoDetailFetchDto.getRepresentative())
                 .netProfit(ipoDetailFetchDto.getNetProfit())
                 .totalOfferedShares(ipoDetailFetchDto.getTotalOfferedShares())
+                .competitionRate(ipoDetailFetchDto.getCompetitionRate())
+                .securities(ipoDetailFetchDto.getSecurities())
+                .confirmPrice(ipoDetailFetchDto.getConfirmPrice())
                 .ipoComments(byIpoName)
                 .build();
 

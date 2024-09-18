@@ -5,6 +5,8 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
+
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
@@ -13,5 +15,7 @@ public class MyPageDto {
 
     private String email;
     private String image;
+    private List<MyAlarmDto> myAlarm;
+    private List<MyListingSharesAlarmsDto> myListingShares;
 
 }

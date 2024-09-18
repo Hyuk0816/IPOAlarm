@@ -22,14 +22,12 @@ public class OAuth2Controller {
     private final Oauth2Service oauth2Service;
 
     @GetMapping("/dev/login/oauth/{registration}")
-    public ResponseEntity<UserStatusResponseVo> socialLogin(@RequestParam String code,
+    public void socialLogin(@RequestParam String code,
                                                             @PathVariable String registration,
                                                             HttpServletResponse response) throws BadRequestException {
         oauth2Service.socialLogin(code, registration, response);
 
-        return ResponseEntity
-                .status(HttpStatus.OK)
-                .body(new UserStatusResponseVo(AuthConstants.STATUS_200, AuthConstants.MESSAGE_Login_200));
+
     }
 
 }
