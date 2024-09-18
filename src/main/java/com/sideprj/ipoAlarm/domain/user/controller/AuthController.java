@@ -33,7 +33,25 @@ public class AuthController {
 
     private final AuthService authService;
 
+    @Operation(
+            summary = "Login Rest API",
+            description = "Create Logout Request"
+    )
+    @ApiResponses({
+            @ApiResponse(
+                    responseCode = "200",
+                    description = "HTTP STATUS OK"
+            ),
+            @ApiResponse(
+                    responseCode = "500",
+                    description = "HTTP Status Internal Server Error",
+                    content = @Content(
+                            schema = @Schema(implementation = ErrorResponse.class)
+                    )
+            )
 
+    }
+    )
     @PostMapping(path = "/login")
     public void Login(@RequestBody LoginDto loginDto,
                                                        HttpServletResponse response) throws BadRequestException {
@@ -99,6 +117,11 @@ public class AuthController {
         return ResponseEntity
                 .status(HttpStatus.OK)
                 .body(tokensInfo);
+    }
+
+    @GetMapping("/userInfo")
+    public String getUserInfo(@RequestParam("access_token") String token) {
+        return authService.getUsername(token);
     }
 
 }

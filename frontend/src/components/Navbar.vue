@@ -5,10 +5,15 @@
 
   const myPageStore = useMypageStore();
   const mypageRes = ref(null); // 초기 상태를 빈 객체로 설정
+  let userEmail = ref(null);
+  let userImage = ref(null);
+
   const getMyData = async () =>{
     try{
       const response =  await myPageStore.getMyPage()
       mypageRes.value = response.data;
+      userEmail = mypageRes.value.email;
+      userImage = mypageRes.value.image;
     }catch (err){
       console.error(err)
     }
@@ -42,6 +47,10 @@
           <li class="nav-item-kakao" v-if="!mypageRes" >
             <KakaoLogin />
           </li>
+          <li class="nav-item-profile" v-if="mypageRes">
+            <img :src="userImage" alt="Profile Image" class="profile-image" />
+            <span class="profile-email">{{userEmail}}</span>
+          </li>
         </ul>
       </div>
     </div>
@@ -49,5 +58,22 @@
 </template>
 
 <style scoped>
+
+.profile-image {
+  width: 30px; /* 원하는 크기로 조절 */
+  height: 30px; /* 원하는 크기로 조절 */
+  border-radius: 50%; /* 원형으로 만들기 */
+  margin-right: 5px; /* 이미지와 텍스트 간격 조정 */
+}
+
+.profile-email {
+  display: inline-block; /* 텍스트가 한 줄에 표시되도록 함 */
+  vertical-align: middle; /* 이미지와 수직 정렬 */
+}
+
+.nav-item-profile {
+  display: flex; /* 이미지와 텍스트를 가로로 정렬 */
+  align-items: center; /* 수직 중앙 정렬 */
+}
 
 </style>

@@ -111,7 +111,7 @@ import Modal from './Modal.vue'; // 모달 컴포넌트 임포트
 import {API_GET_IPO_DATA} from '../api/apiPoints.js'
 import {API_IPO_ALARM} from "../api/apiPoints.js";
 import { useRouter } from 'vue-router'; // 라우터 가져오기
-
+import {useMypageStore} from "@/stores/myPageStore.js";
 
 const ipoData = ref([]);
 const searchName = ref('');
@@ -125,6 +125,8 @@ const isModalOpen = ref(false);
 const selectedItem = ref(null); // 선택된 아이템 저장
 
 const router = useRouter();
+
+const myPageStore = useMypageStore();
 
 const fetchData = async (page) => {
   const params = {
@@ -207,10 +209,16 @@ const adjustedCurrentPage = computed(() => {
   return currentPage.value - 1; // 프론트엔드에서 1부터 시작하므로 1 빼줌
 });
 
+
 const submitAlarm = async () => {
   if (selectedItem.value) {
     console.log(selectedItem.value);
     const ipoName = selectedItem.value;
+
+    //redis에서 카카오톡 refresh 가져올 때 필요!
+    const userInfo = await myPageStore.getMyPage();
+    const email = userInfo.data.email
+
 
     try {
       const response = await axios.post(API_IPO_ALARM, null, {
@@ -233,6 +241,7 @@ const submitAlarm = async () => {
 const goToDetailPage = async (ipoName) => {
    await router.push({path: '/ipoDetail', query: {ipoName}})
 }
+
 
 
 onMounted(() => fetchData(0));

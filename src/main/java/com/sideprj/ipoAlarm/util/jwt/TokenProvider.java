@@ -106,6 +106,7 @@ public class TokenProvider {
         return String.valueOf(claims.get("email"));
     }
 
+
     public String resolveToken(HttpServletRequest request) {
         String bearerToken = request.getHeader("Authorization");
         if (hasText(bearerToken) && bearerToken.startsWith("Bearer ")) {

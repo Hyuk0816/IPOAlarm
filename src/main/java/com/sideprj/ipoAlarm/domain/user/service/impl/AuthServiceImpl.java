@@ -149,4 +149,9 @@ public class AuthServiceImpl implements AuthService {
             throw new UsernameNotFoundException(UserConstants.REQUIRED_LOGIN);
         }
     }
+
+    @Override
+    public String getUsername(String token) {
+        return tokenProvider.getEmailFromToken(token);
+    }
 }

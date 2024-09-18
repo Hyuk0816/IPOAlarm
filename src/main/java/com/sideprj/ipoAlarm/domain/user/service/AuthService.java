@@ -15,4 +15,5 @@ public interface AuthService {
 
     void checkAuthentication(Authentication authentication);
 
+    String getUsername(String token);
 }
