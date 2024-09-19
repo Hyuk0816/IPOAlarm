@@ -40,3 +40,4 @@ out/
 /ipo_data.csv
 /src/main/resources/application-oauth.yml
 /frontend/node_modules/
+/src/main/resources/static/
