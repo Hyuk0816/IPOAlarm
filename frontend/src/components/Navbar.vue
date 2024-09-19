@@ -49,7 +49,6 @@
           </li>
           <li class="nav-item-profile" v-if="mypageRes">
             <img :src="userImage" alt="Profile Image" class="profile-image" />
-            <span class="profile-email">{{userEmail}}</span>
           </li>
         </ul>
       </div>
