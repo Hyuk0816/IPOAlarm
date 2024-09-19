@@ -13,7 +13,7 @@ import java.util.List;
 @Builder
 public class MyPageDto {
 
-    private String email;
+    private String nickName;
     private String image;
     private List<MyAlarmDto> myAlarm;
     private List<MyListingSharesAlarmsDto> myListingShares;

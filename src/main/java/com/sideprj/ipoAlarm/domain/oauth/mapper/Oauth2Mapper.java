@@ -30,11 +30,14 @@ public class Oauth2Mapper {
             // profile을 Map으로 변환
             Map<String, Object> profileMap = (Map<String, Object>) kakaoAccountMap.get("profile");
 
+            log.info(kakaoAccountMap.toString());
+            log.info(profileMap.toString());
+
 
             return KakaoUserInfoDto.builder()
                     .id(kakaoResourceDto.getId())
                     .email(kakaoAccountMap.get("email").toString())
-                    .image(profileMap.get("thumbnail_image_url").toString())
+                    .image(profileMap.get("profile_image_url").toString())
                     .build();
         } catch (Exception e) {
             throw new RuntimeException(e);

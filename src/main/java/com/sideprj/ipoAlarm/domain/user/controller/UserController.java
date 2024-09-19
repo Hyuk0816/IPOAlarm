@@ -13,14 +13,13 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.apache.tomcat.util.http.fileupload.FileUploadException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 @Tag(
         name = "CRUD REST APIs for Users",
@@ -58,6 +57,57 @@ public class UserController {
         return ResponseEntity
                 .status(HttpStatus.CREATED)
                 .body(new UserStatusResponseVo(UserConstants.STATUS_201, UserConstants.MESSAGE_201));
+    }
+    @Operation(
+            summary = "Update User NickName REST API",
+            description = "REST API to Update User NickName REST API"
+    )
+    @ApiResponses({
+            @ApiResponse(
+                    responseCode = "201",
+                    description = "HTTP Status CREATED"
+            ),
+            @ApiResponse(
+                    responseCode = "500",
+                    description = "HTTP Status Internal Server Error",
+                    content = @Content(
+                            schema = @Schema(implementation = ErrorResponseDto.class)
+                    )
+            )
+    }
+    )
+    @PutMapping(path = "/nickName")
+    public ResponseEntity<UserStatusResponseVo> putNickName(@RequestParam String nickName) {
+        userService.updateNickName(nickName);
+        return ResponseEntity
+                .status(HttpStatus.CREATED)
+                .body(new UserStatusResponseVo(UserConstants.STATUS_201, UserConstants.MESSAGE_PUT_NICKNAME));
+    }
+
+    @Operation(
+            summary = "Update User Profile REST API",
+            description = "REST API to Update User Profile REST API"
+    )
+    @ApiResponses({
+            @ApiResponse(
+                    responseCode = "201",
+                    description = "HTTP Status CREATED"
+            ),
+            @ApiResponse(
+                    responseCode = "500",
+                    description = "HTTP Status Internal Server Error",
+                    content = @Content(
+                            schema = @Schema(implementation = ErrorResponseDto.class)
+                    )
+            )
+    }
+    )
+    @PutMapping(value = "/profile", consumes = {"multipart/form-data"})
+    public ResponseEntity<UserStatusResponseVo> putProfile(@RequestPart(value = "file", required = false) MultipartFile file) throws FileUploadException {
+        userService.updateProfile(file);
+        return ResponseEntity
+                .status(HttpStatus.CREATED)
+                .body(new UserStatusResponseVo(UserConstants.STATUS_201, UserConstants.MESSAGE_PUT_PROFILE));
     }
 
 }

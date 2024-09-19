@@ -38,7 +38,7 @@ public class MyPageServiceImpl implements MyPageService {
         List<MyListingSharesAlarmsDto> myListingSharesAlarmsDto = fetchMyListingSharesList();
 
         return MyPageDto.builder()
-                .email(user.getEmail())
+                .nickName(user.getNickName())
                 .image(user.getImage())
                 .myAlarm(myAlarmDto)
                 .myListingShares(myListingSharesAlarmsDto)

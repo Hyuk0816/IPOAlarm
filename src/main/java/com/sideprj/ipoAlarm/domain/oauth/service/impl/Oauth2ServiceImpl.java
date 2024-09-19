@@ -26,6 +26,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
@@ -70,12 +71,12 @@ public class Oauth2ServiceImpl implements Oauth2Service {
         return tokenMap;
     }
 
-
     @Override
-    public void socialSignIn(String email, String password, String image) {
+    public void socialSignIn(String email, String password, String image,HttpServletResponse response) throws IOException {
 
         UserDetailsRequestVo userVo = UserDetailsRequestVo.builder()
                 .email(email)
+                .nickName(email)
                 .password(password)
                 .image(image)
                 .build();
@@ -94,7 +95,7 @@ public class Oauth2ServiceImpl implements Oauth2Service {
     }
 
     @Override
-    public void socialLogin(String code, String registration, HttpServletResponse response) throws BadRequestException {
+    public void socialLogin(String code, String registration, HttpServletResponse response) throws IOException {
         Map<String, String> mapToken = getAccessToken(code, registration);
         String accessToken = mapToken.get("access_token");
         String refreshToken = mapToken.get("refresh_token");
@@ -104,7 +105,7 @@ public class Oauth2ServiceImpl implements Oauth2Service {
         KakaoUserInfoDto kakaoUserInfoDto = Oauth2Mapper.mapFromKakaoResourceDtoToKakaoUserInfoDto(userInfoDto);
 
         if (!checkUserExists(kakaoUserInfoDto.getEmail())){
-            socialSignIn(kakaoUserInfoDto.getEmail(), kakaoUserInfoDto.getId(), kakaoUserInfoDto.getImage());
+            socialSignIn(kakaoUserInfoDto.getEmail(), kakaoUserInfoDto.getId(), kakaoUserInfoDto.getImage(), response);
         }
 
         User user = userRepository.findByEmail(kakaoUserInfoDto.getEmail()).orElseThrow(() -> new UsernameNotFoundException(UserConstants.MESSAGE_404));

@@ -22,7 +22,7 @@
     <div class="row">
       <div class="col-md-4 text-center">
         <img :src="response.data.image" alt="User Image" class="rounded-circle img-fluid mb-3" style="width: 150px; height: 150px;">
-        <h3>{{ response.data.email }}</h3>
+        <h3>{{ response.data.nickName }}</h3>
       </div>
       <div class="col-md-8">
         <ul class="nav nav-tabs" id="myTab" role="tablist">

@@ -20,10 +20,10 @@ public class UserMapper {
     public static User mapToUsersDetailsRequestVo(UserDetailsRequestVo userDetailsRequestVo) {
         return User.builder()
                 .email(userDetailsRequestVo.getEmail())
+                .nickName(userDetailsRequestVo.getNickName())
                 .password(userDetailsRequestVo.getPassword())
                 .image(userDetailsRequestVo.getImage())
                 .build();
-
     }
 }
 
