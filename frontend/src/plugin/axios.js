@@ -11,6 +11,7 @@ const instance = axios.create({
     }
 });
 
+const accessToken = ref(null)
 instance.interceptors.request.use(
     async (config) => {
         try {
@@ -19,10 +20,10 @@ instance.interceptors.request.use(
 
             if (res.status === 200 && res.data.accessToken) {
                 // Extract the access token from the response
-                const accessToken = res.data.accessToken;
-                console.log(accessToken + ": axios ")
-                config.headers['Authorization'] = `Bearer ${accessToken}`;
-                console.log('Access token set in header:', accessToken);
+                accessToken.value = res.data.accessToken;
+                console.log(accessToken.value + ": axios ")
+                config.headers['Authorization'] = `Bearer ${accessToken.value}`;
+                console.log('Access token set in header:', accessToken.value);
 
             }
 
@@ -36,4 +37,5 @@ instance.interceptors.request.use(
         return Promise.reject(error);
     }
 );
+
 export default instance;

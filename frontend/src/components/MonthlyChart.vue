@@ -12,10 +12,8 @@
             <a
                 class="nav-link"
                 :class="{ active: selectedYear === year }"
-                @click="fetchData(year)"
-                href="#"
-            >
-              {{ year }}
+                @click.prevent="fetchData(year)">
+            {{ year }}
             </a>
           </li>
         </ul>
@@ -117,13 +115,18 @@ export default {
 </script>
 
 <style scoped>
-
 .nav-pills .nav-link {
   margin-bottom: 10px; /* 탭 간의 간격 조정 */
 }
 
 #profitChart {
-  height: 50%; /* 원하는 높이 설정 */
-  width: 50%; /* 너비를 100%로 설정 */
+  height: 300px; /* 원하는 높이 설정 */
+  width: 100%; /* 너비를 100%로 설정 */
+}
+
+@media (max-width: 576px) {
+  #profitChart {
+    height: 250px; /* 작은 화면에서는 높이 조정 */
+  }
 }
 </style>

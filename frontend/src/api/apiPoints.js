@@ -11,3 +11,5 @@ export const API_IPO_ALARM = '/alarm/data'
 export const LISTING_SHARES_ALARM = '/listing_share_alarm/alarm'
 
 export const MYPAGE = '/mypage/data'
+
+export const USER_INFO = '/auth/userInfo'

@@ -15,7 +15,6 @@
   };
 
   const regComments = async (comments) =>{
-    console.log(comments + " 댓글이 왜 안들어올까 ? ")
     await ipoDetailStore.saveComments(ipoName.value,comments);
   }
 

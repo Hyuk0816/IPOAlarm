@@ -8,12 +8,10 @@ import java.util.Map;
 
 public interface Oauth2Service {
 
-    public KakaoResourceDto getUserInfo(String accessToken, String registration);
+     KakaoResourceDto getUserInfo(String accessToken, String registration);
 
-    public Map<String ,String> getAccessToken(String authorizationCode, String registration);
+     Map<String ,String> getAccessToken(String authorizationCode, String registration);
 
-    public void socialSignIn(String email, String password, String image);
-
-    public void socialLogin(String code, String registration, HttpServletResponse response ) throws BadRequestException;
-
+     void socialSignIn(String email, String password, String image);
+     void socialLogin(String code, String registration, HttpServletResponse response ) throws BadRequestException;
 }

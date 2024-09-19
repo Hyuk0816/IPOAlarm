@@ -7,21 +7,9 @@
 </template>
 
 <script setup>
-import { useRouter } from 'vue-router';
-import {ref} from "vue";
-import axios from "@/plugin/axios.js";
-import {useUserStore} from "@/stores/usersStores.ts";
-
-const router = useRouter();
-const userStore = useUserStore();
 
 const goToKakaoLogin = async () => {
-  window.location.href = 'https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=292b2857a22606f949ea630aea4ef0e0&client_secret=LyLPICzrjENT92TXZv937kz5ez4nKYLe&redirect_uri=http://localhost:8080/dev/login/oauth/kakao';
-
-  userStore.usersData.email = axios.get("/api/auth/userInfo")
-  console.log(userStore.usersData.email + "email 값은?? kakaoLogin.vue")
-  router.push("/")
-
+  window.location.href = 'https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=4273ed90c97fada8f1dedfc1222c3466&client_secret=lX1BBKnPhoN1hoalZ7XLdfml8UF74rpd&redirect_uri=http://localhost:8080/dev/login/oauth/kakao';
 };
 
 // 로그인 후 홈으로 이동 (특정 로직 필요)

@@ -8,6 +8,7 @@ import com.sideprj.ipoAlarm.domain.user.repository.UserRepository;
 import com.sideprj.ipoAlarm.domain.user.service.AuthService;
 import com.sideprj.ipoAlarm.domain.user.userDetails.CustomUserDetails;
 import com.sideprj.ipoAlarm.domain.user.vo.response.AccessTokenResponse;
+import com.sideprj.ipoAlarm.domain.user.vo.response.UserInfoKakaoTokenVo;
 import com.sideprj.ipoAlarm.util.exception.UserNameNotFoundException;
 import com.sideprj.ipoAlarm.util.jwt.TokenProvider;
 import jakarta.servlet.http.Cookie;
@@ -122,7 +123,6 @@ public class AuthServiceImpl implements AuthService {
                         .type("bearer")
                         .build();
             }
-
         }
         return null;
     }
@@ -151,7 +151,14 @@ public class AuthServiceImpl implements AuthService {
     }
 
     @Override
-    public String getUsername(String token) {
-        return tokenProvider.getEmailFromToken(token);
+    public UserInfoKakaoTokenVo getUserNameAndKakaoAccessToken(String token) {
+
+        String email = tokenProvider.getEmailFromToken(token);
+        String kakaoAccessToken = redisTemplate.opsForValue().get(email + "-kakao_access");
+
+        return UserInfoKakaoTokenVo.builder()
+                .email(email)
+                .kakaoToken(kakaoAccessToken)
+                .build();
     }
 }

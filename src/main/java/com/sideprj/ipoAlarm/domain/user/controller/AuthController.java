@@ -5,6 +5,7 @@ import com.sideprj.ipoAlarm.domain.user.dto.LoginDto;
 import com.sideprj.ipoAlarm.domain.user.service.AuthService;
 import com.sideprj.ipoAlarm.domain.user.vo.UserStatusResponseVo;
 import com.sideprj.ipoAlarm.domain.user.vo.response.AccessTokenResponse;
+import com.sideprj.ipoAlarm.domain.user.vo.response.UserInfoKakaoTokenVo;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -119,9 +120,28 @@ public class AuthController {
                 .body(tokensInfo);
     }
 
+    @Operation(
+            summary = "Get user Info",
+            description = "Get user Info by Token for Alarm Submit"
+    )
+    @ApiResponses({
+            @ApiResponse(
+                    responseCode = "200",
+                    description = "HTTP STATUS OK"
+            ),
+            @ApiResponse(
+                    responseCode = "500",
+                    description = "HTTP Status Internal Server Error",
+                    content = @Content(
+                            schema = @Schema(implementation = ErrorResponse.class)
+                    )
+            )
+
+    })
     @GetMapping("/userInfo")
-    public String getUserInfo(@RequestParam("access_token") String token) {
-        return authService.getUsername(token);
+    public UserInfoKakaoTokenVo getUserInfo(@RequestParam String token) {
+        log.info(token + " 토큰 값 잘 들어오나?");
+        return authService.getUserNameAndKakaoAccessToken(token);
     }
 
 }

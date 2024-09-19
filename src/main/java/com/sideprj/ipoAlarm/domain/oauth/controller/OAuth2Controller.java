@@ -23,10 +23,9 @@ public class OAuth2Controller {
 
     @GetMapping("/dev/login/oauth/{registration}")
     public void socialLogin(@RequestParam String code,
-                                                            @PathVariable String registration,
-                                                            HttpServletResponse response) throws BadRequestException {
+                            @PathVariable String registration,
+                            HttpServletResponse response) throws BadRequestException {
         oauth2Service.socialLogin(code, registration, response);
-
 
     }
 

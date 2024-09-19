@@ -2,6 +2,7 @@ package com.sideprj.ipoAlarm.domain.user.service;
 
 import com.sideprj.ipoAlarm.domain.user.dto.LoginDto;
 import com.sideprj.ipoAlarm.domain.user.vo.response.AccessTokenResponse;
+import com.sideprj.ipoAlarm.domain.user.vo.response.UserInfoKakaoTokenVo;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.apache.coyote.BadRequestException;
@@ -15,5 +16,5 @@ public interface AuthService {
 
     void checkAuthentication(Authentication authentication);
 
-    String getUsername(String token);
+    UserInfoKakaoTokenVo getUserNameAndKakaoAccessToken(String token);
 }

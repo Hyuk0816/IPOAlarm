@@ -108,10 +108,12 @@
 import { ref, onMounted, computed } from 'vue';
 import axios from '../plugin/axios.js';
 import Modal from './Modal.vue'; // 모달 컴포넌트 임포트
-import {API_GET_IPO_DATA} from '../api/apiPoints.js'
+import {API_GET_ACCESS_TOKEN, API_GET_IPO_DATA, USER_INFO} from '../api/apiPoints.js'
 import {API_IPO_ALARM} from "../api/apiPoints.js";
 import { useRouter } from 'vue-router'; // 라우터 가져오기
-import {useMypageStore} from "@/stores/myPageStore.js";
+import {useUserStore} from "@/stores/usersStores.ts";
+import {useKakaoCalenderStore} from "@/stores/kakaoCalenderStore.js";
+
 
 const ipoData = ref([]);
 const searchName = ref('');
@@ -125,8 +127,8 @@ const isModalOpen = ref(false);
 const selectedItem = ref(null); // 선택된 아이템 저장
 
 const router = useRouter();
-
-const myPageStore = useMypageStore();
+const userStore = useUserStore();
+const kakaoCalenderStore = useKakaoCalenderStore();
 
 const fetchData = async (page) => {
   const params = {
@@ -215,16 +217,19 @@ const submitAlarm = async () => {
     console.log(selectedItem.value);
     const ipoName = selectedItem.value;
 
-    //redis에서 카카오톡 refresh 가져올 때 필요!
-    const userInfo = await myPageStore.getMyPage();
-    const email = userInfo.data.email
+    const userEamilKakaoResponse = await userStore.getUserInfo();
+    const email = userEamilKakaoResponse.data.email;
+    const kakaoToken = userEamilKakaoResponse.data.kakaoToken;
+
+    console.log(email + " : submit Alarm email")
+    console.log(kakaoToken + " : submit Alarm kakoToken")
 
 
     try {
       const response = await axios.post(API_IPO_ALARM, null, {
         params: { ipoName }
       });
-
+      const kakaoCalenderResponse = await kakaoCalenderStore.createEvent(kakaoToken);
       alert(response.data.statusMsg);
     } catch (error) {
       if (error.response) {
