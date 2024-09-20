@@ -1,8 +1,10 @@
 <script setup>
  import {useMypageStore} from "@/stores/myPageStore.js";
  import {onMounted, ref} from "vue";
+ import {almostWhole} from "chart.js/helpers";
  const mypage = useMypageStore();
  const response = ref(null); // response를 ref로 초기화
+ const profile = ref<File>('');
 
  const getData = async ()=>{
    response.value = await mypage.getMyPage()
@@ -12,6 +14,10 @@
    return new Date(dateString).toLocaleDateString(undefined, options);
  };
 
+ const putProfilePicture = async (profile) => {
+   const res =  await mypage.putProfile(profile);
+ }
+
  onMounted(() => {
    getData();
  })
@@ -19,12 +25,15 @@
 
 <template>
   <div class="container mt-5">
-    <div class="row">
-      <div class="col-md-4 text-center">
+    <div class="row text-center">
+      <div class="col-md-12">
         <img :src="response.data.image" alt="User Image" class="rounded-circle img-fluid mb-3" style="width: 150px; height: 150px;">
+        <p class="edit-profile">프로필 사진 수정</p> <!-- 추가된 부분 -->
         <h3>{{ response.data.nickName }}</h3>
       </div>
-      <div class="col-md-8">
+    </div>
+    <div class="row">
+      <div class="col-md-12">
         <ul class="nav nav-tabs" id="myTab" role="tablist">
           <li class="nav-item" role="presentation">
             <a class="nav-link active" id="alarms-tab" data-bs-toggle="tab" href="#alarms" role="tab" aria-controls="alarms" aria-selected="true">공모주 알람</a>
@@ -68,7 +77,7 @@
               <tbody>
               <tr v-for="listing in response.data.myListingShares" :key="listing.listingShares">
                 <td>{{ listing.listingShares }}</td>
-                <td>{{ listing.listingDate }}</td>
+                <td>{{ formatDate(listing.listingDate) }}</td>
                 <td>{{ listing.offeringPrice }}</td>
               </tr>
               </tbody>
@@ -84,5 +93,18 @@
 </template>
 
 <style scoped>
-
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+.text-center {
+  text-align: center;
+}
+.edit-profile {
+  font-size: 0.8rem; /* 글자 크기 조정 */
+  color: gray; /* 글자 색상 조정 */
+  margin-top: -10px; /* 사진과의 간격 조정 */
+}
 </style>

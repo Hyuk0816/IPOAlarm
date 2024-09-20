@@ -41,7 +41,6 @@
       <table class="table table-striped table-bordered table-hover">
         <thead class="thead-light">
         <tr>
-          <th>Num</th>
           <th>이름</th>
           <th>상장일</th>
           <th>현재가</th>
@@ -56,7 +55,6 @@
         </thead>
         <tbody>
         <tr v-for="(item, index) in paginatedData" :key="index">
-          <td>{{ index + 1 }}</td>
           <td @click="goToDetailPage(item.ipoName)" class="link-item">{{ item.ipoName }}</td>
           <td>{{ formatDate(item.listingDate) }}</td>
           <td>{{ item.currentPrice }}</td>
@@ -114,6 +112,8 @@ import axios from '../plugin/axios.js'
 import Modal from './Modal.vue'; // 모달 컴포넌트 임포트
 import {LISTING_SHARES_ALARM} from "../api/apiPoints.js"
 import router from "@/router/router.js";
+import {useKakaoCalenderStore} from "@/stores/kakaoCalenderStore.js";
+import {useUserStore} from "@/stores/usersStores.ts";
 
 const listingData = ref([]);
 const searchName = ref('');
@@ -126,6 +126,8 @@ const isFilterOpen = ref(false);
 const isModalOpen = ref(false);
 const selectedItem = ref(null); // 선택된 아이템 저장
 
+const kakaoCalenderStore = useKakaoCalenderStore();
+const userStore = useUserStore();
 const fetchData = async (page) => {
   const params = {
     page,
@@ -204,20 +206,24 @@ const toggleFilter = () => {
 };
 
 const openModal = (item) => {
-  selectedItem.value = item.ipoName; // 선택된 아이템 저장
+  selectedItem.value = item; // 선택된 아이템 저장
   isModalOpen.value = true;
 };
 
 const submitAlarm = async () => {
-  if (selectedItem.value) {
-    console.log(selectedItem.value);
-    const listingShares = selectedItem.value;
+  if (selectedItem.value.ipoName) {
+    console.log(selectedItem.value.ipoName);
+
+    const listingShares = selectedItem.value.ipoName;
+    const userEamilKakaoResponse = await userStore.getUserInfo();
+    const kakaoToken = userEamilKakaoResponse.data.kakaoToken;
 
     try {
       const response = await axios.post(LISTING_SHARES_ALARM, null, {
         params: { listingShares }
       });
 
+      await kakaoCalenderStore.createListingEvent(kakaoToken,selectedItem)
       alert(response.data.statusMsg);
     } catch (error) {
       if (error.response) {

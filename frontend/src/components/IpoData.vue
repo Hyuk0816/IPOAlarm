@@ -41,7 +41,6 @@
       <table class="table table-striped table-bordered table-hover">
         <thead class="thead-light">
         <tr>
-          <th>Num</th>
           <th>이름</th>
           <th>공모 가격</th>
           <th>확정 가격</th>
@@ -54,7 +53,6 @@
         </thead>
         <tbody>
         <tr v-for="(item, index) in paginatedData" :key="index">
-          <td>{{ index + 1 + currentPage * pageSize }}</td>
           <td @click="goToDetailPage(item.ipoName)" class="link-item">{{ item.ipoName }}</td>
           <td>{{ item.ipoPrice }}</td>
           <td>{{ item.confirmPrice }}</td>
@@ -202,7 +200,7 @@ const toggleFilter = () => {
 
 //모달 관련
 const openModal = (item) => {
-  selectedItem.value = item.ipoName; // 선택된 아이템 저장
+  selectedItem.value = item; // 선택된 아이템 저장
   isModalOpen.value = true;
 };
 
@@ -214,22 +212,17 @@ const adjustedCurrentPage = computed(() => {
 
 const submitAlarm = async () => {
   if (selectedItem.value) {
-    console.log(selectedItem.value);
-    const ipoName = selectedItem.value;
+    console.log(selectedItem + " submitAlarm");
+    const ipoName = selectedItem.value.ipoName;
 
     const userEamilKakaoResponse = await userStore.getUserInfo();
-    const email = userEamilKakaoResponse.data.email;
     const kakaoToken = userEamilKakaoResponse.data.kakaoToken;
-
-    console.log(email + " : submit Alarm email")
-    console.log(kakaoToken + " : submit Alarm kakoToken")
-
 
     try {
       const response = await axios.post(API_IPO_ALARM, null, {
         params: { ipoName }
       });
-      const kakaoCalenderResponse = await kakaoCalenderStore.createEvent(kakaoToken);
+      await kakaoCalenderStore.createIpoEvent(kakaoToken,selectedItem);
       alert(response.data.statusMsg);
     } catch (error) {
       if (error.response) {
