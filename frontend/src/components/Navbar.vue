@@ -34,13 +34,13 @@
       <div class="collapse navbar-collapse" id="navbarNav">
         <ul class="navbar-nav">
           <li class="nav-item">
-            <a class="nav-link active" aria-current="page" href="/IpoData">IPO 일정</a>
+            <a class="nav-link active" aria-current="page" href="/IpoData">공모주 청약 일정</a>
           </li>
           <li class="nav-item">
             <a class="nav-link active" href="/ListingShares">상장일 일정</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link active" href="/mypage">마이페이지</a>
+            <a class="nav-link active" href="/mypage" v-if="mypageRes">마이페이지</a>
           </li>
         </ul>
         <ul class="navbar-nav ms-auto" >

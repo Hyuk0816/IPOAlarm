@@ -1,6 +1,8 @@
 <template>
   <div>
-    <h1 class="text-left display-4 text-primary mb-4">IPO 청약일정</h1>
+    <div class="logo-container">
+      <img class="logo" src="../assets/img/IPO_Schedule.png" alt="logo"></img>
+    </div>
     <div class="search-container">
       <div class="dropdown">
         <button class="btn btn-secondary dropdown-toggle" type="button" @click="toggleFilter" aria-expanded="false">
@@ -251,10 +253,16 @@ body {
   background-color: #f4f4f4;
   padding: 20px;
 }
+.logo{
+  width: 100%;
+  max-width: 400px;
+  height: auto;
+}
 
-h1 {
-  text-align: center;
-  color: #007bff; /* 텍스트 색상 */
+.logo-container {
+  display: flex;
+  justify-content: center; /* 가로 가운데 정렬 */
+  margin-bottom: 20px; /* 아래쪽 여백 추가 */
 }
 
 .search-container {
@@ -299,7 +307,7 @@ td, th {
 }
 
 th {
-  background-color: #007bff; /* 헤더 배경색 */
+  background-color: navy; /* 헤더 배경색 */
   color: white;
 }
 

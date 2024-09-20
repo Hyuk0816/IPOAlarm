@@ -1,6 +1,8 @@
 <template>
   <div>
-    <h1 class="text-left display-4 text-primary mb-4">상장일 일정</h1>
+    <div class="logo-container">
+      <img class="logo" src="../assets/img/listind_logo.png" alt="listingLogo"></img>
+    </div>
     <div class="search-container">
       <div class="dropdown">
         <button class="btn btn-secondary dropdown-toggle" type="button" @click="toggleFilter" aria-expanded="false">
@@ -65,7 +67,7 @@
           <td>{{ item.changeRateOpeningToOfferingPrice }}</td>
           <td>{{ item.closingPriceFirstDay }}</td>
           <td class="text-center">
-            <button class="btn btn-primary btn-sm" @click="openModal(item)">신청</button>
+            <button class="btn btn-danger btn-sm" @click="openModal(item)">신청</button>
           </td>
         </tr>
         </tbody>
@@ -250,11 +252,17 @@ body {
   padding: 20px;
 }
 
-h1 {
-  text-align: center;
-  color: #007bff; /* 텍스트 색상 */
+.logo{
+  width: 100%;
+  max-width: 350px;
+  height: auto;
 }
 
+.logo-container {
+  display: flex;
+  justify-content: center; /* 가로 가운데 정렬 */
+  margin-bottom: 20px; /* 아래쪽 여백 추가 */
+}
 .search-container {
   display: flex;
   justify-content: center;
@@ -297,7 +305,7 @@ td, th {
 }
 
 th {
-  background-color: #007bff; /* 헤더 배경색 */
+  background-color: brown; /* 헤더 배경색 */
   color: white;
 }
 

@@ -10,7 +10,7 @@ export const useMypageStore = defineStore('mypage',() => {
             console.error(err);
         }
     }
-    const putProfile = async (file:File) => {
+    const putProfile = async (file) => {
 
         try{
             const formData = new FormData();

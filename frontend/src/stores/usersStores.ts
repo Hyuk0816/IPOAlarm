@@ -28,28 +28,6 @@ export const useUserStore = defineStore('user', () => {
         };
     });
 
-    // Actions
-    const usersLogin = async (loginBody: UsersLoginRequest) => {
-        try {
-            const data = await login(loginBody);
-            loginStatus.value = data;
-
-            isLoggedIn.value = true;
-            loginError.value = null;
-        } catch (e) {
-            console.error('Login failed:', e);
-            loginError.value = 'Login failed. Please check your credentials and try again.';
-        }
-    };
-
-    // function setName(newName: string) {
-    //   name.value = newName
-    // }
-    //
-    // function setAge(newAge: number) {
-    //   age.value = newAge
-    // }
-
     function logIn() {
         isLoggedIn.value = true;
     }
@@ -72,15 +50,15 @@ export const useUserStore = defineStore('user', () => {
         }catch (err){
             console.error(err)
         }
-
     }
+
+
 
     return {
         usersData,
         setUsersData,
         isLoggedIn,
         loginStatus,
-        usersLogin,
         userInfo,
         getUserInfo,
         // setName,
