@@ -13,4 +13,7 @@ public interface AlarmRepositoryCustom {
 
     List<MyAlarmDto> fetchMyAlarms(Long userId);
 
+    Long countMyAlarms(Long userId);
+
+
 }

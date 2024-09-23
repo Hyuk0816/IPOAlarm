@@ -10,4 +10,6 @@ public interface ListingSharesAlarmsRepositoryCustom {
     List<MyListingSharesAlarmsDto> fetchMyListingSharesAlarms(Long userID);
 
     ListingSharesAlarms checkAlreadyExists(String listingShares, Long userID);
+
+    Long countMyListingSharesAlarms(Long userID);
 }

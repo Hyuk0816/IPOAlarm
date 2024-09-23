@@ -1,31 +1,5 @@
-<script setup>
-  import KakaoLogin from "./KakaoLogin.vue";
-  import {onMounted, ref} from "vue";
-  import {useMypageStore} from "@/stores/myPageStore.js";
-
-  const myPageStore = useMypageStore();
-  const mypageRes = ref(null); // 초기 상태를 빈 객체로 설정
-  let userEmail = ref(null);
-  let userImage = ref(null);
-
-  const getMyData = async () =>{
-    try{
-      const response =  await myPageStore.getMyPage()
-      mypageRes.value = response.data;
-      userEmail = mypageRes.value.email;
-      userImage = mypageRes.value.image;
-    }catch (err){
-      console.error(err)
-    }
-
-  }
-  onMounted(() => {
-    getMyData()
-  })
-</script>
-
 <template>
-  <nav class="navbar navbar-expand-lg bg-body-tertiary">
+  <nav class="navbar  navbar-expand-lg bg-body-tertiary">
     <div class="container-fluid">
       <a class="navbar-brand" href="/">공모주 알리미</a>
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
@@ -43,12 +17,16 @@
             <a class="nav-link active" href="/mypage" v-if="mypageRes">마이페이지</a>
           </li>
         </ul>
-        <ul class="navbar-nav ms-auto" >
-          <li class="nav-item-kakao" v-if="!mypageRes" >
+        <ul class="navbar-nav ms-auto">
+          <li class="nav-item-kakao" v-if="!mypageRes">
             <KakaoLogin />
           </li>
           <li class="nav-item-profile" v-if="mypageRes">
-            <img :src="userImage" alt="Profile Image" class="profile-image" />
+            <img
+                :src="userImage"
+                alt="Profile Image"
+                class="profile-image"
+            />
           </li>
         </ul>
       </div>
@@ -56,23 +34,79 @@
   </nav>
 </template>
 
+<script setup>
+import KakaoLogin from "./KakaoLogin.vue";
+import { onMounted, ref } from "vue";
+import { useMypageStore } from "@/stores/myPageStore.js";
+
+const myPageStore = useMypageStore();
+const mypageRes = ref(null);
+const userImage = ref(null);
+const isDropdownVisible = ref(false); // 드롭다운 표시 여부
+
+const getMyData = async () => {
+  try {
+    const response = await myPageStore.getMyPage();
+    mypageRes.value = response.data;
+    userImage.value = mypageRes.value.image;
+  } catch (err) {
+    console.error(err);
+  }
+};
+
+const toggleDropdown = () => {
+  isDropdownVisible.value = !isDropdownVisible.value; // 드롭다운 토글
+};
+
+onMounted(() => {
+  getMyData();
+});
+</script>
+
 <style scoped>
+body {
+  font-family: 'Roboto', sans-serif; /* 전체 폰트 설정 */
+}
 
 .profile-image {
   width: 30px; /* 원하는 크기로 조절 */
   height: 30px; /* 원하는 크기로 조절 */
   border-radius: 50%; /* 원형으로 만들기 */
   margin-right: 5px; /* 이미지와 텍스트 간격 조정 */
+  cursor: pointer; /* 클릭 가능한 커서 */
 }
 
-.profile-email {
-  display: inline-block; /* 텍스트가 한 줄에 표시되도록 함 */
-  vertical-align: middle; /* 이미지와 수직 정렬 */
+.dropdown-menu {
+  position: absolute; /* 위치 조정 */
+  background-color: white;
+  border: 1px solid #ddd;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  z-index: 1000; /* 드롭다운이 다른 요소 위에 표시되도록 설정 */
+  display: block; /* 드롭다운이 보일 때 */
+  min-width: 150px; /* 최소 너비 설정 */
+}
+
+.dropdown-item {
+  padding: 10px 15px; /* 여백 추가 */
+  color: #333; /* 텍스트 색상 */
+  text-align: center; /* 중앙 정렬 */
+  text-decoration: none; /* 기본 링크 스타일 제거 */
+  transition: background-color 0.3s; /* 호버 효과를 부드럽게 전환 */
+}
+
+.dropdown-item:hover {
+  background-color: #f1f1f1; /* 호버 시 배경 색상 변경 */
 }
 
 .nav-item-profile {
-  display: flex; /* 이미지와 텍스트를 가로로 정렬 */
-  align-items: center; /* 수직 중앙 정렬 */
+  position: relative; /* 드롭다운 메뉴가 이미지 아래에 위치하도록 함 */
+}
+
+@media (max-width: 768px) {
+  .profile-image {
+    display: none;
+  }
+
 }
 
 </style>

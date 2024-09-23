@@ -48,4 +48,15 @@ public class ListingSharesAlarmsRepositoryImpl implements ListingSharesAlarmsRep
                         listingSharesAlarms.user.userId.eq(userID))
                 .fetchOne();
     }
+
+    @Override
+    public Long countMyListingSharesAlarms(Long userID) {
+        return (long) queryFactory.select(listingSharesAlarms.listingSharesAlarmId)
+                .from(listingSharesAlarms)
+                .where(listingSharesAlarms.user.userId.eq(userID))
+                .fetch()
+                .size();
+    }
+
+
 }

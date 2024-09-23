@@ -6,4 +6,6 @@ public interface AlarmService {
 
     void save(String ipoName);
 
+    Long countMyAlarm();
+
 }

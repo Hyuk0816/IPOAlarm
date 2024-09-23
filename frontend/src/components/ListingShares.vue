@@ -217,13 +217,15 @@ const submitAlarm = async () => {
     console.log(selectedItem.value.ipoName);
 
     const listingShares = selectedItem.value.ipoName;
-    const userEamilKakaoResponse = await userStore.getUserInfo();
-    const kakaoToken = userEamilKakaoResponse.data.kakaoToken;
+
 
     try {
       const response = await axios.post(LISTING_SHARES_ALARM, null, {
         params: { listingShares }
       });
+
+      const userEamilKakaoResponse = await userStore.getUserInfo();
+      const kakaoToken = userEamilKakaoResponse.data.kakaoToken;
 
       await kakaoCalenderStore.createListingEvent(kakaoToken,selectedItem)
       alert(response.data.statusMsg);

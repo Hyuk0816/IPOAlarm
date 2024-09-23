@@ -1,10 +1,12 @@
-<script setup>
+<script setup lang="js">
  import {useMypageStore} from "@/stores/myPageStore.js";
  import {onMounted, ref} from "vue";
  import {almostWhole} from "chart.js/helpers";
  const mypage = useMypageStore();
  const response = ref(null); // response를 ref로 초기화
  const profile = ref<File>('');
+ const ipoAlarmCount = ref('');
+ const listingAlarmCount = ref('');
 
  const getData = async ()=>{
    response.value = await mypage.getMyPage()
@@ -18,8 +20,19 @@
    const res =  await mypage.putProfile(profile);
  }
 
+ const myIpoAlarmCount = async () =>{
+   ipoAlarmCount.value = await mypage.myIpoAlarmCount();
+ }
+
+ const myListingAlarmCount = async () => {
+   listingAlarmCount.value = await mypage.myListingSharesCount();
+ }
+
  onMounted(() => {
    getData();
+   myIpoAlarmCount();
+   myListingAlarmCount();
+
  })
 </script>
 
@@ -29,7 +42,21 @@
       <div class="col-md-12">
         <img :src="response.data.image" alt="User Image" class="rounded-circle img-fluid mb-3" style="width: 150px; height: 150px;">
         <p class="edit-profile">프로필 사진 수정</p> <!-- 추가된 부분 -->
-        <h3>{{ response.data.nickName }}</h3>
+        <table class="table">
+          <tr>
+            <td>닉네임:</td>
+            <td>{{ response.data.nickName }}</td>
+            <td class="edit-nickname fw-light">닉네임 수정</td>
+          </tr>
+          <tr>
+            <td>공모주 알람:</td>
+            <td>{{ipoAlarmCount}}회</td>
+          </tr>
+          <tr>
+            <td>상장일 알람:</td>
+            <td>{{listingAlarmCount}}회</td>
+          </tr>
+        </table>
       </div>
     </div>
     <div class="row">
@@ -106,5 +133,11 @@
   font-size: 0.8rem; /* 글자 크기 조정 */
   color: gray; /* 글자 색상 조정 */
   margin-top: -10px; /* 사진과의 간격 조정 */
+}
+
+.edit-nickname {
+  font-size: 0.8rem; /* 글자 크기 조정 */
+  color: gray; /* 글자 색상 조정 */
+  padding-left: 20px;
 }
 </style>

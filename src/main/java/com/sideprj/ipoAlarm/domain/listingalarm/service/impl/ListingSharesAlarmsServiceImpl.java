@@ -61,4 +61,12 @@ public class ListingSharesAlarmsServiceImpl implements ListingSharesAlarmsServic
 
         listingSharesAlarmsRepository.save(alarms);
     }
+
+    @Override
+    public Long countMyListingSharesAlarm() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        User user = userRepository.findByEmail(authentication.getName()).orElseThrow(() -> new UsernameNotFoundException(UserConstants.MESSAGE_404));
+
+        return listingSharesAlarmsRepository.countMyListingSharesAlarms(user.getUserId());
+    }
 }

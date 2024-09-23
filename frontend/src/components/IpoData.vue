@@ -217,13 +217,13 @@ const submitAlarm = async () => {
     console.log(selectedItem + " submitAlarm");
     const ipoName = selectedItem.value.ipoName;
 
-    const userEamilKakaoResponse = await userStore.getUserInfo();
-    const kakaoToken = userEamilKakaoResponse.data.kakaoToken;
-
     try {
       const response = await axios.post(API_IPO_ALARM, null, {
         params: { ipoName }
       });
+      const userEamilKakaoResponse = await userStore.getUserInfo();
+      const kakaoToken = userEamilKakaoResponse.data.kakaoToken;
+
       await kakaoCalenderStore.createIpoEvent(kakaoToken,selectedItem);
       alert(response.data.statusMsg);
     } catch (error) {

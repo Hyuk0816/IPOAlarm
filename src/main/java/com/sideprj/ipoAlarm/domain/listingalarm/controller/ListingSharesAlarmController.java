@@ -58,4 +58,9 @@ public class ListingSharesAlarmController {
                 .body(new ListingSharesAlarmsSaveResponseVo(ListingSharesAlarmsConstants.STATUS_201, ListingSharesAlarmsConstants.MSG_201));
     }
 
+    @GetMapping("/count")
+    public Long countMyListingSharesAlarms() {
+        return listingSharesAlarmsService.countMyListingSharesAlarm();
+    }
+
 }

@@ -1,6 +1,8 @@
 package com.sideprj.ipoAlarm.domain.listingshares.service;
 
 import com.sideprj.ipoAlarm.domain.listingshares.dto.ListingSharesGetAllDto;
+import com.sideprj.ipoAlarm.domain.listingshares.dto.MostExpensiveListingShare;
+import com.sideprj.ipoAlarm.domain.listingshares.dto.MostValuableListingShare;
 import com.sideprj.ipoAlarm.domain.listingshares.dto.OfferingToOpeningPriceMonthlyProfitDto;
 import com.sideprj.ipoAlarm.domain.listingshares.vo.request.ListingSharesRequestVo;
 import com.sideprj.ipoAlarm.util.page.PageResponseVo;
@@ -17,4 +19,8 @@ public interface ListingSharesService {
     OfferingToOpeningPriceMonthlyProfitDto previousMonthProfitService();
 
     List<Double> monthlyProfit(Integer year);
+
+    List<MostValuableListingShare> mostValuableListingShares();
+
+    MostExpensiveListingShare mostExpensiveListingShare();
 }

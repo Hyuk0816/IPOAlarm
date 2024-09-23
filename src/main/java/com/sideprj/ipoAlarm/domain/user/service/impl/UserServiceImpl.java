@@ -100,6 +100,11 @@ public class UserServiceImpl implements UserService {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         User user = userRepository.findByEmail(authentication.getName())
                 .orElseThrow(() -> new UsernameNotFoundException(UserConstants.MESSAGE_404));
+
+        if(userRepository.findByNickName(user.getNickName())!=null){
+            throw new UsersAlreadyExistsException(UserConstants.NICKNAME_ALREADY_EXISTS);
+        }
+
         user.setNickName(nickName);
         userRepository.save(user);
     }

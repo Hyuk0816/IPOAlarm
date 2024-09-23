@@ -1,6 +1,8 @@
 package com.sideprj.ipoAlarm.domain.listingshares.service.impl;
 
 import com.sideprj.ipoAlarm.domain.listingshares.dto.ListingSharesGetAllDto;
+import com.sideprj.ipoAlarm.domain.listingshares.dto.MostExpensiveListingShare;
+import com.sideprj.ipoAlarm.domain.listingshares.dto.MostValuableListingShare;
 import com.sideprj.ipoAlarm.domain.listingshares.dto.OfferingToOpeningPriceMonthlyProfitDto;
 import com.sideprj.ipoAlarm.domain.listingshares.repository.ListingSharesRepository;
 import com.sideprj.ipoAlarm.domain.listingshares.service.ListingSharesService;
@@ -56,5 +58,15 @@ public class ListingSharesServiceImpl implements ListingSharesService {
     @Cacheable(value = "monthlyProfit", keyGenerator = "customKeyGenerator")
     public List<Double> monthlyProfit(Integer year) {
         return listingSharesRepository.monthlyProfit(year);
+    }
+
+    @Override
+    public List<MostValuableListingShare> mostValuableListingShares() {
+        return listingSharesRepository.mostValuableListingShares();
+    }
+
+    @Override
+    public MostExpensiveListingShare mostExpensiveListingShare() {
+        return listingSharesRepository.mostExpensiveListingShares();
     }
 }

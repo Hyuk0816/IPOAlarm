@@ -8,6 +8,7 @@ import com.sideprj.ipoAlarm.domain.mypage.dto.MyAlarmDto;
 import jakarta.persistence.EntityManager;
 
 import java.util.List;
+import java.util.Objects;
 
 import static com.sideprj.ipoAlarm.domain.alarm.entity.QAlarm.*;
 import static com.sideprj.ipoAlarm.domain.ipo.entity.QIpo.*;
@@ -55,5 +56,13 @@ public class AlarmRepositoryImpl implements AlarmRepositoryCustom {
                 .fetch();
     }
 
-
+    @Override
+    public Long countMyAlarms(Long userId) {
+        return (long) queryFactory
+                .select(alarm.alarmId)
+                .from(alarm)
+                .where(alarm.user.userId.eq(userId))
+                .fetch()
+                .size();
+    }
 }

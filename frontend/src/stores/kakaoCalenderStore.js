@@ -1,6 +1,5 @@
 import axios from "axios";
 import {defineStore} from 'pinia';
-import { DateTime } from 'luxon';
 
 export const useKakaoCalenderStore = defineStore('kakaoCalender', () => {
 
@@ -19,7 +18,7 @@ export const useKakaoCalenderStore = defineStore('kakaoCalender', () => {
             },
             description: `${item.value.ipoName} 청약 진행 중 입니다. 증권사는 ${item.value.securities} 입니다. 공모가는 ${item.value.ipoPrice}원 입니다.`,
             reminders: [15, 30],
-            color: "RED"
+            color: "BLUE"
         }));
         try {
             return await axios.post(
@@ -53,7 +52,7 @@ export const useKakaoCalenderStore = defineStore('kakaoCalender', () => {
             },
             description: `${item.value.ipoName} 상장일 입니다. 건승을 기원합니다.`,
             reminders: [15, 30],
-            color: "BLUE"
+            color: "RED"
         }));
         try {
             return await axios.post(

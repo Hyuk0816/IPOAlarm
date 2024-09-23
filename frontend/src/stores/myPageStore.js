@@ -36,10 +36,31 @@ export const useMypageStore = defineStore('mypage',() => {
             console.error(err)
         }
     }
+
+    const myIpoAlarmCount = async () =>{
+        try{
+            const res =  await axios.get('/alarm/count');
+            return res.data
+        }catch (err){
+            console.error(err)
+        }
+    }
+
+    const myListingSharesCount = async () => {
+        try{
+            const res =  await axios.get('/listing_share_alarm/count')
+            return res.data
+        }catch (err){
+            console.error(err)
+        }
+    }
+
     return{
         getMyPage,
         putProfile,
-        putNickname
+        putNickname,
+        myIpoAlarmCount,
+        myListingSharesCount
     }
 
 

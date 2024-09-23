@@ -2,6 +2,8 @@ package com.sideprj.ipoAlarm.domain.listingshares.controller;
 
 import com.sideprj.ipoAlarm.domain.ipo.service.impl.IpoServiceImpl;
 import com.sideprj.ipoAlarm.domain.listingshares.dto.ListingSharesGetAllDto;
+import com.sideprj.ipoAlarm.domain.listingshares.dto.MostExpensiveListingShare;
+import com.sideprj.ipoAlarm.domain.listingshares.dto.MostValuableListingShare;
 import com.sideprj.ipoAlarm.domain.listingshares.dto.OfferingToOpeningPriceMonthlyProfitDto;
 import com.sideprj.ipoAlarm.domain.listingshares.service.ListingSharesService;
 import com.sideprj.ipoAlarm.domain.listingshares.vo.request.ListingSharesRequestVo;
@@ -128,6 +130,73 @@ public class ListingSharesController {
         return ResponseEntity
                 .status(HttpStatus.OK)
                 .body(listingSharesService.monthlyProfit(year));
+    }
+
+    @Operation(
+            summary = "Most Valuable IPO TOP5 ",
+            description = "Most Valuable IPO TOP5"
+    )
+    @ApiResponses({
+            @ApiResponse(
+                    responseCode = "200",
+                    description = "HTTP STATUS OK"
+            ),
+            @ApiResponse(
+                    responseCode = "401",
+                    description = "HTTP STATUS UNAUTHORIZED"
+            ),
+            @ApiResponse(
+                    responseCode = "404",
+                    description = "HTTP STATUS NOT FOUND"
+            ),
+            @ApiResponse(
+                    responseCode = "500",
+                    description = "HTTP Status Internal Server Error",
+                    content = @Content(
+                            schema = @Schema(implementation = ErrorResponse.class)
+                    )
+            )
+
+    }
+    )
+    @GetMapping("/valuable_listing")
+    public ResponseEntity<List<MostValuableListingShare>> mostValuableListingController(){
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(listingSharesService.mostValuableListingShares());
+    }
+    @Operation(
+            summary = "Most biggest Rate IPO ",
+            description = "Most biggest Rate IPO"
+    )
+    @ApiResponses({
+            @ApiResponse(
+                    responseCode = "200",
+                    description = "HTTP STATUS OK"
+            ),
+            @ApiResponse(
+                    responseCode = "401",
+                    description = "HTTP STATUS UNAUTHORIZED"
+            ),
+            @ApiResponse(
+                    responseCode = "404",
+                    description = "HTTP STATUS NOT FOUND"
+            ),
+            @ApiResponse(
+                    responseCode = "500",
+                    description = "HTTP Status Internal Server Error",
+                    content = @Content(
+                            schema = @Schema(implementation = ErrorResponse.class)
+                    )
+            )
+
+    }
+    )
+    @GetMapping("/most_expensive")
+    private ResponseEntity<MostExpensiveListingShare> mostExpensiveController(){
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(listingSharesService.mostExpensiveListingShare());
     }
 
 

@@ -45,6 +45,7 @@ public class AlarmServiceImpl implements AlarmService {
         if(alarmRepository.checkIfAlarmExists(ipoName, user.getUserId())!=null){
             throw new AlarmAlreadyExistsException(AlarmConstants.msg_500, ipoName);
         }
+
         Date today = new Date();
 
         if(today.after(ipo.getEndDate())){
@@ -60,5 +61,13 @@ public class AlarmServiceImpl implements AlarmService {
                 .build();
 
         alarmRepository.save(alarm);
+    }
+
+    @Override
+    public Long countMyAlarm() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        User user = userRepository.findByEmail(authentication.getName()).orElseThrow(() -> new UsernameNotFoundException(UserConstants.MESSAGE_404));
+
+        return alarmRepository.countMyAlarms(user.getUserId());
     }
 }

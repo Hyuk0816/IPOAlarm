@@ -5,6 +5,8 @@ import com.querydsl.core.BooleanBuilder;
 import com.querydsl.core.types.Projections;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import com.sideprj.ipoAlarm.domain.listingshares.dto.ListingSharesGetAllDto;
+import com.sideprj.ipoAlarm.domain.listingshares.dto.MostExpensiveListingShare;
+import com.sideprj.ipoAlarm.domain.listingshares.dto.MostValuableListingShare;
 import com.sideprj.ipoAlarm.domain.listingshares.dto.OfferingToOpeningPriceMonthlyProfitDto;
 import com.sideprj.ipoAlarm.domain.listingshares.repository.ListingSharesRepositoryCustom;
 import com.sideprj.ipoAlarm.domain.listingshares.vo.request.ListingSharesRequestVo;
@@ -101,6 +103,30 @@ public class ListingSharesRepositoryImpl implements ListingSharesRepositoryCusto
             monthlyProfitList.add(avgProfit != null ? avgProfit : 0);
         }
         return monthlyProfitList;
+    }
+
+    @Override
+    public List<MostValuableListingShare> mostValuableListingShares() {
+        return queryFactory.select(Projections.fields(MostValuableListingShare.class,
+                listingShares.ipoName.as("ipoName"),
+                listingShares.changeRateOpeningToOfferingPrice.as("changeRateOpeningToOfferingPrice")))
+                .from(listingShares)
+                .orderBy(listingShares.changeRateOpeningToOfferingPrice.desc())
+                .limit(5)
+                .fetch();
+    }
+
+    @Override
+    public MostExpensiveListingShare mostExpensiveListingShares() {
+        return queryFactory.select(Projections.fields(MostExpensiveListingShare.class,
+                listingShares.ipoName.as("ipoName"),
+                listingShares.offeringPrice.as("offeringPrice"),
+                listingShares.currentPrice.as("currentPrice"),
+                listingShares.changeRateOfferingPrice.as("changeRateOfferingPrice")))
+                .from(listingShares)
+                .orderBy(listingShares.changeRateOfferingPrice.desc())
+                .limit(1)
+                .fetchOne();
     }
 
     // IPO 이름 조건 추가 메서드
