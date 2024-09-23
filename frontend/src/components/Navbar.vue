@@ -14,14 +14,14 @@
             <a class="nav-link active" href="/ListingShares">상장일 일정</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link active" href="/mypage" v-if="mypageRes">마이페이지</a>
+            <a class="nav-link active" href="/mypage" v-if="userImage">마이페이지</a>
           </li>
         </ul>
         <ul class="navbar-nav ms-auto">
-          <li class="nav-item-kakao" v-if="!mypageRes">
+          <li class="nav-item-kakao" v-if="!userImage">
             <KakaoLogin />
           </li>
-          <li class="nav-item-profile" v-if="mypageRes">
+          <li class="nav-item-profile" v-if="userImage">
             <img
                 :src="userImage"
                 alt="Profile Image"
@@ -36,30 +36,18 @@
 
 <script setup>
 import KakaoLogin from "./KakaoLogin.vue";
-import { onMounted, ref } from "vue";
+import {onBeforeMount, onMounted, ref} from "vue";
 import { useMypageStore } from "@/stores/myPageStore.js";
 
 const myPageStore = useMypageStore();
-const mypageRes = ref(null);
 const userImage = ref(null);
-const isDropdownVisible = ref(false); // 드롭다운 표시 여부
 
-const getMyData = async () => {
-  try {
-    const response = await myPageStore.getMyPage();
-    mypageRes.value = response.data;
-    userImage.value = mypageRes.value.image;
-  } catch (err) {
-    console.error(err);
-  }
-};
+console.log(userImage.value + " 템플릿 1 @");
 
-const toggleDropdown = () => {
-  isDropdownVisible.value = !isDropdownVisible.value; // 드롭다운 토글
-};
-
-onMounted(() => {
-  getMyData();
+onMounted( async () => {
+  await myPageStore.getMyPage(); // API 호출
+  userImage.value = myPageStore.userImage; // 스토어에서 사용자 이미지 가져오기
+  console.log(userImage.value + " 템플릿 2 @");
 });
 </script>
 

@@ -24,6 +24,7 @@
 
 <script>
 import { Chart, registerables } from 'chart.js';
+import axios from "@/plugin/axios.js";
 
 Chart.register(...registerables);
 
@@ -48,8 +49,12 @@ export default {
       const { signal } = this.currentRequest;
 
       try {
-        const response = await fetch(`http://localhost:8080/api/listing_shares/monthly_profit?year=${year}`, { signal });
-        this.chartData = await response.json();
+        const response = await axios.get(`/listing_shares/monthly_profit`, {
+          params:{year:year},
+          signal:signal
+        });
+
+        this.chartData = response.data
         this.selectedYear = year; // 선택된 연도 업데이트
         this.updateChart();
       } catch (error) {

@@ -90,7 +90,7 @@ export default {
 
 <style scoped>
 #Top5Chart {
-  height: 600px; /* 원하는 높이 설정 */
+  height: 500px; /* 원하는 높이 설정 */
   width: 100%; /* 너비를 100%로 설정 */
 }
 

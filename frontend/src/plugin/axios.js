@@ -11,6 +11,7 @@ const instance = axios.create({
     }
 });
 
+
 const accessToken = ref(null)
 instance.interceptors.request.use(
     async (config) => {
@@ -25,6 +26,7 @@ instance.interceptors.request.use(
                 config.headers['Authorization'] = `Bearer ${accessToken.value}`;
                 console.log('Access token set in header:', accessToken.value);
 
+
             }
 
             console.log('Interceptor on');
@@ -37,5 +39,4 @@ instance.interceptors.request.use(
         return Promise.reject(error);
     }
 );
-
 export default instance;

@@ -46,12 +46,12 @@
           <th>이름</th>
           <th>상장일</th>
           <th>현재가</th>
-          <th>변동률 (이전)</th>
+          <th>변동률 (전일)</th>
           <th>공모가</th>
-          <th>변동률 (공모가)</th>
-          <th>시가</th>
-          <th>변동률 (시가)</th>
-          <th>첫 날 종가</th>
+          <th>공모가 대비 변동률</th>
+          <th>장게시일 가격</th>
+          <th>변동률 (장 게시 가격)</th>
+          <th>장 게시 마감가격</th>
           <th>알림신청</th>
         </tr>
         </thead>
@@ -153,6 +153,9 @@ const fetchData = async (page) => {
     listingData.value = response.data.content || [];
     totalPages.value = response.data.totalPages;
   } catch (error) {
+    if(error){
+      alert(error.response.data.errorMessage)
+    }
     console.error('Error fetching data:', error);
   }
 };

@@ -1,11 +1,18 @@
 import {defineStore} from 'pinia';
 import axios from "@/plugin/axios.js";
 import {API_BASE_URL, MYPAGE} from '../api/apiPoints.js'
+import {ref} from "vue";
 
 export const useMypageStore = defineStore('mypage',() => {
+
+    const myPageRes = ref(null);
+    const userImage = ref(null);
     const getMyPage = async () => {
         try{
-            return await axios.get(API_BASE_URL+MYPAGE);
+            const myPage =  await axios.get(API_BASE_URL+MYPAGE);
+            myPageRes.value = myPage.data;
+            userImage.value = myPageRes.value.image;
+            return myPage;
         }catch (err){
             console.error(err);
         }
@@ -60,7 +67,8 @@ export const useMypageStore = defineStore('mypage',() => {
         putProfile,
         putNickname,
         myIpoAlarmCount,
-        myListingSharesCount
+        myListingSharesCount,
+        userImage
     }
 
 

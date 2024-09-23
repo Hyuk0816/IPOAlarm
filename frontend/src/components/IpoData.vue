@@ -146,6 +146,7 @@ const fetchData = async (page) => {
     totalPages.value = response.data.totalPages;
 
   } catch (error) {
+    alert(error.response.data.errorMessage)
     console.error('Error fetching data:', error);
   }
 };
