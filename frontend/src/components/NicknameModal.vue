@@ -6,7 +6,7 @@
       </div>
       <div class="modal-body">
         <input v-model="newNickname" placeholder="닉네임" />
-        <button type="button" id="nickNameCheckBtn" class="btn btn-secondary" @click="nickNameCheck">중복 확인</button>
+        <button type="button" id="nickNameCheckBtn" class="btn btn-secondary small-btn" @click="nickNameCheck">중복 확인</button>
         <p v-if="message" class="error-message">{{ message }}</p>
         <slot></slot>
       </div>
@@ -49,6 +49,12 @@ const editNickName = async () => {
 
 const nickNameCheck = async () => {
   try {
+
+    if(newNickname.value.length < 1){
+      isNickNameCheck.value = false;
+      return message.value = "닉네임을 입력해 주세요";
+    }
+
     const res = await myPage.nickNameCheck(newNickname.value);
     message.value = res.data.statusMsg; // 서버에서 반환된 메시지 사용
     isNickNameCheck.value = true;
@@ -99,8 +105,9 @@ const emit = defineEmits();
   font-size: 12px; /* 에러 메시지 크기 */
 }
 
-#nickNameCheckBtn{
-  padding-left: 20px;
+.small-btn {
+  padding: 5px 10px; /* 버튼 크기 조정 */
+  margin-left: 20px; /* 왼쪽 여백 제거 */
 }
 
 
