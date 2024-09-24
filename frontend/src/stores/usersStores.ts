@@ -1,6 +1,6 @@
 import { defineStore } from 'pinia';
 import { ref, computed } from 'vue';
-import {UsersInfoData, UsersLoginRequest} from '../types/users.ts';
+import {UsersInfoData, UsersLoginRequest} from '../types/users.js';
 import axios from "axios";
 import {API_BASE_URL, API_GET_ACCESS_TOKEN, USER_INFO} from '../api/apiPoints.js'
 
@@ -41,7 +41,7 @@ export const useUserStore = defineStore('user', () => {
             const token = await axios.get(`${API_BASE_URL}${API_GET_ACCESS_TOKEN}`, { withCredentials: true });
             console.log( "userStore : " + token.data.accessToken)
 
-            const response =  await axios.get('api/auth/userInfo', {
+            const response =  await axios.get('/api/auth/userInfo', {
                 params: { token: token.data.accessToken }
             })
             console.log(response.data.email + " userStore")

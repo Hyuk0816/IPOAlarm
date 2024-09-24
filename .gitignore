@@ -42,3 +42,4 @@ out/
 /frontend/node_modules/
 /src/main/resources/static/
 /frontend/.env
+/.env

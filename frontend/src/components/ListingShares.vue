@@ -116,6 +116,7 @@ import {LISTING_SHARES_ALARM} from "../api/apiPoints.js"
 import router from "@/router/router.js";
 import {useKakaoCalenderStore} from "@/stores/kakaoCalenderStore.js";
 import {useUserStore} from "@/stores/usersStores.ts";
+import {API_BASE_URL} from "../api/apiPoints.js";
 
 const listingData = ref([]);
 const searchName = ref('');
@@ -149,7 +150,7 @@ const fetchData = async (page) => {
   const queryString = new URLSearchParams(params).toString();
 
   try {
-    const response = await axios.get(`http://localhost:8080/api/listing_shares/data?${queryString}`);
+    const response = await axios.get(`/api/listing_shares/data?${queryString}`);
     listingData.value = response.data.content || [];
     totalPages.value = response.data.totalPages;
   } catch (error) {

@@ -49,7 +49,7 @@ export default {
       const { signal } = this.currentRequest;
 
       try {
-        const response = await axios.get(`/listing_shares/monthly_profit`, {
+        const response = await axios.get(`/api/listing_shares/monthly_profit`, {
           params:{year:year},
           signal:signal
         });

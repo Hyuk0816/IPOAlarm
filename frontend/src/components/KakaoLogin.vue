@@ -11,6 +11,7 @@
 
 const redirectUri = import.meta.env.VITE_REDIRECT_URI
 const clientId = import.meta.env.VITE_CLIENT_ID
+console.log(clientId)
 const clientSecret = import.meta.env.VITE_CLIENT_SECRET
 const goToKakaoLogin = async () => {
   window.location.href = `https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=${clientId}&client_secret=${clientSecret}&redirect_uri=${redirectUri}`;

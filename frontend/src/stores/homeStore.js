@@ -5,7 +5,7 @@ export const useHomeStore = defineStore('home', () => {
 
     const mostBiggestRateIPO = async () => {
         try{
-            const mostBiggestRateIPO = await axios.get('api/listing_shares/most_expensive')
+            const mostBiggestRateIPO = await axios.get('/api/listing_shares/most_expensive')
             console.log(mostBiggestRateIPO)
             return mostBiggestRateIPO
         }catch (err){

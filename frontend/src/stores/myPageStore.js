@@ -26,7 +26,7 @@ export const useMypageStore = defineStore('mypage',() => {
         try{
             const formData = new FormData();
             formData.append('file', file)
-            const response = await axios.put('/user/profile', formData, {
+            const response = await axios.put('/api/user/profile', formData, {
                 headers:{
                     'Content-Type' : 'multipart/form-data'
                 }
@@ -39,7 +39,7 @@ export const useMypageStore = defineStore('mypage',() => {
     }
     const putNickname = async (nickName) => {
         try{
-            const res =  await axios.put('/user/nickName', null, {
+            const res =  await axios.put('/api/user/nickName', null, {
                 params: {nickName:nickName}
             })
             alert(res.data.statusMsg)
@@ -53,7 +53,7 @@ export const useMypageStore = defineStore('mypage',() => {
 
     const myIpoAlarmCount = async () =>{
         try{
-            const res =  await axios.get('/alarm/count');
+            const res =  await axios.get('/api/alarm/count');
             return res.data
         }catch (err){
             console.error(err)
@@ -62,7 +62,7 @@ export const useMypageStore = defineStore('mypage',() => {
 
     const myListingSharesCount = async () => {
         try{
-            const res =  await axios.get('/listing_share_alarm/count')
+            const res =  await axios.get('/api/listing_share_alarm/count')
             return res.data
         }catch (err){
             console.error(err)
@@ -73,7 +73,7 @@ export const useMypageStore = defineStore('mypage',() => {
         try{
             console.log(nickName + " store")
 
-            const res = await axios.get('/user/nick_name_check', {
+            const res = await axios.get('/api/user/nick_name_check', {
                 params:{nickName:nickName}
             })
             console.log(res.data + "store")

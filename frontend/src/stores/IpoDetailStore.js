@@ -10,7 +10,7 @@ export const useIpoDetailStore = defineStore('ipoDetail',()=> {
             alert("Ipo name missing")
         }
         try{
-            return await axios.get(`http://localhost:8080/api/ipo_detail/data?ipoName=${ipoName}`)
+            return await axios.get(`/api/ipo_detail/data?ipoName=${ipoName}`)
         }catch(err){
             console.error(err);
         }
@@ -22,7 +22,7 @@ export const useIpoDetailStore = defineStore('ipoDetail',()=> {
         console.log(ipoComments + "store")
         try{
 
-            const response =  await axios.post(`http://localhost:8080/api/ipo_comments/comment/${ipoName}`, {
+            const response =  await axios.post(`/api/ipo_comments/comment/${ipoName}`, {
                 ipoComment : ipoComments
             })
             alert(response.data.statusMsg)
