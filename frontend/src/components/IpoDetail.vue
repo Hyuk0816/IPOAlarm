@@ -1,31 +1,30 @@
 <script setup>
-  import {useIpoDetailStore} from "@/stores/IpoDetailStore.js";
-  import { useRoute } from 'vue-router';
-  import {onMounted, ref} from "vue";
+import { useIpoDetailStore } from "@/stores/IpoDetailStore.js";
+import { useRoute } from 'vue-router';
+import { onMounted, ref } from "vue";
 
+const route = useRoute();
+const ipoDetailStore = useIpoDetailStore();
+const ipoName = ref(route.query.ipoName);
+const response = ref(null);
+const comments = ref('');
 
-  const route = useRoute();
-  const ipoDetailStore = useIpoDetailStore();
-  const ipoName = ref(route.query.ipoName); // ref로 감싸기// ref로 감싸기
-  const response = ref(null); // response를 ref로 초기화
-  const comments = ref('')
+const fetchIpoDetail = async () => {
+  response.value = await ipoDetailStore.fetchIpoDetail(ipoName.value);
+};
 
-  const fetchIpoDetail = async () => {
-    response.value = await ipoDetailStore.fetchIpoDetail(ipoName.value); // 데이터 가져오기
-  };
+const regComments = async (comments) => {
+  await ipoDetailStore.saveComments(ipoName.value, comments);
+};
 
-  const regComments = async (comments) =>{
-    await ipoDetailStore.saveComments(ipoName.value,comments);
-  }
-
-  onMounted(fetchIpoDetail);
+onMounted(fetchIpoDetail);
 </script>
 
 <template>
   <div id="app" class="container mt-5">
     <div class="card mb-4">
       <div class="card-body">
-        <h1 class="card-title" >{{ response.data.ipoName }}</h1>
+        <h1 class="card-title">{{ response.data.ipoName }}</h1>
         <h4 class="card-subtitle mb-2 text-muted">{{ response.data.industry }}</h4>
         <p class="card-text"><strong>대표:</strong> {{ response.data.representative }}</p>
         <p class="card-text"><strong>매출:</strong> {{ response.data.revenue }}</p>
@@ -44,9 +43,13 @@
     <h5 class="mb-3">댓글</h5>
     <div class="comments mb-4">
       <div class="card mb-2" v-for="comment in response.data.ipoComments" :key="comment.id">
-        <div class="card-body">
-          <p class="card-text">{{ comment.ipoComments }}</p>
-          <small class="text-muted">{{ comment.regDate }}</small>
+        <div class="card-body d-flex align-items-center">
+          <div class="ml-2">
+            <img v-if="comment.profile" :src="comment.profile" alt="Profile Image" class="profile-image" />
+            <span class="nick-name">{{ comment.nickName }}</span>
+            <p class="card-text">{{ comment.ipoComments }}</p>
+            <small class="text-muted">{{ comment.regDate }}</small>
+          </div>
         </div>
       </div>
     </div>
@@ -83,5 +86,16 @@
 
 .comment-form button {
   width: 100%; /* 버튼 너비 100% */
+}
+
+.profile-image {
+  width: 40px; /* 프로필 이미지 너비 */
+  height: 40px; /* 프로필 이미지 높이 */
+  border-radius: 50%; /* 원형으로 만들기 */
+  margin-right: 10px; /* 이미지와 텍스트 사이 공간 */
+}
+
+.card-text{
+  margin-top: 15px;
 }
 </style>

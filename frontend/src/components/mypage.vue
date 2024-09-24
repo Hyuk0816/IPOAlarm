@@ -1,12 +1,17 @@
 <script setup lang="js">
  import {useMypageStore} from "@/stores/myPageStore.js";
  import {onMounted, ref} from "vue";
- import {almostWhole} from "chart.js/helpers";
+ import ProfileModal from "@/components/ProfileModal.vue";
+ import NicknameModal from "@/components/NicknameModal.vue";
+
  const mypage = useMypageStore();
  const response = ref(null); // response를 ref로 초기화
- const profile = ref<File>('');
+
  const ipoAlarmCount = ref('');
  const listingAlarmCount = ref('');
+ const isModalOpen = ref(false);
+ const isProfileModalOpen = ref(false);
+ const isNickNameModalOpen = ref(false);
 
  const getData = async ()=>{
    response.value = await mypage.getMyPage()
@@ -16,16 +21,24 @@
    return new Date(dateString).toLocaleDateString(undefined, options);
  };
 
- const putProfilePicture = async (profile) => {
-   const res =  await mypage.putProfile(profile);
- }
-
  const myIpoAlarmCount = async () =>{
    ipoAlarmCount.value = await mypage.myIpoAlarmCount();
  }
 
  const myListingAlarmCount = async () => {
    listingAlarmCount.value = await mypage.myListingSharesCount();
+ }
+
+ const openModal = () => {
+   isModalOpen.value = true;
+ };
+
+ const openProfileModal = () => {
+   isProfileModalOpen.value=true
+ }
+
+ const openNickNameModal = () => {
+   isNickNameModalOpen.value=true
  }
 
  onMounted(() => {
@@ -40,14 +53,23 @@
   <div class="container mt-5">
     <div class="row text-center">
       <div class="col-md-12">
-        <img :src="response.data.image" alt="User Image" class="rounded-circle img-fluid mb-3" style="width: 150px; height: 150px;">
-        <p class="edit-profile">프로필 사진 수정</p> <!-- 추가된 부분 -->
+        <img :src="response.data.image" alt="User Image" class="rounded-circle img-fluid mb-3" style="width: 250px; height: 250px;">
+        <p class="edit-profile" @click="openProfileModal">프로필 사진 수정</p> <!-- 추가된 부분 -->
+        <ProfileModal
+          :isOpen="isProfileModalOpen"
+          title="프로필 사진 변경"
+        @update:isOpen="isProfileModalOpen=$event"
+        />
         <table class="table">
           <tr>
             <td>닉네임:</td>
             <td>{{ response.data.nickName }}</td>
-            <td class="edit-nickname fw-light">닉네임 수정</td>
+            <td class="edit-nickname fw-light" @click="openNickNameModal">닉네임 수정</td>
           </tr>
+          <NicknameModal
+            :isOpen="isNickNameModalOpen"
+            title="닉네임 변경"
+            @update:isOpen="isNickNameModalOpen=$event"/>
           <tr>
             <td>공모주 알람:</td>
             <td>{{ipoAlarmCount}}회</td>

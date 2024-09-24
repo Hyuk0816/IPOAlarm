@@ -20,6 +20,7 @@ onMounted(() =>{
     <header class="my-4 text-center">
       <h1 class="display-4">공모주 알리미</h1>
       <p class="lead">공모주 알리미는 카카오톡 캘린더와 연동하여 공모주 청약 일정과 상장일 일정을 알람 등록해주는 서비스입니다.</p>
+      <p class="lead">로그인 시 <strong>카카오 캘린더 수집 동의</strong>를 꼭 체크해 주세요! </p>
     </header>
 
     <section class="mb-5">
@@ -50,7 +51,7 @@ onMounted(() =>{
     </section>
 
     <footer class="text-center">
-      <p>© 2024 공모주 알리미. All rights reserved.@Hyuck0816</p>
+      <p>© 2024 공모주 알리미. All rights reserved. <a href="https://github.com/Hyuk0816" target="_blank" rel="noopener noreferrer">@Hyuck0816</a></p>
     </footer>
   </div>
 </template>

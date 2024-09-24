@@ -11,4 +11,7 @@ public interface UserService {
     void updateProfile(MultipartFile file) throws FileUploadException;
 
     void updateNickName(String nickName);
+
+    String nickNameCheck(String nickName);
+
 }

@@ -41,3 +41,4 @@ out/
 /src/main/resources/application-oauth.yml
 /frontend/node_modules/
 /src/main/resources/static/
+/frontend/.env

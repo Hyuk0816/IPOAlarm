@@ -101,11 +101,23 @@ public class UserServiceImpl implements UserService {
         User user = userRepository.findByEmail(authentication.getName())
                 .orElseThrow(() -> new UsernameNotFoundException(UserConstants.MESSAGE_404));
 
-        if(userRepository.findByNickName(user.getNickName())!=null){
+        if(user.getNickName().equals(nickName)){
             throw new UsersAlreadyExistsException(UserConstants.NICKNAME_ALREADY_EXISTS);
         }
-
         user.setNickName(nickName);
         userRepository.save(user);
+    }
+
+    @Override
+    public String nickNameCheck(String nickName) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        User user = userRepository.findByEmail(authentication.getName())
+                .orElseThrow(() -> new UsernameNotFoundException(UserConstants.MESSAGE_404));
+
+        if(user.getNickName().equals(nickName)){
+            throw new UsersAlreadyExistsException(UserConstants.NICKNAME_ALREADY_EXISTS);
+        }else{
+            return UserConstants.NICKNAME_CHECK_OK;
+        }
     }
 }

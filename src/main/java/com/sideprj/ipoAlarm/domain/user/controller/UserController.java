@@ -110,4 +110,32 @@ public class UserController {
                 .body(new UserStatusResponseVo(UserConstants.STATUS_201, UserConstants.MESSAGE_PUT_PROFILE));
     }
 
+    @Operation(
+            summary = "NickName Check",
+            description = "NickName Check"
+    )
+    @ApiResponses({
+            @ApiResponse(
+                    responseCode = "200",
+                    description = "HTTP Status CREATED"
+            ),
+            @ApiResponse(
+                    responseCode = "500",
+                    description = "HTTP Status Internal Server Error",
+                    content = @Content(
+                            schema = @Schema(implementation = ErrorResponseDto.class)
+                    )
+            )
+    }
+    )
+
+    @GetMapping(value = "/nick_name_check")
+    public ResponseEntity<UserStatusResponseVo> checkNickName(@RequestParam("nickName") String nickName) {
+        userService.nickNameCheck(nickName);
+
+        return ResponseEntity
+                .status(HttpStatus.CREATED)
+                .body(new UserStatusResponseVo(UserConstants.STATUS_200, UserConstants.NICKNAME_CHECK_OK));
+    }
+
 }

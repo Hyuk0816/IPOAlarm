@@ -27,4 +27,6 @@ public class UserConstants {
 
     public static final String NICKNAME_ALREADY_EXISTS = "이미 존재하는 닉네임 입니다.";
     public static final String  STATUS_500= "500";
+
+    public static final String NICKNAME_CHECK_OK = "사용가능한 닉네임 입니다.";
 }
