@@ -40,14 +40,17 @@ import {onBeforeMount, onMounted, ref} from "vue";
 import { useMypageStore } from "@/stores/myPageStore.js";
 
 const myPageStore = useMypageStore();
-const userImage = ref(null);
+const userImage = myPageStore.userImage
+const userInfo = myPageStore.myPageRes
 
-console.log(userImage.value + " 템플릿 1 @");
+console.log(userInfo + " user INfo ")
+console.log(userInfo + " user INfo ")
+
 
 onMounted( async () => {
-  await myPageStore.getMyPage(); // API 호출
-  userImage.value = myPageStore.userImage; // 스토어에서 사용자 이미지 가져오기
-  console.log(userImage.value + " 템플릿 2 @");
+  // await myPageStore.getMyPage(); // API 호출
+  // userImage.value = myPageStore.userImage; // 스토어에서 사용자 이미지 가져오기
+  // console.log(userImage.value + " 템플릿 2 @");
 });
 </script>
 

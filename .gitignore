@@ -43,3 +43,4 @@ out/
 /src/main/resources/static/
 /frontend/.env
 /.env
+/src/main/resources/application-dev.yml
