@@ -89,7 +89,7 @@ body {
 }
 
 .nav-item-profile {
-  position: relative; /* 드롭다운 메뉴가 이미지 아래에 위치하도록 함 */
+  cursor: none;
 }
 
 @media (max-width: 768px) {
