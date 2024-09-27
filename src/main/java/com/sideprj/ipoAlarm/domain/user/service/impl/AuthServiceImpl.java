@@ -82,7 +82,9 @@ public class AuthServiceImpl implements AuthService {
     @Transactional
     public void logout(HttpServletRequest request, HttpServletResponse response) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        UserDetails userDetails = customUserDetails.loadUserByUsername(authentication.getName());
+//        UserDetails userDetails = customUserDetails.loadUserByUsername(authentication.getName());
+
+        User user = usersRepository.findByEmail(authentication.getName()).orElseThrow(() -> new UsernameNotFoundException(AuthConstants.MESSAGE_404));
 
         Cookie[] cookies = request.getCookies();
         if (cookies != null) {
@@ -98,7 +100,7 @@ public class AuthServiceImpl implements AuthService {
             });
         }
         // accessToken delete
-        redisTemplate.delete(userDetails.getUsername());
+        redisTemplate.delete(user.getEmail());
     }
 
 

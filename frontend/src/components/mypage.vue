@@ -4,6 +4,7 @@
  import ProfileModal from "@/components/ProfileModal.vue";
  import NicknameModal from "@/components/NicknameModal.vue";
  import {useUserStore} from "@/stores/usersStores.ts";
+ import router from "@/router/router.js";
 
  const mypage = useMypageStore();
  const response = ref(null); // response를 ref로 초기화

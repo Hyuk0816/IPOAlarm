@@ -61,7 +61,6 @@ export const useUserStore = defineStore('user', () => {
     const logout = async () =>{
         try{
             const res = axios.post(API_LOGOUT)
-            router.push({name:"home"})
         }catch (err){
             console.log(err)
         }
