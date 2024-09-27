@@ -54,7 +54,7 @@
     <div class="row text-center">
       <div class="col-md-12">
         <img :src="response.data.image" alt="User Image" class="rounded-circle img-fluid mb-3" style="width: 250px; height: 250px;">
-        <p class="edit-profile" @click="openProfileModal">프로필 사진 수정</p> <!-- 추가된 부분 -->
+        <p class="edit-profile" @click="openProfileModal">프로필 변경</p> <!-- 추가된 부분 -->
         <ProfileModal
           :isOpen="isProfileModalOpen"
           title="프로필 사진 변경"
@@ -64,7 +64,7 @@
           <tr>
             <td>닉네임:</td>
             <td>{{ response.data.nickName }}</td>
-            <td class="edit-nickname fw-light" @click="openNickNameModal">닉네임 수정</td>
+            <td class="edit-nickname fw-light" @click="openNickNameModal">닉네임 변경</td>
           </tr>
           <NicknameModal
             :isOpen="isNickNameModalOpen"
@@ -152,12 +152,14 @@
   text-align: center;
 }
 .edit-profile {
+  cursor: pointer;
   font-size: 0.8rem; /* 글자 크기 조정 */
   color: gray; /* 글자 색상 조정 */
   margin-top: -10px; /* 사진과의 간격 조정 */
 }
 
 .edit-nickname {
+  cursor: pointer;
   font-size: 0.8rem; /* 글자 크기 조정 */
   color: gray; /* 글자 색상 조정 */
   padding-left: 20px;
