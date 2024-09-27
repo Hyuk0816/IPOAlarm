@@ -1,29 +1,29 @@
 <template>
   <nav class="navbar  navbar-expand-lg bg-body-tertiary">
     <div class="container-fluid">
-      <a class="navbar-brand" href="/">공모주 알리미</a>
+      <router-link to="/" class="navbar-brand">공모주 알리미</router-link>
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
       <div class="collapse navbar-collapse" id="navbarNav">
         <ul class="navbar-nav">
-          <li class="nav-item">
-            <a class="nav-link active" aria-current="page" href="/IpoData">공모주 청약 일정</a>
+          <li class="nav-item" >
+            <router-link to="/IpoData" class="nav-link">공모주 청약 일정</router-link>
           </li>
           <li class="nav-item">
-            <a class="nav-link active" href="/ListingShares">상장일 일정</a>
+            <router-link to="/ListingShares" class="nav-link">상장일 일정</router-link>
           </li>
           <li class="nav-item">
-            <a class="nav-link active" href="/mypage" v-if="userImage">마이페이지</a>
+            <router-link to="/mypage" v-if="userStore.isLoggedIn" class="nav-link">마이페이지</router-link>
           </li>
         </ul>
         <ul class="navbar-nav ms-auto">
-          <li class="nav-item-kakao" v-if="!userImage">
-            <KakaoLogin />
+          <li class="nav-item-kakao" v-if="!userStore.isLoggedIn">
+            <img class="kakaoLogin" src="../assets/img/kakao_login_medium.png" @click="goToKakaoLogin"  alt="kakoLogin">
           </li>
-          <li class="nav-item-profile" v-if="userImage">
+          <li class="nav-item-profile" v-else>
             <img
-                :src="userImage"
+                :src="userStore.usersData.profile"
                 alt="Profile Image"
                 class="profile-image"
             />
@@ -35,19 +35,21 @@
 </template>
 
 <script setup>
-import KakaoLogin from "./KakaoLogin.vue";
+import{useKakaoLoginStore} from "@/stores/kakaoLoginStore.js";
 import {onBeforeMount, onMounted, ref} from "vue";
-import { useMypageStore } from "@/stores/myPageStore.js";
+import {useUserStore} from "@/stores/usersStores.ts";
 
-const myPageStore = useMypageStore();
-const userImage = ref(null);
+const userStore = useUserStore();
+const kakaoLoginStroe = useKakaoLoginStore();
 
-console.log(userImage.value + " 템플릿 1 @");
-
+const goToKakaoLogin = async (event) => {
+  event.preventDefault();
+  await kakaoLoginStroe.kakaoLogin();
+};
 onMounted( async () => {
-  await myPageStore.getMyPage(); // API 호출
-  userImage.value = myPageStore.userImage; // 스토어에서 사용자 이미지 가져오기
-  console.log(userImage.value + " 템플릿 2 @");
+  // await myPageStore.getMyPage(); // API 호출
+  // userImage.value = myPageStore.userImage; // 스토어에서 사용자 이미지 가져오기
+  // console.log(userImage.value + " 템플릿 2 @");
 });
 </script>
 

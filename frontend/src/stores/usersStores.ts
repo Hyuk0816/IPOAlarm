@@ -12,12 +12,16 @@ export const useUserStore = defineStore('user', () => {
     const loginError = ref<string | null>(null);
     const usersData = ref<UsersInfoData>({
         email: "",
-        roleName: ""
+        profile: ""
     });
 
     // Mutation
     const setUsersData = (newUsersData: UsersInfoData) => {
         usersData.value = newUsersData;
+    }
+
+    const setUserProfile = (profile:string) => {
+        usersData.value.profile = profile;
     }
 
     // Getters
@@ -45,7 +49,8 @@ export const useUserStore = defineStore('user', () => {
                 params: { token: token.data.accessToken }
             })
             console.log(response.data.email + " userStore")
-            return response;
+            usersData.value.profile = response.data.profile;
+            return response.data;
 
         }catch (err){
             console.error(err)
@@ -61,6 +66,7 @@ export const useUserStore = defineStore('user', () => {
         loginStatus,
         userInfo,
         getUserInfo,
+        setUserProfile,
         // setName,
         // setAge,
         logIn,

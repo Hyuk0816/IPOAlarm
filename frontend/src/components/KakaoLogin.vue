@@ -2,22 +2,29 @@
   <div>
     <img src="../assets/img/kakao_login_medium.png"
          @click="goToKakaoLogin"
-         alt="kakaoLogin">
+         alt="kakaoLogin"
+        >
   </div>
 </template>
 
 <script setup lang="js">
+import {useUserStore} from "@/stores/usersStores.ts";
+import {useKakaoLoginStore} from "@/stores/kakaoLoginStore.js";
+import {onMounted, ref} from "vue";
 
+const kakaoLoginStore = useKakaoLoginStore();
+const userStore = useUserStore();
+const res = ref(null);
+const userProfile = ref(null);
 
-const redirectUri = import.meta.env.VITE_REDIRECT_URI
-const clientId = import.meta.env.VITE_CLIENT_ID
-console.log(clientId)
-const clientSecret = import.meta.env.VITE_CLIENT_SECRET
-const goToKakaoLogin = async () => {
-  window.location.href = `https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=${clientId}&client_secret=${clientSecret}&redirect_uri=${redirectUri}`;
+const goToKakaoLogin = async (event) => {
+  event.preventDefault();
+  await kakaoLoginStore.kakaoLogin();
 };
 
-// 로그인 후 홈으로 이동 (특정 로직 필요)
+
+onMounted(() =>{
+})
 </script>
 
 <style scoped>

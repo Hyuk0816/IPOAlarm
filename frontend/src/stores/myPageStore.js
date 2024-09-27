@@ -96,7 +96,8 @@ export const useMypageStore = defineStore('mypage',() => {
         userImage,
         profileImage,
         nickNameCheck,
-        nickNameErrorMsg
+        nickNameErrorMsg,
+        myPageRes
     }
 
 

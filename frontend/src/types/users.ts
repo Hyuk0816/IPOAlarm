@@ -5,5 +5,5 @@ export interface UsersLoginRequest {
 
 export interface UsersInfoData {
     email: string;
-    roleName: string;
+    profile: string;
 }
