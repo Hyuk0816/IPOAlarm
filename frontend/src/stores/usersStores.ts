@@ -2,7 +2,8 @@ import { defineStore } from 'pinia';
 import { ref, computed } from 'vue';
 import {UsersInfoData, UsersLoginRequest} from '../types/users.js';
 import axios from "axios";
-import {API_BASE_URL, API_GET_ACCESS_TOKEN, USER_INFO} from '../api/apiPoints.js'
+import {API_BASE_URL, API_GET_ACCESS_TOKEN,API_LOGOUT} from '../api/apiPoints.js'
+import router from '../router/router'
 
 export const useUserStore = defineStore('user', () => {
 
@@ -57,7 +58,14 @@ export const useUserStore = defineStore('user', () => {
         }
     }
 
-
+    const logout = async () =>{
+        try{
+            const res = axios.post(API_LOGOUT)
+            router.push({name:"home"})
+        }catch (err){
+            console.log(err)
+        }
+    }
 
     return {
         usersData,
@@ -67,6 +75,7 @@ export const useUserStore = defineStore('user', () => {
         userInfo,
         getUserInfo,
         setUserProfile,
+        logout,
         // setName,
         // setAge,
         logIn,
