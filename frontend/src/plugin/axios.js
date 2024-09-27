@@ -1,5 +1,5 @@
 import axios from "axios";
-import {API_BASE_URL, API_GET_ACCESS_TOKEN} from "../api/apiPoints.js";
+import {API_BASE_URL, API_GET_ACCESS_TOKEN, API_USER_INFO} from "../api/apiPoints.js";
 import {ref} from "vue";
 import {useUserStore} from "@/stores/usersStores.ts";
 
@@ -28,7 +28,7 @@ instance.interceptors.request.use(
                 config.headers['Authorization'] = `Bearer ${accessToken.value}`;
                 console.log('Access token set in header:', accessToken.value);
                 const userStore = useUserStore();
-                const userInfo = await axios.get('http://localhost:8080/api/auth/userInfo', {
+                const userInfo = await axios.get(`${API_BASE_URL}${API_USER_INFO}`, {
                     params:{token:accessToken.value}
                 });
                 userStore.setUserProfile(userInfo.data.profile);

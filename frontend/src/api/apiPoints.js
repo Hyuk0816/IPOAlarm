@@ -12,4 +12,4 @@ export const LISTING_SHARES_ALARM = '/api/listing_share_alarm/alarm'
 
 export const MYPAGE = '/api/mypage/data'
 
-export const USER_INFO = '/api/auth/userInfo'
+export const API_USER_INFO = '/api/auth/userInfo'
