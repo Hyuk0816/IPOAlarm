@@ -46,6 +46,7 @@
 
  const logout = async () => {
    await userStore.logout();
+   window.location.href = '/'
  }
 
  onMounted(() => {
