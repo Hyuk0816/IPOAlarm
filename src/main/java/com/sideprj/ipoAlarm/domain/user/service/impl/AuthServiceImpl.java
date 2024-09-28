@@ -159,8 +159,11 @@ public class AuthServiceImpl implements AuthService {
 
         User user = usersRepository.findByEmail(email).orElseThrow(() -> new UsernameNotFoundException(AuthConstants.MESSAGE_404));
 
+        String kakaoToken = redisTemplate.opsForValue().get(user.getEmail() + "-kakao_access");
+
         return UserInfoKakaoTokenVo.builder()
                 .email(email)
+                .kakaoToken(kakaoToken)
                 .profile(user.getImage())
                 .build();
     }

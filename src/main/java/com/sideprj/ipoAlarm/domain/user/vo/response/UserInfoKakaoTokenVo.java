@@ -12,5 +12,6 @@ import lombok.NoArgsConstructor;
 public class UserInfoKakaoTokenVo {
 
     private String email;
-      private String profile;
+    private String kakaoToken;
+    private String profile;
 }
