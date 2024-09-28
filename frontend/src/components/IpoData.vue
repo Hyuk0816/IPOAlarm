@@ -154,6 +154,7 @@ const fetchData = async (page) => {
 const searchData = () => {
   currentPage.value = 0;
   fetchData(currentPage.value);
+  isFilterOpen.value = false;
 };
 
 const resetFilters = () => {
@@ -163,6 +164,7 @@ const resetFilters = () => {
   pageSize.value = 30;
   currentPage.value = 0;
   fetchData(currentPage.value);
+  isFilterOpen.value = false;
 };
 
 const paginatedData = computed(() => {

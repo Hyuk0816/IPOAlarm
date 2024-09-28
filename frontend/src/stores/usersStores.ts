@@ -2,7 +2,8 @@ import { defineStore } from 'pinia';
 import { ref, computed } from 'vue';
 import {UsersInfoData, UsersLoginRequest} from '../types/users.js';
 import axios from "axios";
-import {API_BASE_URL, API_GET_ACCESS_TOKEN, USER_INFO} from '../api/apiPoints.js'
+import {API_BASE_URL, API_GET_ACCESS_TOKEN,API_LOGOUT} from '../api/apiPoints.js'
+import router from '../router/router'
 
 export const useUserStore = defineStore('user', () => {
 
@@ -12,12 +13,16 @@ export const useUserStore = defineStore('user', () => {
     const loginError = ref<string | null>(null);
     const usersData = ref<UsersInfoData>({
         email: "",
-        roleName: ""
+        profile: ""
     });
 
     // Mutation
     const setUsersData = (newUsersData: UsersInfoData) => {
         usersData.value = newUsersData;
+    }
+
+    const setUserProfile = (profile:string) => {
+        usersData.value.profile = profile;
     }
 
     // Getters
@@ -45,14 +50,21 @@ export const useUserStore = defineStore('user', () => {
                 params: { token: token.data.accessToken }
             })
             console.log(response.data.email + " userStore")
-            return response;
+            usersData.value.profile = response.data.profile;
+            return response.data;
 
         }catch (err){
             console.error(err)
         }
     }
 
-
+    const logout = async () =>{
+        try{
+            const res = axios.post(API_LOGOUT)
+        }catch (err){
+            console.log(err)
+        }
+    }
 
     return {
         usersData,
@@ -61,6 +73,8 @@ export const useUserStore = defineStore('user', () => {
         loginStatus,
         userInfo,
         getUserInfo,
+        setUserProfile,
+        logout,
         // setName,
         // setAge,
         logIn,

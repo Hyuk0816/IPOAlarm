@@ -81,8 +81,10 @@ public class AuthServiceImpl implements AuthService {
     @Override
     @Transactional
     public void logout(HttpServletRequest request, HttpServletResponse response) {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        UserDetails userDetails = customUserDetails.loadUserByUsername(authentication.getName());
+//        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+//        UserDetails userDetails = customUserDetails.loadUserByUsername(authentication.getName());
+
+//        User user = usersRepository.findByEmail(authentication.getName()).orElseThrow(() -> new UsernameNotFoundException(AuthConstants.MESSAGE_404));
 
         Cookie[] cookies = request.getCookies();
         if (cookies != null) {
@@ -98,7 +100,7 @@ public class AuthServiceImpl implements AuthService {
             });
         }
         // accessToken delete
-        redisTemplate.delete(userDetails.getUsername());
+//        redisTemplate.delete(user.getEmail());
     }
 
 
@@ -154,11 +156,12 @@ public class AuthServiceImpl implements AuthService {
     public UserInfoKakaoTokenVo getUserNameAndKakaoAccessToken(String token) {
 
         String email = tokenProvider.getEmailFromToken(token);
-        String kakaoAccessToken = redisTemplate.opsForValue().get(email + "-kakao_access");
+
+        User user = usersRepository.findByEmail(email).orElseThrow(() -> new UsernameNotFoundException(AuthConstants.MESSAGE_404));
 
         return UserInfoKakaoTokenVo.builder()
                 .email(email)
-                .kakaoToken(kakaoAccessToken)
+                .profile(user.getImage())
                 .build();
     }
 }

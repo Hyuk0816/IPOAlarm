@@ -3,9 +3,12 @@
  import {onMounted, ref} from "vue";
  import ProfileModal from "@/components/ProfileModal.vue";
  import NicknameModal from "@/components/NicknameModal.vue";
+ import {useUserStore} from "@/stores/usersStores.ts";
+ import router from "@/router/router.js";
 
  const mypage = useMypageStore();
  const response = ref(null); // response를 ref로 초기화
+ const userStore = useUserStore();
 
  const ipoAlarmCount = ref('');
  const listingAlarmCount = ref('');
@@ -41,6 +44,11 @@
    isNickNameModalOpen.value=true
  }
 
+ const logout = async () => {
+   await userStore.logout();
+   window.location.href = '/'
+ }
+
  onMounted(() => {
    getData();
    myIpoAlarmCount();
@@ -54,7 +62,7 @@
     <div class="row text-center">
       <div class="col-md-12">
         <img :src="response.data.image" alt="User Image" class="rounded-circle img-fluid mb-3" style="width: 250px; height: 250px;">
-        <p class="edit-profile" @click="openProfileModal">프로필 사진 수정</p> <!-- 추가된 부분 -->
+        <p class="edit-profile" @click="openProfileModal">프로필 변경</p> <!-- 추가된 부분 -->
         <ProfileModal
           :isOpen="isProfileModalOpen"
           title="프로필 사진 변경"
@@ -63,8 +71,8 @@
         <table class="table">
           <tr>
             <td>닉네임:</td>
-            <td>{{ response.data.nickName }}</td>
-            <td class="edit-nickname fw-light" @click="openNickNameModal">닉네임 수정</td>
+            <td class="text-container">{{ response.data.nickName }}</td>
+            <td class="edit-nickname fw-light" @click="openNickNameModal">닉네임 변경</td>
           </tr>
           <NicknameModal
             :isOpen="isNickNameModalOpen"
@@ -72,13 +80,16 @@
             @update:isOpen="isNickNameModalOpen=$event"/>
           <tr>
             <td>공모주 알람:</td>
-            <td>{{ipoAlarmCount}}회</td>
+            <td class="text-container">{{ipoAlarmCount}}회</td>
           </tr>
           <tr>
             <td>상장일 알람:</td>
-            <td>{{listingAlarmCount}}회</td>
+            <td class="text-container">{{listingAlarmCount}}회</td>
           </tr>
         </table>
+        <div class="logout-container">
+          <button type="button" class="btn btn-warning" id="logout-text" @click="logout">로그아웃</button>
+        </div>
       </div>
     </div>
     <div class="row">
@@ -152,14 +163,28 @@
   text-align: center;
 }
 .edit-profile {
+  cursor: pointer;
   font-size: 0.8rem; /* 글자 크기 조정 */
   color: gray; /* 글자 색상 조정 */
   margin-top: -10px; /* 사진과의 간격 조정 */
 }
 
 .edit-nickname {
+  cursor: pointer;
   font-size: 0.8rem; /* 글자 크기 조정 */
   color: gray; /* 글자 색상 조정 */
   padding-left: 20px;
 }
+.logout-container{
+  margin-left: 100px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  display: flex;
+}
+#logout-text{
+  cursor: pointer;
+  font-size: 0.8rem;
+  color: brown;
+}
+
 </style>

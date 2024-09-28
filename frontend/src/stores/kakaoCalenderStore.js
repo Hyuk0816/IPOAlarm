@@ -3,6 +3,9 @@ import {defineStore} from 'pinia';
 
 export const useKakaoCalenderStore = defineStore('kakaoCalender', () => {
 
+    const redirectUri = import.meta.env.VITE_REDIRECT_URI
+    const clientId = import.meta.env.VITE_CLIENT_ID
+    const clientSecret = import.meta.env.VITE_CLIENT_SECRET
     const createIpoEvent = async (token, item) => {
         console.log(item.value.startDate + " store")
 
@@ -31,6 +34,10 @@ export const useKakaoCalenderStore = defineStore('kakaoCalender', () => {
                 }
             );
         } catch (err) {
+            if(err.response.data.msg){
+                window.location.href = `https://kauth.kakao.com/oauth/authorize?client_id=${clientId}&client_secret=${clientSecret}&redirect_uri=${redirectUri}`;
+                console.log(err.response.data.msg)
+            }
             console.error(err);
         }
     }
@@ -65,6 +72,10 @@ export const useKakaoCalenderStore = defineStore('kakaoCalender', () => {
                 }
             );
         } catch (err) {
+            if(err.response.data.msg){
+                window.location.href = `https://kauth.kakao.com/oauth/authorize?client_id=${clientId}&client_secret=${clientSecret}&redirect_uri=${redirectUri}`;
+                console.log(err.response.data.msg)
+            }
             console.error(err);
         }
     }
