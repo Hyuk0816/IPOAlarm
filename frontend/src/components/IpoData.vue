@@ -225,7 +225,7 @@ const submitAlarm = async () => {
         params: { ipoName }
       });
       const userEamilKakaoResponse = await userStore.getUserInfo();
-      const kakaoToken = userEamilKakaoResponse.data.kakaoToken;
+      const kakaoToken = userEamilKakaoResponse.kakaoToken;
 
       await kakaoCalenderStore.createIpoEvent(kakaoToken,selectedItem);
       alert(response.data.statusMsg);

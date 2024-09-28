@@ -231,7 +231,7 @@ const submitAlarm = async () => {
       });
 
       const userEamilKakaoResponse = await userStore.getUserInfo();
-      const kakaoToken = userEamilKakaoResponse.data.kakaoToken;
+      const kakaoToken = userEamilKakaoResponse.kakaoToken;
 
       await kakaoCalenderStore.createListingEvent(kakaoToken,selectedItem)
       alert(response.data.statusMsg);
