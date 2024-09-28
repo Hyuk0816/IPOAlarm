@@ -3,9 +3,12 @@
  import {onMounted, ref} from "vue";
  import ProfileModal from "@/components/ProfileModal.vue";
  import NicknameModal from "@/components/NicknameModal.vue";
+ import {useUserStore} from "@/stores/usersStores.ts";
+ import router from "@/router/router.js";
 
  const mypage = useMypageStore();
  const response = ref(null); // response를 ref로 초기화
+ const userStore = useUserStore();
 
  const ipoAlarmCount = ref('');
  const listingAlarmCount = ref('');
@@ -41,6 +44,11 @@
    isNickNameModalOpen.value=true
  }
 
+ const logout = async () => {
+   await userStore.logout();
+   window.location.href = '/'
+ }
+
  onMounted(() => {
    getData();
    myIpoAlarmCount();
@@ -63,7 +71,7 @@
         <table class="table">
           <tr>
             <td>닉네임:</td>
-            <td>{{ response.data.nickName }}</td>
+            <td class="text-container">{{ response.data.nickName }}</td>
             <td class="edit-nickname fw-light" @click="openNickNameModal">닉네임 변경</td>
           </tr>
           <NicknameModal
@@ -72,13 +80,16 @@
             @update:isOpen="isNickNameModalOpen=$event"/>
           <tr>
             <td>공모주 알람:</td>
-            <td>{{ipoAlarmCount}}회</td>
+            <td class="text-container">{{ipoAlarmCount}}회</td>
           </tr>
           <tr>
             <td>상장일 알람:</td>
-            <td>{{listingAlarmCount}}회</td>
+            <td class="text-container">{{listingAlarmCount}}회</td>
           </tr>
         </table>
+        <div class="logout-container">
+          <button type="button" class="btn btn-warning" id="logout-text" @click="logout">로그아웃</button>
+        </div>
       </div>
     </div>
     <div class="row">
@@ -164,4 +175,16 @@
   color: gray; /* 글자 색상 조정 */
   padding-left: 20px;
 }
+.logout-container{
+  margin-left: 100px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  display: flex;
+}
+#logout-text{
+  cursor: pointer;
+  font-size: 0.8rem;
+  color: brown;
+}
+
 </style>
