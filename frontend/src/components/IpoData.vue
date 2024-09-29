@@ -147,7 +147,6 @@ const fetchData = async (page) => {
 
   } catch (error) {
     alert(error.response.data.errorMessage)
-    console.error('Error fetching data:', error);
   }
 };
 
@@ -217,7 +216,6 @@ const adjustedCurrentPage = computed(() => {
 
 const submitAlarm = async () => {
   if (selectedItem.value) {
-    console.log(selectedItem + " submitAlarm");
     const ipoName = selectedItem.value.ipoName;
 
     try {
@@ -238,7 +236,6 @@ const submitAlarm = async () => {
       } else {
         alert('알람 신청 중 오류 발생');
       }
-      console.error('Error submitting alarm:', error);
     }
   }
   isModalOpen.value = false; // 모달 닫기
