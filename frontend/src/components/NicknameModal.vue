@@ -42,7 +42,6 @@ const editNickName = async () => {
       message.value = "중복확인이 필요합니다.";
     }
   } catch (err) {
-    console.error(err);
     message.value = myPage.nickNameErrorMsg ;
   }
 };
@@ -63,7 +62,6 @@ const nickNameCheck = async () => {
       message.value = myPage.nickNameErrorMsg ; // 서버에서 반환된 에러 메시지 사용
       isNickNameCheck.value = false;
     }
-    console.error(err)
   }
 };
 

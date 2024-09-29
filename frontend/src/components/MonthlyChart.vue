@@ -59,16 +59,13 @@ export default {
         this.updateChart();
       } catch (error) {
         if (error.name === 'AbortError') {
-          console.log('이전 요청이 취소되었습니다.');
         } else {
-          console.error('데이터를 가져오는 데 오류가 발생했습니다:', error);
         }
       }
     },
     updateChart() {
       const ctx = document.getElementById('profitChart');
       if (!ctx) {
-        console.error('Canvas 요소를 찾을 수 없습니다.');
         return;
       }
 

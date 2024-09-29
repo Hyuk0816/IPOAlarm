@@ -44,17 +44,14 @@ export const useUserStore = defineStore('user', () => {
     const getUserInfo = async () => {
         try{
             const token = await axios.get(`${API_BASE_URL}${API_GET_ACCESS_TOKEN}`, { withCredentials: true });
-            console.log( "userStore : " + token.data.accessToken)
 
             const response =  await axios.get('/api/auth/userInfo', {
                 params: { token: token.data.accessToken }
             })
-            console.log(response.data.email + " userStore")
             usersData.value.profile = response.data.profile;
             return response.data;
 
         }catch (err){
-            console.error(err)
         }
     }
 
@@ -62,7 +59,6 @@ export const useUserStore = defineStore('user', () => {
         try{
             const res = axios.post(API_LOGOUT)
         }catch (err){
-            console.log(err)
         }
     }
 

@@ -157,7 +157,7 @@ const fetchData = async (page) => {
     if(error){
       alert(error.response.data.errorMessage)
     }
-    console.error('Error fetching data:', error);
+
   }
 };
 
@@ -220,7 +220,6 @@ const openModal = (item) => {
 
 const submitAlarm = async () => {
   if (selectedItem.value.ipoName) {
-    console.log(selectedItem.value.ipoName);
 
     const listingShares = selectedItem.value.ipoName;
 
@@ -241,7 +240,6 @@ const submitAlarm = async () => {
       } else {
         alert('알람 신청 중 오류 발생');
       }
-      console.error('Error submitting alarm:', error);
     }
   }
   isModalOpen.value = false; // 모달 닫기

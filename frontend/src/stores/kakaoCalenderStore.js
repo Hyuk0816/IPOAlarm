@@ -7,7 +7,6 @@ export const useKakaoCalenderStore = defineStore('kakaoCalender', () => {
     const clientId = import.meta.env.VITE_CLIENT_ID
     const clientSecret = import.meta.env.VITE_CLIENT_SECRET
     const createIpoEvent = async (token, item) => {
-        console.log(item.value.startDate + " store")
 
         const data = new URLSearchParams();
         data.append('event', JSON.stringify({
@@ -36,9 +35,7 @@ export const useKakaoCalenderStore = defineStore('kakaoCalender', () => {
         } catch (err) {
             if(err.response.data.msg){
                 window.location.href = `https://kauth.kakao.com/oauth/authorize?client_id=${clientId}&client_secret=${clientSecret}&redirect_uri=${redirectUri}&response_type=code&scope=talk_calendar`;
-                console.log(err.response.data.msg)
             }
-            console.error(err);
         }
     }
     const createListingEvent = async(token, item) => {
@@ -75,9 +72,7 @@ export const useKakaoCalenderStore = defineStore('kakaoCalender', () => {
             if(err.response.data.msg){
 
                 window.location.href = `https://kauth.kakao.com/oauth/authorize?client_id=${clientId}&client_secret=${clientSecret}&redirect_uri=${redirectUri}&response_type=code&scope=talk_calendar`;
-                console.log(err.response.data.msg)
             }
-            console.error(err);
         }
     }
     return{

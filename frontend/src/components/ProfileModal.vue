@@ -37,16 +37,14 @@ const handleFileChange = (event) => {
   if (file) {
     profileImage.value = file; // 올바르게 파일 할당
   } else {
-    console.log("파일이 선택되지 않았습니다.");
   }
 };
 
 const putProfilePicture = async () => {
   if (profileImage.value) {
-    const res = await myPageStore.putProfile(profileImage.value); // 파일 전송
-    console.log(res); // 결과 확인
+    return  await myPageStore.putProfile(profileImage.value); // 파일 전송
   } else {
-    console.error("전송할 파일이 없습니다.");
+
   }
 };
 

@@ -17,12 +17,10 @@ export const useMypageStore = defineStore('mypage',() => {
             userImage.value = myPageRes.value.image;
             return myPage;
         }catch (err){
-            console.error(err);
         }
     }
     const putProfile = async (file) => {
 
-        console.log(file + " store")
         try{
             const formData = new FormData();
             formData.append('file', file)
@@ -34,7 +32,6 @@ export const useMypageStore = defineStore('mypage',() => {
             alert(response.data.statusMsg);
             window.location.reload();
         }catch (err){
-            console.error(err)
         }
     }
     const putNickname = async (nickName) => {
@@ -45,7 +42,6 @@ export const useMypageStore = defineStore('mypage',() => {
             alert(res.data.statusMsg)
             window.location.reload();
         }catch (err){
-            console.error(err)
             nickNameErrorMsg.value  = err.response.data.errorMessage
             return nickNameErrorMsg.value
         }
@@ -56,7 +52,6 @@ export const useMypageStore = defineStore('mypage',() => {
             const res =  await axios.get('/api/alarm/count');
             return res.data
         }catch (err){
-            console.error(err)
         }
     }
 
@@ -65,24 +60,18 @@ export const useMypageStore = defineStore('mypage',() => {
             const res =  await axios.get('/api/listing_share_alarm/count')
             return res.data
         }catch (err){
-            console.error(err)
         }
     }
 
     const nickNameCheck = async (nickName) => {
         try{
-            console.log(nickName + " store")
-
             const res = await axios.get('/api/user/nick_name_check', {
                 params:{nickName:nickName}
             })
-            console.log(res.data + "store")
             return res
 
         }catch (err){
-            console.error(err.response.data.errorMessage + " 에러메세지 뷰 store ")
             nickNameErrorMsg.value  = err.response.data.errorMessage
-            console.log( nickNameErrorMsg.value + " 잘담기나?")
             return nickNameErrorMsg.value
         }
     }

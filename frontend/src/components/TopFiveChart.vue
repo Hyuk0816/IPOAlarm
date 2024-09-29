@@ -26,12 +26,10 @@ export default {
     async updateChart() {
       const ctx = document.getElementById('Top5Chart');
       if (!ctx) {
-        console.error('Canvas 요소를 찾을 수 없습니다.');
         return;
       }
       const response = await axios.get('/api/listing_shares/valuable_listing')
       this.chartData = response.data;
-      console.log(response.data + " top5 chart")
 
       if (this.chart) {
         this.chart.destroy();

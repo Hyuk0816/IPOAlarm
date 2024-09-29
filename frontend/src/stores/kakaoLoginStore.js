@@ -13,7 +13,6 @@ export const useKakaoLoginStore = defineStore(('kakaoLogin'), () => {
 
     const redirectUri = import.meta.env.VITE_REDIRECT_URI
     const clientId = import.meta.env.VITE_CLIENT_ID
-    console.log(clientId)
     const clientSecret = import.meta.env.VITE_CLIENT_SECRET
 
 

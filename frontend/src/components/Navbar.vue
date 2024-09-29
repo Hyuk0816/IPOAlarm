@@ -49,7 +49,7 @@ const goToKakaoLogin = async (event) => {
 onMounted( async () => {
   // await myPageStore.getMyPage(); // API 호출
   // userImage.value = myPageStore.userImage; // 스토어에서 사용자 이미지 가져오기
-  // console.log(userImage.value + " 템플릿 2 @");
+  // console.log(userImage.value + " 템플릿 2 @");¡
 });
 </script>
 

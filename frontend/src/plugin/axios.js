@@ -24,9 +24,7 @@ instance.interceptors.request.use(
             if (res.status === 200 && res.data.accessToken) {
                 // Extract the access token from the response
                 accessToken.value = res.data.accessToken;
-                console.log(accessToken.value + ": axios ")
                 config.headers['Authorization'] = `Bearer ${accessToken.value}`;
-                console.log('Access token set in header:', accessToken.value);
                 const userStore = useUserStore();
                 const userInfo = await axios.get(`${API_BASE_URL}${API_USER_INFO}`, {
                     params:{token:accessToken.value}
@@ -35,9 +33,7 @@ instance.interceptors.request.use(
                 userStore.logIn();
             }
 
-            console.log('Interceptor on');
         } catch (e) {
-            console.error('Error fetching access token:', e);
         }
         return config;
     },
