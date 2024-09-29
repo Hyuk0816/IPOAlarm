@@ -100,8 +100,7 @@ public class UserServiceImpl implements UserService {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         User user = userRepository.findByEmail(authentication.getName())
                 .orElseThrow(() -> new UsernameNotFoundException(UserConstants.MESSAGE_404));
-
-        if(user.getNickName().equals(nickName)){
+        if(user.getNickName().equals(nickName) || userRepository.findByNickName(nickName)!=null){
             throw new UsersAlreadyExistsException(UserConstants.NICKNAME_ALREADY_EXISTS);
         }
         user.setNickName(nickName);
@@ -114,7 +113,7 @@ public class UserServiceImpl implements UserService {
         User user = userRepository.findByEmail(authentication.getName())
                 .orElseThrow(() -> new UsernameNotFoundException(UserConstants.MESSAGE_404));
 
-        if(user.getNickName().equals(nickName)){
+        if(user.getNickName().equals(nickName) || userRepository.findByNickName(nickName)!=null){
             throw new UsersAlreadyExistsException(UserConstants.NICKNAME_ALREADY_EXISTS);
         }else{
             return UserConstants.NICKNAME_CHECK_OK;
