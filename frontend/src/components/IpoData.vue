@@ -226,8 +226,11 @@ const submitAlarm = async () => {
       });
       const userEamilKakaoResponse = await userStore.getUserInfo();
       const kakaoToken = userEamilKakaoResponse.kakaoToken;
+      try{
+        await kakaoCalenderStore.createIpoEvent(kakaoToken,selectedItem);
+      }catch (err){
+      }
 
-      await kakaoCalenderStore.createIpoEvent(kakaoToken,selectedItem);
       alert(response.data.statusMsg);
     } catch (error) {
       if (error.response) {
