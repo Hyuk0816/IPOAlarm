@@ -222,17 +222,18 @@ const submitAlarm = async () => {
   if (selectedItem.value.ipoName) {
 
     const listingShares = selectedItem.value.ipoName;
+    const userEamilKakaoResponse = await userStore.getUserInfo();
+    const kakaoToken = userEamilKakaoResponse.kakaoToken;
 
-
+    try{
+      await kakaoCalenderStore.createListingEvent(kakaoToken,selectedItem)
+    }catch (err){
+    }
     try {
       const response = await axios.post(LISTING_SHARES_ALARM, null, {
         params: { listingShares }
       });
 
-      const userEamilKakaoResponse = await userStore.getUserInfo();
-      const kakaoToken = userEamilKakaoResponse.kakaoToken;
-
-      await kakaoCalenderStore.createListingEvent(kakaoToken,selectedItem)
       alert(response.data.statusMsg);
     } catch (error) {
       if (error.response) {

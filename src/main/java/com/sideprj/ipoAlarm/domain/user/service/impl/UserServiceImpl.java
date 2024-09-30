@@ -58,8 +58,8 @@ public class UserServiceImpl implements UserService {
         userRepository.save(user);
     }
 
-    public String buildFileName(String email, String originalFileName) {
-        return email + " : profile" + "/" + originalFileName;
+    public String buildFileName(String email) {
+        return email + " : profile" + "/" + email+" profile";
     }
 
     public String uploadFile(String email, MultipartFile file) throws FileUploadException {
@@ -68,7 +68,7 @@ public class UserServiceImpl implements UserService {
             return null;
         }
 
-        String fileName = buildFileName(email, file.getOriginalFilename());
+        String fileName = buildFileName(email);
 
         ObjectMetadata objectMetadata = new ObjectMetadata();
         objectMetadata.setContentType(file.getContentType());

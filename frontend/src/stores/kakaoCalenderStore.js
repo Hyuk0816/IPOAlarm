@@ -3,9 +3,9 @@ import {defineStore} from 'pinia';
 
 export const useKakaoCalenderStore = defineStore('kakaoCalender', () => {
 
-    const redirectUri = import.meta.env.VITE_REDIRECT_URI
-    const clientId = import.meta.env.VITE_CLIENT_ID
-    const clientSecret = import.meta.env.VITE_CLIENT_SECRET
+    const kakaoCalenderLink = import.meta.env.VITE_KAKAO_CALENDER_LINK
+    const kakaoCalenderAgreeLink= import.meta.env.VITE_KAKAO_CALENDER_AGREE
+
     const createIpoEvent = async (token, item) => {
 
         const data = new URLSearchParams();
@@ -24,7 +24,7 @@ export const useKakaoCalenderStore = defineStore('kakaoCalender', () => {
         }));
         try {
             return await axios.post(
-                "https://kapi.kakao.com/v2/api/calendar/create/event",
+                kakaoCalenderLink,
                 data, // POST 요청 데이터
                 {
                     headers: {
@@ -34,7 +34,8 @@ export const useKakaoCalenderStore = defineStore('kakaoCalender', () => {
             );
         } catch (err) {
             if(err.response.data.msg){
-                window.location.href = `https://kauth.kakao.com/oauth/authorize?client_id=${clientId}&client_secret=${clientSecret}&redirect_uri=${redirectUri}&response_type=code&scope=talk_calendar`;
+                alert("카카오 캘린더 이용 권한에 동의해 주세요")
+                window.location.href = kakaoCalenderAgreeLink
             }
         }
     }
@@ -60,7 +61,7 @@ export const useKakaoCalenderStore = defineStore('kakaoCalender', () => {
         }));
         try {
             return await axios.post(
-                "https://kapi.kakao.com/v2/api/calendar/create/event",
+                kakaoCalenderLink,
                 data, // POST 요청 데이터
                 {
                     headers: {
@@ -70,8 +71,8 @@ export const useKakaoCalenderStore = defineStore('kakaoCalender', () => {
             );
         } catch (err) {
             if(err.response.data.msg){
-
-                window.location.href = `https://kauth.kakao.com/oauth/authorize?client_id=${clientId}&client_secret=${clientSecret}&redirect_uri=${redirectUri}&response_type=code&scope=talk_calendar`;
+                alert("카카오 캘린더 이용 권한에 동의해 주세요")
+                window.location.href = kakaoCalenderAgreeLink;
             }
         }
     }
