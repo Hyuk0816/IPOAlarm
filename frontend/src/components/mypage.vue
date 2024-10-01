@@ -107,18 +107,14 @@
             <table class="table table-striped mt-3">
               <thead>
               <tr>
-                <th>공모주 이름</th>
-                <th>공모 가격</th>
-                <th>확정 가격</th>
+                <th>공모주</th>
                 <th>주간사</th>
-                <th>공모 시작일</th>
+                <th>청약 시작일</th>
               </tr>
               </thead>
               <tbody>
               <tr v-for="alarm in response.data.myAlarm" :key="alarm.ipoName">
                 <td>{{ alarm.ipoName }}</td>
-                <td>{{ alarm.ipoPrice }}</td>
-                <td>{{ alarm.confirmPrice }}</td>
                 <td>{{ alarm.securities }}</td>
                 <td>{{ formatDate(alarm.startDate) }}</td>
               </tr>
@@ -129,9 +125,9 @@
             <table class="table table-striped mt-3">
               <thead>
               <tr>
-                <th>상장주 이름</th>
+                <th>상장주</th>
                 <th>상장 날짜</th>
-                <th>공모 확정 가격</th>
+                <th>확정 가격</th>
               </tr>
               </thead>
               <tbody>
@@ -187,4 +183,21 @@
   color: brown;
 }
 
+@media (max-width: 768px) {
+  .table {
+    width: 100%; /* 테이블 너비를 100%로 설정 */
+    font-size: 0.9rem; /* 폰트 크기 조정 */
+    overflow-x: auto;
+  }
+
+  .table th, .table td {
+    padding: 8px; /* 여백 조정 */
+    text-align: left; /* 텍스트 정렬 */
+  }
+
+  .table th {
+    font-size: 1rem; /* 헤더 폰트 크기 조정 */
+    background-color: #f8f9fa; /* 헤더 배경색 */
+  }
+}
 </style>

@@ -11,6 +11,7 @@ import com.sideprj.ipoAlarm.domain.user.repository.UserRepository;
 import com.sideprj.ipoAlarm.domain.user.role.ROLE;
 import com.sideprj.ipoAlarm.domain.user.service.UserService;
 import com.sideprj.ipoAlarm.domain.user.vo.UserDetailsRequestVo;
+import com.sideprj.ipoAlarm.util.converter.DateFormatter;
 import com.sideprj.ipoAlarm.util.exception.UsersAlreadyExistsException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -24,6 +25,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.InputStream;
+import java.time.LocalDateTime;
 import java.util.Optional;
 
 @Service
@@ -59,7 +61,9 @@ public class UserServiceImpl implements UserService {
     }
 
     public String buildFileName(String email) {
-        return email + " : profile" + "/" + email+" profile";
+        LocalDateTime now = LocalDateTime.now();
+        String updateTime = DateFormatter.LocalDateTimeformat(now);
+        return email + " : profile" + "/" + email+" profile" +"_"+updateTime;
     }
 
     public String uploadFile(String email, MultipartFile file) throws FileUploadException {
