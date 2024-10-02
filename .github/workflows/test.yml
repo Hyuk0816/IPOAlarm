@@ -62,6 +62,7 @@ jobs:
         run: |
           sudo docker build . --file Dockerfile -t rlawogur816/ipo-alarm-actions:latest
           sudo docker images
+          cat .env
           sudo docker push rlawogur816/ipo-alarm-actions:latest
 
          
