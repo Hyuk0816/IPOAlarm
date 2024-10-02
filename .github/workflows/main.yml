@@ -60,7 +60,7 @@ jobs:
           sudo docker build . --file Dockerfile -t ${{ secrets.DOCKER_IMAGE }}:latest
           sudo docker images
           echo ${{ secrets.DOCKER_PASSWORD }} | docker login -u ${{ secrets.DOCKER_USERNAME }} --password-stdin
-          sudo docker push ${{ secrets.DOCKER_IMAGE }}:latest
+          sudo docker push ${{ secrets.DOCKER_USERNAME }}/${{ secrets.DOCKER_PUSH_NAME }}:latest
          
 
       # deploy
