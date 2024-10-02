@@ -60,7 +60,7 @@ jobs:
           pwd
           ls -al
           sudo docker build -t ${{secrets.DOCKER_IMAGE}} .
-          sudo docker tag ${{secrets.DOCKER_IMAGE}} ${{secrets.DOCKER_USERNAME}}/${{secrets.DOCKER_IMAGE}}
+          sudo docker tag ${{secrets.DOCKER_IMAGE}} "${{secrets.DOCKER_USERNAME}}/${{secrets.DOCKER_IMAGE}}"
           sudo docker push ${{secrets.DOCKER_USERNAME}}/${{secrets.DOCKER_IMAGE}}
          
 
