@@ -55,8 +55,7 @@ jobs:
       - name: Docker build & push to repo
         if: github.ref == 'refs/heads/main'
         run: |
-          echo docker login -u ${{ secrets.DOCKER_USERNAME }} --p ${{ secrets.DOCKER_PASSWORD }}
-          echo ${{secrets.DOCKER_USERNAME}}
+          echo docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
           sudo docker build . --file Dockerfile -t ${{ secrets.DOCKER_IMAGE }}:latest
           sudo docker images
           sudo docker push {{ secrets.DOCKER_IMAGE }}:latest
