@@ -60,6 +60,7 @@ jobs:
       - name: Docker build & push to repo
         if: github.ref == 'refs/heads/main'
         run: |
+          cat .env
           sudo docker build . --file Dockerfile -t rlawogur816/ipo-alarm-actions:latest
           sudo docker images
           sudo docker push rlawogur816/ipo-alarm-actions:latest
