@@ -59,7 +59,7 @@ jobs:
           echo ${{secrets.DOCKER_USERNAME}}
           pwd
           ls -al
-          sudo docker build -t  ${{ secrets.DOCKER_IMAGE }} "${{ secrets.DOCKER_USERNAME }}/${{ secrets.DOCKER_IMAGE }}"
+          sudo docker build -t ${{ secrets.DOCKER_USERNAME }}/${{ secrets.DOCKER_IMAGE }}
           sudo docker push ${{ secrets.DOCKER_USERNAME }}/${{ secrets.DOCKER_IMAGE }}
          
 
