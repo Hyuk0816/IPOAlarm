@@ -62,7 +62,8 @@ jobs:
         run: |
           sudo docker build . --file Dockerfile -t ${{ secrets.DOCKER_IMAGE }}:latest
           sudo docker images
-          sudo docker push {{ secrets.DOCKER_IMAGE }}:latest
+          sudo docker push ${{ secrets.DOCKER_IMAGE }}:latest
+
          
 
       # deploy
