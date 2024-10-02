@@ -60,7 +60,7 @@ jobs:
           pwd
           ls -al
           sudo docker build -t ipo-alarm-actions .
-          sudo docker push ipo-alarm-actions
+         
 
       # deploy
       - name: deploy to server
