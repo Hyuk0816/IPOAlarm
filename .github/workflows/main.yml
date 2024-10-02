@@ -59,9 +59,8 @@ jobs:
           echo ${{secrets.DOCKER_USERNAME}}
           pwd
           ls -al
-          sudo docker build -t ${{secrets.DOCKER_IMAGE}} .
-          sudo docker tag ${{secrets.DOCKER_IMAGE}} "${{secrets.DOCKER_USERNAME}}/${{secrets.DOCKER_IMAGE}}"
-          sudo docker push ${{secrets.DOCKER_USERNAME}}/${{secrets.DOCKER_IMAGE}}
+          sudo docker build -t  ${{ secrets.DOCKER_IMAGE }} "${{ secrets.DOCKER_USERNAME }}/${{ secrets.DOCKER_IMAGE }}"
+          sudo docker push ${{ secrets.DOCKER_USERNAME }}/${{ secrets.DOCKER_IMAGE }}
          
 
       # deploy
@@ -80,6 +79,6 @@ jobs:
             sudo docker stop ipo-alarm-app
             sudo docker rm ipo-alarm-app
             sudo docker images
-            sudo docker pull ${{secrets.DOCKER_USERNAME}}/${{secrets.DOCKER_IMAGE}}
-            sudo docker run -d -it -p 8080:8080 --name ipo-alarm-app --env-file ./.env ${{secrets.DOCKER_IMAGE}}
+            sudo docker pull ${{ secrets.DOCKER_USERNAME }}/${{ secrets.DOCKER_IMAGE }}
+            sudo docker run -d -it -p 8080:8080 --name ipo-alarm-app --env-file ./.env ${{ secrets.DOCKER_IMAGE }}
             sudo docker image prune -f
