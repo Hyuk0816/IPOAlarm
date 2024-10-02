@@ -61,7 +61,7 @@ jobs:
         if: github.ref == 'refs/heads/main'
         run: |
           sudo docker build --file Dockerfile -t ipo-alarm-actions:latest .
-          sudo docker tag ipo-alarm:latest rlawogur816/ipo-alarm-actions:latest
+          sudo docker tag ipo-alarm-actions:latest rlawogur816/ipo-alarm-actions:latest
           # sudo docker build . --file Dockerfile -t rlawogur816/ipo-alarm-actions:latest
           sudo docker images
           sudo docker push rlawogur816/ipo-alarm-actions:latest
