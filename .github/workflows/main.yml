@@ -57,8 +57,8 @@ jobs:
         run: |
           echo "${{ secrets.DOCKER_PASSWORD }}" | docker login -u "${{ secrets.DOCKER_USERNAME }}" --password-stdin
           echo ${{secrets.DOCKER_USERNAME}}
-          docker build -t ${{ secrets.DOCKER_USERNAME }}/ipo-alarm:latest .
-          docker push ${{ secrets.DOCKER_USERNAME }}/ipo-alarm:latest
+          sudo docker build -t ${{ secrets.DOCKER_USERNAME }}/ipo-alarm-actions .
+          sudo docker push ${{ secrets.DOCKER_USERNAME }}/ipo-alarm-actions
 
       # deploy
       - name: deploy to server
@@ -73,6 +73,6 @@ jobs:
           envs: GITHUB_SHA
           scripts: |
             sudo docker ps
-            sudo docker pull "${{ secrets.DOCKER_USERNAME }}"/ipo-alarm:latest
-            sudo docker run -d -it -p 8080:8080 --name ipo-alarm-app --env-file ./.env "${{ secrets.DOCKER_USERNAME }}"/ipo-alarm:latest
+            sudo docker pull ${{ secrets.DOCKER_USERNAME }}/ipo-alarm-actions
+            sudo docker run -d -it -p 8080:8080 --name ipo-alarm-app --env-file ./.env ${{ secrets.DOCKER_USERNAME }}/ipo-alarm-actions
             sudo docker image prune -f
