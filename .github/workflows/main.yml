@@ -37,7 +37,6 @@ jobs:
         run: |
           mkdir -p ./src/main/resources 
           echo "${{ secrets.YML }}" > ./src/main/resources/application.yml
-          cd /src/main/resources
           ls -al
 
       - name: make backend .env file
@@ -50,14 +49,13 @@ jobs:
         if: github.ref == 'refs/heads/main'
         run: |
           echo "${{ secrets.FRONT_ENV }}" > frontend/.env
-          cd fontend
           ls -al
 
       # docker build
       - name: Docker build & push to repo
         if: github.ref == 'refs/heads/main'
         run: |
-        
+
       - name: Log in to Docker Hub
         uses: docker/login-action@v3
         with:
