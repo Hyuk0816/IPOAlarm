@@ -86,6 +86,7 @@ jobs:
           key: ${{ secrets.SSH_KEY }}
           port: 22
           script: |
+            cd /home/rlawogur816/IPOAlarm
             docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
             sudo docker ps
             sudo docker stop ipo-alarm-app
