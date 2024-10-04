@@ -37,6 +37,7 @@ jobs:
         run: |
           mkdir -p ./src/main/resources 
           echo "${{ secrets.YML }}" > ./src/main/resources/application.yml
+          echo "${{ OAUTH }}" > ./src/main/resources/application-oauth.yml
           cd src/main/resources
           ls -al
 
