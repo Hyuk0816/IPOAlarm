@@ -43,7 +43,7 @@ jobs:
       - name: make backend .env file
         if: github.ref == 'refs/heads/main'
         run: |
-          cd /IPOAlarm
+          pwd
           echo "${{ secrets.ENV }}" > ./.env
           ls -al
 
