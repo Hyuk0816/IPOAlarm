@@ -61,11 +61,17 @@ jobs:
           logout: false
           
       - name: Docker build & push to repo
-        if: github.ref == 'refs/heads/main'
-        run: |
-          sudo docker build --file Dockerfile -t ${{ secrets.DOCKER_USERNAME }}/${{ secrets.DOCKER_IMAGE }}:latest .
-          sudo docker images
-          sudo docker push ${{ secrets.DOCKER_USERNAME }}/${{ secrets.DOCKER_IMAGE }}:latest
+        uses: docker/build-push-action@3b5e8027fcad23fda98b2e3ac259d8d67585f671
+        with:
+          context: .
+          file: ./Dockerfile
+          push: true
+          tags: ${{ secrets.DOCKER_IMAGE }}:latest
+#        if: github.ref == 'refs/heads/main'
+#        run: |
+#          sudo docker build --file Dockerfile -t ${{ secrets.DOCKER_USERNAME }}/${{ secrets.DOCKER_IMAGE }}:latest .
+#          sudo docker images
+#          sudo docker push ${{ secrets.DOCKER_USERNAME }}/${{ secrets.DOCKER_IMAGE }}:latest
 
          
 
@@ -85,6 +91,6 @@ jobs:
             sudo docker stop ipo-alarm-app
             sudo docker rm ipo-alarm-app
             sudo docker images
-            sudo docker pull ${{ secrets.DOCKER_USERNAME }}/${{ secrets.DOCKER_IMAGE }}:latest
-            sudo docker run -d -it -p 8080:8080 --name ipo-alarm-app --env-file ./.env ${{ secrets.DOCKER_USERNAME }}/${{ secrets.DOCKER_IMAGE }}
+            sudo docker pull ${{ secrets.DOCKER_IMAGE }}:latest
+            sudo docker run -d -it -p 8080:8080 --name ipo-alarm-app --env-file ./.env ${{ secrets.DOCKER_IMAGE }}
             sudo docker image prune -f
