@@ -41,7 +41,7 @@ onMounted(() =>{
     </section>
 
     <section class="mb-5">
-      <h2 class="text-center mb-4">통계 지표</h2>
+      <h2 class="text-center mb-4">통계</h2>
       <div>
         <MonthlyChart />
       </div>
