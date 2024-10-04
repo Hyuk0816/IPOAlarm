@@ -85,8 +85,8 @@ jobs:
           username: ${{ secrets.USERNAME_GCP }}
           key: ${{ secrets.SSH_KEY }}
           port: 22
-          envs: GITHUB_SHA
           scripts: |
+            docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
             sudo docker ps
             sudo docker stop ipo-alarm-app
             sudo docker rm ipo-alarm-app
