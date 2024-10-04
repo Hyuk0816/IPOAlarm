@@ -299,7 +299,7 @@ input, select {
 }
 
 .table {
-  width: 70%;
+  width: 90%;
   border-collapse: collapse;
   margin: 0 auto;
   font-size: 0.9rem; /* 테이블 폰트 크기 조정 */
