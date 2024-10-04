@@ -85,8 +85,9 @@ jobs:
           username: ${{ secrets.USERNAME_GCP }}
           key: ${{ secrets.SSH_KEY }}
           port: 22
-          script: |
+          run:
             cd /home/rlawogur816/IPOAlarm
+          script: |
             docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
             sudo docker ps
             sudo docker stop ipo-alarm-app
@@ -94,4 +95,5 @@ jobs:
             sudo docker images
             sudo docker pull ${{ secrets.DOCKER_IMAGE }}:latest
             sudo docker run -d -it -p 8080:8080 --name ipo-alarm-app --env-file ./.env ${{ secrets.DOCKER_IMAGE }}
+            sudo docker ps
             sudo docker image prune -f
