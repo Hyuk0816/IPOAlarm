@@ -37,11 +37,13 @@ jobs:
         run: |
           mkdir -p ./src/main/resources 
           echo "${{ secrets.YML }}" > ./src/main/resources/application.yml
+          cd src/main/resources
           ls -al
 
       - name: make backend .env file
         if: github.ref == 'refs/heads/main'
         run: |
+          cd /IPOAlarm
           echo "${{ secrets.ENV }}" > ./.env
           ls -al
 
@@ -49,6 +51,7 @@ jobs:
         if: github.ref == 'refs/heads/main'
         run: |
           echo "${{ secrets.FRONT_ENV }}" > frontend/.env
+          cd frontend
           ls -al
 
       # docker build
