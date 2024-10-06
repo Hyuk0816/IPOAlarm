@@ -45,14 +45,14 @@ jobs:
         if: github.ref == 'refs/heads/main'
         run: |
           pwd
-          echo "${{ secrets.ENV }}" > ./.env
+          echo "${{ secrets.ENV }}" >> ./.env
           chmod 777 .env
           ls -al
 
       - name: make front .env file
         if: github.ref == 'refs/heads/main'
         run: |
-          echo "${{ secrets.FRONT_ENV }}" > frontend/.env
+          echo "${{ secrets.FRONT_ENV }}" >> frontend/.env
           chmod 777 frontend/.env
           cd frontend
           ls -al
@@ -76,9 +76,6 @@ jobs:
           file: ./Dockerfile
           push: true
           tags: ${{ secrets.DOCKER_IMAGE }}:latest
-          run: |
-            pwd
-            ls -al
 #        if: github.ref == 'refs/heads/main'
 #        run: |
 #          sudo docker build --file Dockerfile -t ${{ secrets.DOCKER_USERNAME }}/${{ secrets.DOCKER_IMAGE }}:latest .
