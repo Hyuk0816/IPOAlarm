@@ -46,12 +46,14 @@ jobs:
         run: |
           pwd
           echo "${{ secrets.ENV }}" > ./.env
+          chmod 777 .env
           ls -al
 
       - name: make front .env file
         if: github.ref == 'refs/heads/main'
         run: |
           echo "${{ secrets.FRONT_ENV }}" > frontend/.env
+          chmod 777 frontend/.env
           cd frontend
           ls -al
 
