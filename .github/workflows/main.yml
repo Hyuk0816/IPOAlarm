@@ -77,6 +77,15 @@ jobs:
           password: ${{ secrets.DOCKER_PASSWORD }}
           logout: false
 
+      - name: Check current directory and list files
+        run: |
+          echo "Current Directory:"
+          pwd
+          echo "Files in Current Directory:"
+          ls -al
+          cd frontend 
+          ls -al
+
       - name: Docker build & push to repo
         if: github.ref == 'refs/heads/main'
         uses: docker/build-push-action@3b5e8027fcad23fda98b2e3ac259d8d67585f671
