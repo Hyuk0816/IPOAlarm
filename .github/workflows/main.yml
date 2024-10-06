@@ -76,6 +76,9 @@ jobs:
           file: ./Dockerfile
           push: true
           tags: ${{ secrets.DOCKER_IMAGE }}:latest
+          run: |
+            pwd
+            ls -al
 #        if: github.ref == 'refs/heads/main'
 #        run: |
 #          sudo docker build --file Dockerfile -t ${{ secrets.DOCKER_USERNAME }}/${{ secrets.DOCKER_IMAGE }}:latest .
@@ -103,6 +106,6 @@ jobs:
             sudo docker rm ipo-alarm-app
             sudo docker pull ${{ secrets.DOCKER_IMAGE }}:latest
             pwd
-            sudo docker run -d -it -p 8080:8080 --name ipo-alarm-app --env-file /home/rlawogur816/IPOAlarm/.env ${{ secrets.DOCKER_IMAGE }}
+            sudo docker run -d -it -p 8080:8080 --name ipo-alarm-app --env-file ./.env ${{ secrets.DOCKER_IMAGE }}
             sudo docker exec ipo-alarm-app printenv
             sudo docker image prune -f
