@@ -217,26 +217,27 @@ const adjustedCurrentPage = computed(() => {
 const submitAlarm = async () => {
   if (selectedItem.value) {
     const ipoName = selectedItem.value.ipoName;
-
-    const userEamilKakaoResponse = await userStore.getUserInfo();
-    const kakaoToken = userEamilKakaoResponse.kakaoToken;
-
-    try{
-      await kakaoCalenderStore.createIpoEvent(kakaoToken,selectedItem);
-    }catch (err){
-    }
-
     try {
-      const response = await axios.post(API_IPO_ALARM, null, {
-        params: { ipoName }
-      });
-      alert(response.data.statusMsg);
-    } catch (error) {
-      if (error.response) {
-        alert(error.response.data.errorMessage);
-      } else {
-        alert('알람 신청 중 오류 발생');
+      const userEamilKakaoResponse = await userStore.getUserInfo();
+      const kakaoToken = userEamilKakaoResponse.kakaoToken;
+      try {
+        await kakaoCalenderStore.createIpoEvent(kakaoToken, selectedItem);
+      } catch (err) {
       }
+      try {
+        const response = await axios.post(API_IPO_ALARM, null, {
+          params: {ipoName}
+        });
+        alert(response.data.statusMsg);
+      } catch (error) {
+        if (error.response) {
+          alert(error.response.data.errorMessage);
+        } else {
+          alert('알람 신청 중 오류 발생');
+        }
+      }
+    } catch (err) {
+      alert("로그인이 필요한 서비스 입니다")
     }
   }
   isModalOpen.value = false; // 모달 닫기

@@ -221,27 +221,33 @@ const openModal = (item) => {
 const submitAlarm = async () => {
   if (selectedItem.value.ipoName) {
 
-    const listingShares = selectedItem.value.ipoName;
-    const userEamilKakaoResponse = await userStore.getUserInfo();
-    const kakaoToken = userEamilKakaoResponse.kakaoToken;
-
     try{
-      await kakaoCalenderStore.createListingEvent(kakaoToken,selectedItem)
-    }catch (err){
-    }
-    try {
-      const response = await axios.post(LISTING_SHARES_ALARM, null, {
-        params: { listingShares }
-      });
+      const listingShares = selectedItem.value.ipoName;
+      const userEamilKakaoResponse = await userStore.getUserInfo();
+      const kakaoToken = userEamilKakaoResponse.kakaoToken;
 
-      alert(response.data.statusMsg);
-    } catch (error) {
-      if (error.response) {
-        alert(error.response.data.errorMessage);
-      } else {
-        alert('알람 신청 중 오류 발생');
+      try{
+        await kakaoCalenderStore.createListingEvent(kakaoToken,selectedItem)
+      }catch (err){
       }
+      try {
+        const response = await axios.post(LISTING_SHARES_ALARM, null, {
+          params: { listingShares }
+        });
+
+        alert(response.data.statusMsg);
+      } catch (error) {
+        if (error.response) {
+          alert(error.response.data.errorMessage);
+        } else {
+          alert('알람 신청 중 오류 발생');
+        }
+      }
+    }catch (err){
+      alert("로그인이 필요한 서비스 입니다.")
     }
+
+
   }
   isModalOpen.value = false; // 모달 닫기
 };
