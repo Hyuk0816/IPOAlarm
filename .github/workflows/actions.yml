@@ -39,6 +39,7 @@ jobs:
             sudo docker build -t ipo-alarm-vm:latest .
             sudo docker run -d -it -p 8080:8080 --name ipo-alarm-app \
             --env-file ./.env \
+            -e TZ=Asia/Seoul \
             ipo-alarm-vm:latest
             
             sudo docker exec ipo-alarm-app printenv
