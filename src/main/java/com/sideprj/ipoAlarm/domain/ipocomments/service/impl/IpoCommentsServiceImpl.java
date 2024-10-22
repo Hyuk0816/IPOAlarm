@@ -9,6 +9,7 @@ import com.sideprj.ipoAlarm.domain.ipodetail.repository.IpoDetailRepository;
 import com.sideprj.ipoAlarm.domain.user.constants.UserConstants;
 import com.sideprj.ipoAlarm.domain.user.entity.User;
 import com.sideprj.ipoAlarm.domain.user.repository.UserRepository;
+import com.sideprj.ipoAlarm.domain.user.util.UserInfo;
 import com.sideprj.ipoAlarm.util.converter.DateFormatter;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -29,12 +30,7 @@ public class IpoCommentsServiceImpl implements IpoCommentsService {
     private final IpoCommentsRepository ipoCommentsRepository;
 
     @Override
-    public void comments(String ipoName,IpoCommentsRequest request) {
-
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-
-        User user = userRepository.findByEmail(authentication.getName())
-                .orElseThrow(()-> new UsernameNotFoundException(UserConstants.MESSAGE_404));
+    public void comments(String ipoName, IpoCommentsRequest request, @UserInfo User user) {
 
         IpoDetail ipoDetail = ipodetailRepository.findByIpoName(ipoName);
 

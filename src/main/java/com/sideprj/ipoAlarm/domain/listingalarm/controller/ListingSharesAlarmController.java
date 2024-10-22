@@ -3,6 +3,8 @@ package com.sideprj.ipoAlarm.domain.listingalarm.controller;
 import com.sideprj.ipoAlarm.domain.listingalarm.constants.ListingSharesAlarmsConstants;
 import com.sideprj.ipoAlarm.domain.listingalarm.service.ListingSharesAlarmsService;
 import com.sideprj.ipoAlarm.domain.listingalarm.vo.response.ListingSharesAlarmsSaveResponseVo;
+import com.sideprj.ipoAlarm.domain.user.entity.User;
+import com.sideprj.ipoAlarm.domain.user.util.UserInfo;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -51,16 +53,17 @@ public class ListingSharesAlarmController {
     }
     )
     @PostMapping("/alarm")
-    public ResponseEntity<ListingSharesAlarmsSaveResponseVo> save(@RequestParam String listingShares) {
-        listingSharesAlarmsService.saveAlarm(listingShares);
+    public ResponseEntity<ListingSharesAlarmsSaveResponseVo> save(@RequestParam String listingShares,
+                                                                  @UserInfo User user) {
+        listingSharesAlarmsService.saveAlarm(listingShares, user);
         return ResponseEntity
                 .status(HttpStatus.CREATED)
                 .body(new ListingSharesAlarmsSaveResponseVo(ListingSharesAlarmsConstants.STATUS_201, ListingSharesAlarmsConstants.MSG_201));
     }
 
     @GetMapping("/count")
-    public Long countMyListingSharesAlarms() {
-        return listingSharesAlarmsService.countMyListingSharesAlarm();
+    public Long countMyListingSharesAlarms(@UserInfo User user) {
+        return listingSharesAlarmsService.countMyListingSharesAlarm(user);
     }
 
 }

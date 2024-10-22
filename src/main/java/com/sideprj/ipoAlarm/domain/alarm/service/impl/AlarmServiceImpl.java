@@ -10,6 +10,7 @@ import com.sideprj.ipoAlarm.domain.user.constants.UserConstants;
 import com.sideprj.ipoAlarm.domain.user.entity.User;
 import com.sideprj.ipoAlarm.domain.user.repository.UserRepository;
 import com.sideprj.ipoAlarm.domain.user.service.AuthService;
+import com.sideprj.ipoAlarm.domain.user.util.UserInfo;
 import com.sideprj.ipoAlarm.util.exception.AlarmAlreadyExistsException;
 import com.sideprj.ipoAlarm.util.exception.BetweenDateException;
 import com.sideprj.ipoAlarm.util.exception.EndDateException;
@@ -34,13 +35,9 @@ public class AlarmServiceImpl implements AlarmService {
     private final AuthService authService;
 
     @Override
-    public void save(String ipoName) {
-
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        authService.checkAuthentication(authentication);
+    public void save(String ipoName, @UserInfo User user) {
 
         Ipo ipo = ipoRepository.findByIpoName(ipoName);
-        User user = userRepository.findByEmail(authentication.getName()).orElseThrow(() -> new UsernameNotFoundException(UserConstants.MESSAGE_404));
 
         if(alarmRepository.checkIfAlarmExists(ipoName, user.getUserId())!=null){
             throw new AlarmAlreadyExistsException(AlarmConstants.msg_500, ipoName);
@@ -64,10 +61,7 @@ public class AlarmServiceImpl implements AlarmService {
     }
 
     @Override
-    public Long countMyAlarm() {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        User user = userRepository.findByEmail(authentication.getName()).orElseThrow(() -> new UsernameNotFoundException(UserConstants.MESSAGE_404));
-
+    public Long countMyAlarm(@UserInfo User user) {
         return alarmRepository.countMyAlarms(user.getUserId());
     }
 }

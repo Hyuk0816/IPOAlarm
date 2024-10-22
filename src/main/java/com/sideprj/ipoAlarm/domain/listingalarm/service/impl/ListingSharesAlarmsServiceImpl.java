@@ -11,6 +11,7 @@ import com.sideprj.ipoAlarm.domain.user.constants.UserConstants;
 import com.sideprj.ipoAlarm.domain.user.entity.User;
 import com.sideprj.ipoAlarm.domain.user.repository.UserRepository;
 import com.sideprj.ipoAlarm.domain.user.service.AuthService;
+import com.sideprj.ipoAlarm.domain.user.util.UserInfo;
 import com.sideprj.ipoAlarm.util.exception.AlarmAlreadyExistsException;
 import com.sideprj.ipoAlarm.util.exception.ListingSharesAlarmEndDateException;
 import lombok.RequiredArgsConstructor;
@@ -30,19 +31,14 @@ public class ListingSharesAlarmsServiceImpl implements ListingSharesAlarmsServic
 
     private final ListingSharesAlarmsRepository listingSharesAlarmsRepository;
     private final ListingSharesRepository listingSharesRepository;
-    private final UserRepository userRepository;
     private final AuthService authService;
 
     @Override
     @Transactional
-    public void saveAlarm(String listingShares) {
+    public void saveAlarm(String listingShares, @UserInfo User user) {
         ListingShares listingShare = listingSharesRepository.findByIpoName(listingShares);
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-
         authService.checkAuthentication(authentication);
-
-        User user = userRepository.findByEmail(authentication.getName())
-                .orElseThrow(() -> new UsernameNotFoundException(UserConstants.MESSAGE_404));
 
         if(listingSharesAlarmsRepository.checkAlreadyExists(listingShares, user.getUserId())!=null){
             throw new AlarmAlreadyExistsException(AlarmConstants.msg_500, listingShares);
@@ -63,10 +59,7 @@ public class ListingSharesAlarmsServiceImpl implements ListingSharesAlarmsServic
     }
 
     @Override
-    public Long countMyListingSharesAlarm() {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        User user = userRepository.findByEmail(authentication.getName()).orElseThrow(() -> new UsernameNotFoundException(UserConstants.MESSAGE_404));
-
+    public Long countMyListingSharesAlarm(@UserInfo User user) {
         return listingSharesAlarmsRepository.countMyListingSharesAlarms(user.getUserId());
     }
 }

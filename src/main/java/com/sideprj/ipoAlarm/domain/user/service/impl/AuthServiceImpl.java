@@ -67,12 +67,12 @@ public class AuthServiceImpl implements AuthService {
 
             tokenProvider.createRefreshTokenCookie(response, "refreshToken", refreshToken, maxAgeForCookie);
 
-            response.sendRedirect("/");
+//            response.sendRedirect("/");
 
         }catch(BadCredentialsException e){
             throw new BadCredentialsException(AuthConstants.MESSAGE_401);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
+//        } catch (IOException e) {
+//            throw new RuntimeException(e);
         }
     }
 
@@ -81,11 +81,6 @@ public class AuthServiceImpl implements AuthService {
     @Override
     @Transactional
     public void logout(HttpServletRequest request, HttpServletResponse response) {
-//        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-//        UserDetails userDetails = customUserDetails.loadUserByUsername(authentication.getName());
-
-//        User user = usersRepository.findByEmail(authentication.getName()).orElseThrow(() -> new UsernameNotFoundException(AuthConstants.MESSAGE_404));
-
         Cookie[] cookies = request.getCookies();
         if (cookies != null) {
             Optional<String> cookieValue = Arrays.stream(cookies)
@@ -128,22 +123,22 @@ public class AuthServiceImpl implements AuthService {
         }
         return null;
     }
-    private User callAuthentication() {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        UserDetails userDetails = customUserDetails.loadUserByUsername(authentication.getName());
-        var usersInfo = usersRepository.findByEmail(userDetails.getUsername())
-                .orElseThrow(() -> new UserNameNotFoundException(UserConstants.STATUS_404,UserConstants.MESSAGE_404));
-        return usersInfo;
-    }
-    private void handleMissingRefreshToken() {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        if (authentication != null && hasText(authentication.getName())) {
-            log.info("Authenticated user: " + authentication.getName());
-            tokenProvider.searchAccessTokenByEmail(authentication);
-        } else {
-            log.warn("No authenticated user found in the security context.");
-        }
-    }
+//    private User callAuthentication() {
+//        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+//        UserDetails userDetails = customUserDetails.loadUserByUsername(authentication.getName());
+//        var usersInfo = usersRepository.findByEmail(userDetails.getUsername())
+//                .orElseThrow(() -> new UserNameNotFoundException(UserConstants.STATUS_404,UserConstants.MESSAGE_404));
+//        return usersInfo;
+//    }
+//    private void handleMissingRefreshToken() {
+//        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+//        if (authentication != null && hasText(authentication.getName())) {
+//            log.info("Authenticated user: " + authentication.getName());
+//            tokenProvider.searchAccessTokenByEmail(authentication);
+//        } else {
+//            log.warn("No authenticated user found in the security context.");
+//        }
+//    }
 
     @Override
     public void checkAuthentication(Authentication authentication) {

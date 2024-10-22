@@ -10,7 +10,7 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 @SpringBootApplication
 @EnableScheduling
 @EnableFeignClients
-@OpenAPIDefinition(servers = {@Server(url="https://ipo-alarm.com")})
+//@OpenAPIDefinition(servers = {@Server(url="https://ipo-alarm.com")})
 public class IpoApplication {
 
     public static void main(String[] args) {SpringApplication.run(IpoApplication.class, args);}

@@ -4,6 +4,8 @@ import com.sideprj.ipoAlarm.domain.mypage.dto.MyAlarmDto;
 import com.sideprj.ipoAlarm.domain.mypage.dto.MyListingSharesAlarmsDto;
 import com.sideprj.ipoAlarm.domain.mypage.dto.MyPageDto;
 import com.sideprj.ipoAlarm.domain.mypage.service.MyPageService;
+import com.sideprj.ipoAlarm.domain.user.entity.User;
+import com.sideprj.ipoAlarm.domain.user.util.UserInfo;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -54,10 +56,10 @@ public class MyPageController {
     }
     )
     @GetMapping("/data")
-    public ResponseEntity<MyPageDto> getUserInfo() {
+    public ResponseEntity<MyPageDto> getUserInfo(@UserInfo User user) {
         return ResponseEntity
                 .status(HttpStatus.OK)
-                .body(myPageService.userInfo());
+                .body(myPageService.userInfo(user));
     }
 
     @Operation(
@@ -87,10 +89,10 @@ public class MyPageController {
     }
     )
     @GetMapping("/myalarm")
-    public ResponseEntity<List<MyAlarmDto>> getMyAlarm() {
+    public ResponseEntity<List<MyAlarmDto>> getMyAlarm(@UserInfo User user) {
         return ResponseEntity
                 .status(HttpStatus.OK)
-                .body(myPageService.fetchMyAlarmList());
+                .body(myPageService.fetchMyAlarmList(user));
     }
     @Operation(
             summary = "fetch my Listing Alarm List Rest API",
@@ -119,9 +121,9 @@ public class MyPageController {
     }
     )
     @GetMapping("/myListingAlarm")
-    public ResponseEntity<List<MyListingSharesAlarmsDto>> getMyListingAlarm(){
+    public ResponseEntity<List<MyListingSharesAlarmsDto>> getMyListingAlarm(@UserInfo User user){
         return ResponseEntity
                 .status(HttpStatus.OK)
-                .body(myPageService.fetchMyListingSharesList());
+                .body(myPageService.fetchMyListingSharesList(user));
     }
 }

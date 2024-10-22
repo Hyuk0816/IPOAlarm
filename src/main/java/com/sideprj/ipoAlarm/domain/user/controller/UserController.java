@@ -1,7 +1,9 @@
 package com.sideprj.ipoAlarm.domain.user.controller;
 
 import com.sideprj.ipoAlarm.domain.user.constants.UserConstants;
+import com.sideprj.ipoAlarm.domain.user.entity.User;
 import com.sideprj.ipoAlarm.domain.user.service.UserService;
+import com.sideprj.ipoAlarm.domain.user.util.UserInfo;
 import com.sideprj.ipoAlarm.domain.user.vo.UserDetailsRequestVo;
 import com.sideprj.ipoAlarm.domain.user.vo.UserStatusResponseVo;
 import com.sideprj.ipoAlarm.util.error.ErrorResponseDto;
@@ -77,8 +79,9 @@ public class UserController {
     }
     )
     @PutMapping(path = "/nickName")
-    public ResponseEntity<UserStatusResponseVo> putNickName(@RequestParam String nickName) {
-        userService.updateNickName(nickName);
+    public ResponseEntity<UserStatusResponseVo> putNickName(@RequestParam String nickName,
+                                                            @UserInfo User user) {
+        userService.updateNickName(nickName, user);
         return ResponseEntity
                 .status(HttpStatus.CREATED)
                 .body(new UserStatusResponseVo(UserConstants.STATUS_201, UserConstants.MESSAGE_PUT_NICKNAME));
@@ -103,8 +106,9 @@ public class UserController {
     }
     )
     @PutMapping(value = "/profile", consumes = {"multipart/form-data"})
-    public ResponseEntity<UserStatusResponseVo> putProfile(@RequestPart(value = "file", required = false) MultipartFile file) throws FileUploadException {
-        userService.updateProfile(file);
+    public ResponseEntity<UserStatusResponseVo> putProfile(@RequestPart(value = "file", required = false) MultipartFile file,
+                                                           @UserInfo User user) throws FileUploadException {
+        userService.updateProfile(file, user);
         return ResponseEntity
                 .status(HttpStatus.CREATED)
                 .body(new UserStatusResponseVo(UserConstants.STATUS_201, UserConstants.MESSAGE_PUT_PROFILE));
@@ -130,8 +134,9 @@ public class UserController {
     )
 
     @GetMapping(value = "/nick_name_check")
-    public ResponseEntity<UserStatusResponseVo> checkNickName(@RequestParam("nickName") String nickName) {
-        userService.nickNameCheck(nickName);
+    public ResponseEntity<UserStatusResponseVo> checkNickName(@RequestParam("nickName") String nickName,
+                                                              @UserInfo User user) {
+        userService.nickNameCheck(nickName, user);
 
         return ResponseEntity
                 .status(HttpStatus.CREATED)

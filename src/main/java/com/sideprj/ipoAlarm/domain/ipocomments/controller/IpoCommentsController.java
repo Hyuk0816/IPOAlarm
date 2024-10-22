@@ -5,6 +5,8 @@ import com.sideprj.ipoAlarm.domain.ipocomments.constants.IpoCommentConstants;
 import com.sideprj.ipoAlarm.domain.ipocomments.service.IpoCommentsService;
 import com.sideprj.ipoAlarm.domain.ipocomments.vo.request.IpoCommentsRequest;
 import com.sideprj.ipoAlarm.domain.ipocomments.vo.response.IpoCommentsResponse;
+import com.sideprj.ipoAlarm.domain.user.entity.User;
+import com.sideprj.ipoAlarm.domain.user.util.UserInfo;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -53,12 +55,13 @@ public class IpoCommentsController {
     }
     )
     @PostMapping("/comment/{ipoName}")
-    public ResponseEntity<IpoCommentsResponse> comments(@PathVariable String ipoName, @RequestBody IpoCommentsRequest commentsRequest) {
+    public ResponseEntity<IpoCommentsResponse> comments(@PathVariable String ipoName, @RequestBody IpoCommentsRequest commentsRequest,
+                                                        @UserInfo User user) {
 
         log.info("{}controller", ipoName);
         log.info("{}controller", commentsRequest.getIpoComment());
 
-        ipoCommentsService.comments(ipoName, commentsRequest);
+        ipoCommentsService.comments(ipoName, commentsRequest,user);
         return ResponseEntity
                 .status(HttpStatus.CREATED)
                 .body(new IpoCommentsResponse(IpoCommentConstants.STATUS_201, IpoCommentConstants.MESSAGE_201));

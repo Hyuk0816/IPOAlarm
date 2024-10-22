@@ -10,6 +10,7 @@ import com.sideprj.ipoAlarm.domain.user.mapper.UserMapper;
 import com.sideprj.ipoAlarm.domain.user.repository.UserRepository;
 import com.sideprj.ipoAlarm.domain.user.role.ROLE;
 import com.sideprj.ipoAlarm.domain.user.service.UserService;
+import com.sideprj.ipoAlarm.domain.user.util.UserInfo;
 import com.sideprj.ipoAlarm.domain.user.vo.UserDetailsRequestVo;
 import com.sideprj.ipoAlarm.util.converter.DateFormatter;
 import com.sideprj.ipoAlarm.util.exception.UsersAlreadyExistsException;
@@ -56,14 +57,16 @@ public class UserServiceImpl implements UserService {
         }
 
         User user = UserMapper.mapToUsersDetailsRequestVo(checkUserVo);
-        user.setRole(ROLE.USER);
+        user.toBuilder()
+                .role(ROLE.USER)
+                .build();
         userRepository.save(user);
     }
 
     public String buildFileName(String email) {
         LocalDateTime now = LocalDateTime.now();
         String updateTime = DateFormatter.LocalDateTimeformat(now);
-        return email + " : profile" + "/" + email+" profile" +"_"+updateTime;
+        return email + " : profile" + "/" + email + " profile" + "_" + updateTime;
     }
 
     public String uploadFile(String email, MultipartFile file) throws FileUploadException {
@@ -91,35 +94,29 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void updateProfile(MultipartFile file) throws FileUploadException {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        User user = userRepository.findByEmail(authentication.getName())
-                .orElseThrow(() -> new UsernameNotFoundException(UserConstants.MESSAGE_404));
-        user.setImage(uploadFile(user.getEmail(), file));
+    public void updateProfile(MultipartFile file, @UserInfo User user) throws FileUploadException {
+        user.toBuilder()
+                .image(uploadFile(user.getEmail(), file))
+                .build();
         userRepository.save(user);
     }
 
     @Override
-    public void updateNickName(String nickName) {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        User user = userRepository.findByEmail(authentication.getName())
-                .orElseThrow(() -> new UsernameNotFoundException(UserConstants.MESSAGE_404));
-        if(user.getNickName().equals(nickName) || userRepository.findByNickName(nickName)!=null){
+    public void updateNickName(String nickName, @UserInfo User user) {
+        if (user.getNickName().equals(nickName) || userRepository.findByNickName(nickName) != null) {
             throw new UsersAlreadyExistsException(UserConstants.NICKNAME_ALREADY_EXISTS);
         }
-        user.setNickName(nickName);
+        user.toBuilder()
+                .nickName(nickName)
+                .build();
         userRepository.save(user);
     }
 
     @Override
-    public String nickNameCheck(String nickName) {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        User user = userRepository.findByEmail(authentication.getName())
-                .orElseThrow(() -> new UsernameNotFoundException(UserConstants.MESSAGE_404));
-
-        if(user.getNickName().equals(nickName) || userRepository.findByNickName(nickName)!=null){
+    public String nickNameCheck(String nickName, @UserInfo User user) {
+        if (user.getNickName().equals(nickName) || userRepository.findByNickName(nickName) != null) {
             throw new UsersAlreadyExistsException(UserConstants.NICKNAME_ALREADY_EXISTS);
-        }else{
+        } else {
             return UserConstants.NICKNAME_CHECK_OK;
         }
     }

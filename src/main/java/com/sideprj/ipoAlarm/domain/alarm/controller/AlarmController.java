@@ -3,6 +3,8 @@ package com.sideprj.ipoAlarm.domain.alarm.controller;
 import com.sideprj.ipoAlarm.domain.alarm.constants.AlarmConstants;
 import com.sideprj.ipoAlarm.domain.alarm.service.AlarmService;
 import com.sideprj.ipoAlarm.domain.alarm.vo.AlarmResponseVo;
+import com.sideprj.ipoAlarm.domain.user.entity.User;
+import com.sideprj.ipoAlarm.domain.user.util.UserInfo;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -49,15 +51,16 @@ public class AlarmController {
     }
     )
     @PostMapping( value = "/data")
-    public ResponseEntity<AlarmResponseVo> saveAlarm(@RequestParam String ipoName) {
-        alarmService.save(ipoName);
+    public ResponseEntity<AlarmResponseVo> saveAlarm(@RequestParam String ipoName,
+                                                     @UserInfo User user) {
+        alarmService.save(ipoName,user);
         return ResponseEntity
                 .status(HttpStatus.CREATED)
                 .body(new AlarmResponseVo(AlarmConstants.status_201,AlarmConstants.msg_201 ));
     }
 
     @GetMapping(value = "/count")
-    public Long countAlarm() {
-        return alarmService.countMyAlarm();
+    public Long countAlarm(@UserInfo User user) {
+        return alarmService.countMyAlarm(user);
     }
 }
