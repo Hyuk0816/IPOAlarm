@@ -70,7 +70,6 @@ public class UserServiceImpl implements UserService {
     }
 
     public String uploadFile(String email, MultipartFile file) throws FileUploadException {
-
         if (file.isEmpty()) {
             return null;
         }
@@ -95,10 +94,10 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void updateProfile(MultipartFile file, @UserInfo User user) throws FileUploadException {
-        user.toBuilder()
+        User updateProfileUser = user.toBuilder()
                 .image(uploadFile(user.getEmail(), file))
                 .build();
-        userRepository.save(user);
+        userRepository.save(updateProfileUser);
     }
 
     @Override
@@ -106,10 +105,10 @@ public class UserServiceImpl implements UserService {
         if (user.getNickName().equals(nickName) || userRepository.findByNickName(nickName) != null) {
             throw new UsersAlreadyExistsException(UserConstants.NICKNAME_ALREADY_EXISTS);
         }
-        user.toBuilder()
+        User updateNickName = user.toBuilder()
                 .nickName(nickName)
                 .build();
-        userRepository.save(user);
+        userRepository.save(updateNickName);
     }
 
     @Override
