@@ -57,10 +57,10 @@ public class UserServiceImpl implements UserService {
         }
 
         User user = UserMapper.mapToUsersDetailsRequestVo(checkUserVo);
-        user.toBuilder()
+        User build = user.toBuilder()
                 .role(ROLE.USER)
                 .build();
-        userRepository.save(user);
+        userRepository.save(build);
     }
 
     public String buildFileName(String email) {
