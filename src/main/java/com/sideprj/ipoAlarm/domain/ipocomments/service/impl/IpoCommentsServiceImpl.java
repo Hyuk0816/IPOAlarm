@@ -30,7 +30,7 @@ public class IpoCommentsServiceImpl implements IpoCommentsService {
     private final IpoCommentsRepository ipoCommentsRepository;
 
     @Override
-    public void comments(String ipoName, IpoCommentsRequest request, @UserInfo User user) {
+    public void comments(String ipoName, IpoCommentsRequest request,User user) {
 
         IpoDetail ipoDetail = ipodetailRepository.findByIpoName(ipoName);
 

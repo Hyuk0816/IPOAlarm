@@ -35,7 +35,7 @@ public class ListingSharesAlarmsServiceImpl implements ListingSharesAlarmsServic
 
     @Override
     @Transactional
-    public void saveAlarm(String listingShares, @UserInfo User user) {
+    public void saveAlarm(String listingShares, User user) {
         ListingShares listingShare = listingSharesRepository.findByIpoName(listingShares);
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         authService.checkAuthentication(authentication);
@@ -59,7 +59,7 @@ public class ListingSharesAlarmsServiceImpl implements ListingSharesAlarmsServic
     }
 
     @Override
-    public Long countMyListingSharesAlarm(@UserInfo User user) {
+    public Long countMyListingSharesAlarm(User user) {
         return listingSharesAlarmsRepository.countMyListingSharesAlarms(user.getUserId());
     }
 }

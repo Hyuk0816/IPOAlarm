@@ -10,9 +10,9 @@ import java.util.List;
 
 public interface MyPageService {
 
-    MyPageDto userInfo(@UserInfo User user);
+    MyPageDto userInfo(User user);
 
-    List<MyAlarmDto> fetchMyAlarmList(@UserInfo User user);
+    List<MyAlarmDto> fetchMyAlarmList(User user);
 
-    List<MyListingSharesAlarmsDto> fetchMyListingSharesList(@UserInfo User user);
+    List<MyListingSharesAlarmsDto> fetchMyListingSharesList(User user);
 }

@@ -6,8 +6,8 @@ import org.springframework.security.core.Authentication;
 
 public interface AlarmService {
 
-    void save(String ipoName, @UserInfo User user);
+    void save(String ipoName, User user);
 
-    Long countMyAlarm(@UserInfo User user);
+    Long countMyAlarm(User user);
 
 }

@@ -30,12 +30,10 @@ import java.util.Date;
 public class AlarmServiceImpl implements AlarmService {
 
     private final AlarmRepository alarmRepository;
-    private final UserRepository userRepository;
     private final IpoRepository ipoRepository;
-    private final AuthService authService;
 
     @Override
-    public void save(String ipoName, @UserInfo User user) {
+    public void save(String ipoName, User user) {
 
         Ipo ipo = ipoRepository.findByIpoName(ipoName);
 
@@ -61,7 +59,7 @@ public class AlarmServiceImpl implements AlarmService {
     }
 
     @Override
-    public Long countMyAlarm(@UserInfo User user) {
+    public Long countMyAlarm(User user) {
         return alarmRepository.countMyAlarms(user.getUserId());
     }
 }

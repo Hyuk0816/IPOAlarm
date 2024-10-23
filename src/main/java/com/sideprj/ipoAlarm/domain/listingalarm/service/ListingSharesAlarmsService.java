@@ -5,9 +5,9 @@ import com.sideprj.ipoAlarm.domain.user.util.UserInfo;
 
 public interface ListingSharesAlarmsService {
 
-    void saveAlarm(String listingShares, @UserInfo User user);
+    void saveAlarm(String listingShares, User user);
 
-    Long countMyListingSharesAlarm(@UserInfo User user);
+    Long countMyListingSharesAlarm(User user);
 
 
 }

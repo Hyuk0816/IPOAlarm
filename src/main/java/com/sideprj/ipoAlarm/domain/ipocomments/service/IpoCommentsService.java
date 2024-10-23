@@ -6,5 +6,5 @@ import com.sideprj.ipoAlarm.domain.user.util.UserInfo;
 
 public interface IpoCommentsService {
 
-    void comments(String ipoName, IpoCommentsRequest request, @UserInfo User user);
+    void comments(String ipoName, IpoCommentsRequest request, User user);
 }

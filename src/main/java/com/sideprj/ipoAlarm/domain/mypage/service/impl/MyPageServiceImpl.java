@@ -24,7 +24,7 @@ public class MyPageServiceImpl implements MyPageService {
 
 
     @Override
-    public MyPageDto userInfo(@UserInfo User user) {
+    public MyPageDto userInfo(User user) {
 
         List<MyAlarmDto> myAlarmList = fetchMyAlarmList(user);
         List<MyListingSharesAlarmsDto> myListingSharesAlarmList = fetchMyListingSharesList(user);
@@ -38,12 +38,12 @@ public class MyPageServiceImpl implements MyPageService {
     }
 
     @Override
-    public List<MyAlarmDto> fetchMyAlarmList(@UserInfo User user) {
+    public List<MyAlarmDto> fetchMyAlarmList(User user) {
         return alarmRepository.fetchMyAlarms(user.getUserId());
     }
 
     @Override
-    public List<MyListingSharesAlarmsDto> fetchMyListingSharesList(@UserInfo User user) {
+    public List<MyListingSharesAlarmsDto> fetchMyListingSharesList(User user) {
         return listingSharesAlarmsRepository.fetchMyListingSharesAlarms(user.getUserId());
     }
 }
