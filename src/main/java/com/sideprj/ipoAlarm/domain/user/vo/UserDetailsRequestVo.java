@@ -8,10 +8,7 @@ import jakarta.validation.constraints.NotEmpty;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
-@Schema(
-        name = "Response",
-        description = "Schema to hold successful response Users Detail information"
-)
+
 @Data
 @Builder
 @AllArgsConstructor
