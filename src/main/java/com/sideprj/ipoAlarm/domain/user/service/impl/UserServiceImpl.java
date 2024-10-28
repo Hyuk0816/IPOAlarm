@@ -93,7 +93,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void updateProfile(MultipartFile file, @UserInfo User user) throws FileUploadException {
+    public void updateProfile(MultipartFile file,User user) throws FileUploadException {
         User updateProfileUser = user.toBuilder()
                 .image(uploadFile(user.getEmail(), file))
                 .build();
@@ -101,7 +101,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void updateNickName(String nickName, @UserInfo User user) {
+    public void updateNickName(String nickName, User user) {
         if (user.getNickName().equals(nickName) || userRepository.findByNickName(nickName) != null) {
             throw new UsersAlreadyExistsException(UserConstants.NICKNAME_ALREADY_EXISTS);
         }
@@ -112,7 +112,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public String nickNameCheck(String nickName, @UserInfo User user) {
+    public String nickNameCheck(String nickName, User user) {
         if (user.getNickName().equals(nickName) || userRepository.findByNickName(nickName) != null) {
             throw new UsersAlreadyExistsException(UserConstants.NICKNAME_ALREADY_EXISTS);
         } else {

@@ -10,10 +10,10 @@ public interface UserService {
 
     void createUsers(UserDetailsRequestVo userDetailsRequestVo);
 
-    void updateProfile(MultipartFile file, @UserInfo User user) throws FileUploadException;
+    void updateProfile(MultipartFile file,  User user) throws FileUploadException;
 
-    void updateNickName(String nickName,@UserInfo User user);
+    void updateNickName(String nickName, User user);
 
-    String nickNameCheck(String nickName,@UserInfo User user);
+    String nickNameCheck(String nickName, User user);
 
 }
