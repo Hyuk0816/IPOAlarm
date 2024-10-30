@@ -20,6 +20,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 import java.util.Date;
@@ -33,6 +34,7 @@ public class AlarmServiceImpl implements AlarmService {
     private final IpoRepository ipoRepository;
 
     @Override
+    @Transactional
     public void save(String ipoName, User user) {
 
         Ipo ipo = ipoRepository.findByIpoName(ipoName);

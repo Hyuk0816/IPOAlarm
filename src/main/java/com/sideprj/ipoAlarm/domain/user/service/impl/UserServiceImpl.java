@@ -23,6 +23,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.InputStream;
@@ -42,6 +43,7 @@ public class UserServiceImpl implements UserService {
     private String bucketName;
 
     @Override
+    @Transactional
     public void createUsers(UserDetailsRequestVo userDetailsRequestVo) {
 
         var checkUserVo = UserDetailsRequestVo.builder()
@@ -93,6 +95,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    @Transactional
     public void updateProfile(MultipartFile file,User user) throws FileUploadException {
         User updateProfileUser = user.toBuilder()
                 .image(uploadFile(user.getEmail(), file))
@@ -101,6 +104,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    @Transactional
     public void updateNickName(String nickName, User user) {
         if (user.getNickName().equals(nickName) || userRepository.findByNickName(nickName) != null) {
             throw new UsersAlreadyExistsException(UserConstants.NICKNAME_ALREADY_EXISTS);

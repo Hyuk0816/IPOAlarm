@@ -1,7 +1,6 @@
 package com.sideprj.ipoAlarm.domain.ipodetail.repository.impl;
 
 
-
 import com.querydsl.core.types.Projections;
 import com.querydsl.core.types.dsl.Expressions;
 import com.querydsl.jpa.impl.JPAQueryFactory;
@@ -29,11 +28,11 @@ public class IpoDetailRepositoryImpl implements IpoDetailRepositoryCustom {
     public IpoDetailFetchDto fetchIpoDetail(String ipoName) {
 
         return queryFactory.select(Projections.fields(IpoDetailFetchDto.class,
-                ipoDetail.ipoName.as("ipoName"),
-                ipoDetail.industry.as("industry"),
-                ipoDetail.representative.as("representative"),
-                ipoDetail.revenue.as("revenue"),
-                ipoDetail.netProfit.as("netProfit"),
+                        ipoDetail.ipoName.as("ipoName"),
+                        ipoDetail.industry.as("industry"),
+                        ipoDetail.representative.as("representative"),
+                        ipoDetail.revenue.as("revenue"),
+                        ipoDetail.netProfit.as("netProfit"),
                         ipo.competitionRate.as("competitionRate"),
                         ipo.securities.as("securities"),
                         ipo.confirmPrice.as("confirmPrice")))
